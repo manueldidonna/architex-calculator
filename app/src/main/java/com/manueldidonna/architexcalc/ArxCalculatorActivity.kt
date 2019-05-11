@@ -1,10 +1,10 @@
 package com.manueldidonna.architexcalc
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
+import com.manueldidonna.arch.conductorHandleBack
 import com.manueldidonna.architexcalc.core.extensions.pushWithStandardTransaction
 import com.manueldidonna.architexcalc.core.extensions.setRootController
 import com.manueldidonna.architexcalc.core.extensions.shortToast
@@ -48,24 +48,17 @@ class ArxCalculatorActivity : AppCompatActivity(), MainController.Navigation, Se
 
     private var backPressedInMillis = 0L
 
-    override fun onBackPressed() {
-        if (!router.handleBack()) {
-            if(!doubleTapToExit){
-                super.onBackPressed()
-                return
-            }
-            if (backPressedInMillis + TIME_INTERVAL_BETWEEN_BACK_PRESSES > System.currentTimeMillis()) {
-                super.onBackPressed()
-                return
-            } else {
-               // shortToast(R.string.back_button_again_exit)
-            }
+    override fun onBackPressed() = conductorHandleBack(router) {
+        if (!doubleTapToExit || backPressedInMillis + DOUBLE_BACK_TIME_INTERVAL > System.currentTimeMillis()) {
+            super.onBackPressed()
+        } else {
+            shortToast(R.string.back_button_again_exit)
             backPressedInMillis = System.currentTimeMillis()
         }
     }
 
     companion object {
-        private const val TIME_INTERVAL_BETWEEN_BACK_PRESSES = 2000
+        private const val DOUBLE_BACK_TIME_INTERVAL = 2000
         private const val HOME_TAG = "home_controller_tag"
         private const val SETTINGS_TAG = "settings_controller_tag"
         private const val HISTORY_TAG = "history_controller_tag"

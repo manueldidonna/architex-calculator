@@ -74,6 +74,13 @@ abstract class ArxController : RestoreViewOnCreateController(), ArxViewModelOwne
         Timber.d("Restore state for $ownerId")
     }
 
+    /**
+     * Override [handleBack] and return true if you want to handle back
+     */
+    override fun handleBack(): Boolean {
+        return false
+    }
+
     abstract fun inflateView(inflater: LayoutInflater, container: ViewGroup): View
 
     open fun onViewCreated(view: View) {}
