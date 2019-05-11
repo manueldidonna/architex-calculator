@@ -1,0 +1,1 @@
+include ':app', ':math-evaluator', ':conductor-arch', ':settings', ':core'

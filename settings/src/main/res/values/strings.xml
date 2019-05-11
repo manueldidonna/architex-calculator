@@ -1,0 +1,22 @@
+<resources>
+    <string name="settings_toolbar_title">Settings</string>
+    <string name="licenses_toolbar_title">Licenses</string>
+    <!-- Settings Controller -->
+    <string name="settings_double_tap_exit">Double tap to exit</string>
+    <string name="settings_ask_before_deleting_history">Ask before clearing history</string>
+    <string name="settings_auto_clear_history">Auto clear history</string>
+    <string-array name="settings_auto_clear_history_values">
+        <item>Never</item>
+        <item>Every day</item>
+        <item>Once a week</item>
+        <item>Once a month</item>
+    </string-array>
+    <string name="settings_open_source_licenses">Open source licenses</string>
+    <string name="settings_app_theme">App theme</string>
+    <string name="settings_fork_on_github">Fork on GitHub</string>
+    <string name="settings_changelog">Changelog</string>
+    <string name="settings_version">Version 1.0.0</string>
+
+    <!-- Auto Clear History Dialog -->
+    <string name="dialog_auto_clear_history_action_negative">Cancel</string>
+</resources>

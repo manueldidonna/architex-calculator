@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'kotlin-kapt'
+apply from: '../common_build_config.gradle'
+
+androidExtensions {
+    experimental = true
+}
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation project(Modules.conductorArch)
+
+    implementation Jetbrains.coroutinesCore
+    implementation Jetbrains.coroutinesAndroid
+
+    implementation AndroidX.appCompat
+    implementation AndroidX.coreKtx
+    implementation AndroidX.constraintLayout
+    implementation AndroidX.roomRuntime
+    implementation AndroidX.roomKtx
+    implementation AndroidX.roomRxJava
+    kapt AndroidX.roomCompiler
+
+    implementation Android.materialComponents
+    implementation Android.conductor
+    implementation Android.rxkPrefs
+
+    implementation JakeWharton.timber
+    implementation JakeWharton.butterKnife
+
+    implementation AirBnb.epoxy
+
+    implementation Rx.kotlin
+    implementation Rx.android
+
+    implementation Koin.android
+
+    // tests
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}

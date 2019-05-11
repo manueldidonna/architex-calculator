@@ -1,0 +1,21 @@
+apply plugin: 'kotlin'
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // noinspection DifferentStdlibGradleVersion
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation files('libs/exp4j-0.4.8.jar')
+    testImplementation "io.mockk:mockk:1.9.2"
+    testImplementation 'com.willowtreeapps.assertk:assertk-jvm:0.13'
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    testImplementation 'junit:junit:4.12'
+}
+
+

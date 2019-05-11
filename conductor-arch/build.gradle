@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
+
+apply from: '../common_build_config.gradle'
+androidExtensions {
+    experimental = true
+}
+
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation AndroidX.appCompat
+    implementation AndroidX.coreKtx
+    implementation AndroidX.constraintLayout
+
+    implementation Android.materialComponents
+    implementation Android.conductor
+
+    implementation JakeWharton.timber
+    implementation JakeWharton.butterKnife
+    kapt JakeWharton.butterKnifeCompiler
+
+    implementation Rx.kotlin
+    implementation Rx.android
+
+    // state binder
+    api 'com.olegsheliakin:statebinder:1.0.0'
+
+    // tests
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}

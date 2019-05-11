@@ -1,0 +1,41 @@
+<resources>
+    <!-- Base Dark application themes -->
+    <color name="dark_pastel_color_primary">#202427</color>
+    <color name="dark_pastel_color_primary_variant_light">#474c4f</color>
+    <color name="dark_pastel_color_primary_variant_dark">#000000</color>
+    <!-- <color name="color_on_primary">#######</color> -->
+
+    <color name="pastel_green">#a3e18c</color>
+    <color name="pastel_green_variant_light">#d6ffbd</color>
+    <color name="pastel_green_variant_dark">#72af53</color>
+    <!-- <color name="color_on_secondary">@android:color/white</color> -->
+
+    <color name="dark_pastel_color_background">@color/dark_pastel_color_primary</color>
+    <color name="dark_pastel_color_on_background">@android:color/white</color>
+    <color name="dark_pastel_color_navigation_bar">@color/dark_pastel_color_background</color>
+    <color name="dark_pastel_color_status_bar">@color/dark_pastel_color_background</color>
+
+    <style name="DarkPastelTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Color attributes -->
+        <item name="colorPrimary">@color/dark_pastel_color_primary</item>
+        <item name="colorPrimaryVariant">@color/dark_pastel_color_primary_variant_dark</item>
+
+        <item name="colorSecondary">@color/pastel_green</item>
+        <item name="colorSecondaryVariant">@color/pastel_green_variant_light</item>
+
+        <item name="android:colorBackground">@color/dark_pastel_color_background</item>
+        <item name="colorOnBackground">@color/dark_pastel_color_on_background</item>
+        <item name="android:statusBarColor">@color/dark_pastel_color_status_bar</item>
+        <item name="android:navigationBarColor">@color/dark_pastel_color_navigation_bar</item>
+
+        <item name="emptyHistoryColor">@android:color/white</item>
+        <!-- widget styles -->
+        <item name="md_background_color">?android:attr/colorBackground</item>
+        <item name="md_corner_radius">16dp</item>
+        <item name="md_color_button_text">?attr/colorSecondary</item>
+        <item name="md_ripple_color">?attr/colorSecondaryVariant</item>
+    </style>
+
+
+
+</resources>
