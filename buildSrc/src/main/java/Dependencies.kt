@@ -14,6 +14,7 @@ object Releases {
 object Modules {
     const val conductorArch = ":conductor-arch"
     const val mathEvaluator = ":math-evaluator"
+    const val history = ":history"
     const val settings = ":settings"
     const val core = ":core"
 }
@@ -58,6 +59,7 @@ object Android {
     const val conductorSupport = "com.bluelinelabs:conductor-support:${Versions.conductor}"
     const val viewPagerDots = "com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3"
     const val materialDialogsCore = "com.afollestad.material-dialogs:core:${Versions.materialDialogs}"
+    const val materialDialogsBottom = "com.afollestad.material-dialogs:bottomsheets:${Versions.materialDialogs}"
     const val rxkPrefs = "com.afollestad:rxkprefs:${Versions.rxkPrefs}"
 }
 

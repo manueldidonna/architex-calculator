@@ -1,7 +1,5 @@
 package com.manueldidonna.architexcalc.core.prefs
 
-import android.content.Context
-import com.afollestad.rxkprefs.rxkPrefs
 import io.reactivex.Observable
 
 

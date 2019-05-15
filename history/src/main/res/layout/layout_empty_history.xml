@@ -15,13 +15,13 @@
         android:clickable="true"
         android:focusable="true"
         app:srcCompat="@drawable/ic_history_24"
-        app:tint="?attr/emptyHistoryColor" />
+        app:tint="?attr/colorOnBackground" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/history_empty_label"
+        android:text="@string/history_empty_history_label"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="?attr/emptyHistoryColor" />
+        android:textColor="?attr/colorOnBackground" />
 </LinearLayout>

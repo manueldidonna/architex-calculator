@@ -69,7 +69,7 @@ class MainViewModel(
 
     // TODO: remove fakeSubscribe
     fun fakeSubscribe(subscriber: (MainState) -> Unit) {
-        subscribe(subscriber = subscriber)
+        subscribeState(subscriber = subscriber)
     }
 
     override fun onCleared() {

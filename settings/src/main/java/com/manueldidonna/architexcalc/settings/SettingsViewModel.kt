@@ -30,10 +30,7 @@ class SettingsViewModel(
     private inline fun <T> PreferencesManager.subscribe(
         pref: Preferences<T>,
         crossinline block: SettingsState.(newValue: T) -> SettingsState
-    ) = observe(pref).subscribe { newValue ->
-        setState { block(newValue) }
-    }.disposeOnClear()
-
+    ) = observe(pref).autoSubscribe { newValue -> setState { block(newValue) } }
 
     fun setAskConfirmation(value: Boolean) {
         prefsManager.set(ASK_CONFIRM, value)
@@ -62,7 +59,7 @@ class SettingsViewModel(
 
     // TODO: remove fakeSubscribe
     fun fakeSubscribe(subscriber: (SettingsState) -> Unit) {
-        subscribe(subscriber = subscriber)
+        subscribeState(subscriber = subscriber)
     }
 
 }

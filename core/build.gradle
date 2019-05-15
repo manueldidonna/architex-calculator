@@ -35,6 +35,8 @@ dependencies {
     implementation Android.materialComponents
     implementation Android.conductor
     implementation Android.rxkPrefs
+    implementation Android.materialDialogsCore
+    implementation Android.materialDialogsBottom
 
     implementation JakeWharton.timber
     implementation JakeWharton.butterKnife

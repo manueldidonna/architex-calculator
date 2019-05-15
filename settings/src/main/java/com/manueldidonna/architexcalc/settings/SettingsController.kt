@@ -41,7 +41,7 @@ class SettingsController : BaseController<SettingsView>(), AutoClearHistoryDialo
         }
     }
 
-    override fun onAutoClearHistoryTimeChosen(days: Int) {
+    override fun onAutoClearHistoryCallback(days: Int) {
         viewModel.setAutoClearHistoryDays(days)
     }
 

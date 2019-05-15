@@ -4,6 +4,7 @@ import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.manueldidonna.architexcalc.core.coreKoinModule
 import com.manueldidonna.architexcalc.data.appKoinModule
+import com.manueldidonna.architexcalc.history.data.historyKoinModule
 import com.manueldidonna.architexcalc.settings.data.settingsKoinModule
 import com.manueldidonna.architexcalc.util.TimberKoinLogger
 import org.koin.android.ext.koin.androidContext
@@ -21,7 +22,7 @@ class ArxCalculatorApp : Application() {
         startKoin {
             logger(TimberKoinLogger())
             androidContext(this@ArxCalculatorApp)
-            modules(appKoinModule, coreKoinModule, settingsKoinModule)
+            modules(appKoinModule, coreKoinModule, settingsKoinModule, historyKoinModule)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.manueldidonna.architexcalc.data.interactors
+package com.manueldidonna.architexcalc.history.data
 
 import com.manueldidonna.architexcalc.core.Interactor
 import com.manueldidonna.architexcalc.core.db.daos.HistoryDao

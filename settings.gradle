@@ -1,1 +1,1 @@
-include ':app', ':math-evaluator', ':conductor-arch', ':settings', ':core'
+include ':app', ':math-evaluator', ':conductor-arch', ':settings', ':core', ':history'

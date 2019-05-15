@@ -1,4 +1,4 @@
-package com.manueldidonna.architexcalc.history
+package com.manueldidonna.architexcalc.history.data.epoxy
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
-import com.manueldidonna.architexcalc.R
+import com.manueldidonna.architexcalc.history.R
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class EpoxyHistoryItem @JvmOverloads constructor(
@@ -20,7 +20,7 @@ class EpoxyHistoryItem @JvmOverloads constructor(
 
     init {
         inflate(context, R.layout.epoxy_view_history_item, this)
-        orientation = LinearLayout.VERTICAL
+        orientation = VERTICAL
         expressionView = findViewById(R.id.expression)
         resultVIew = findViewById(R.id.result)
     }

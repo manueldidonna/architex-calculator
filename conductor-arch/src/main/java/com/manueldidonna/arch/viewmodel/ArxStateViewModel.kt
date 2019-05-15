@@ -3,6 +3,7 @@ package com.manueldidonna.arch.viewmodel
 import com.manueldidonna.arch.state.ArxState
 import com.manueldidonna.arch.state.ArxStateStore
 import com.manueldidonna.arch.state.RealArxStateStore
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,9 +38,9 @@ abstract class ArxStateViewModel<S : ArxState>(
     }
 
     /**
-     * For ViewModels that want to subscribe to itself.
+     * For ViewModels that want to subscribeState to itself.
      */
-    protected fun subscribe(
+    protected fun subscribeState(
         scheduler: Scheduler = AndroidSchedulers.mainThread(),
         subscriber: (S) -> Unit
     ) = stateStore.observable.observeOn(scheduler)
@@ -55,5 +56,13 @@ abstract class ArxStateViewModel<S : ArxState>(
     protected fun Disposable.disposeOnClear(): Disposable {
         disposables.add(this)
         return this
+    }
+
+    protected fun <T> Flowable<T>.autoSubscribe(onNext: (T) -> Unit): Disposable {
+        return subscribe(onNext).disposeOnClear()
+    }
+
+    protected fun <T> Observable<T>.autoSubscribe(onNext: (T) -> Unit): Disposable {
+        return subscribe(onNext).disposeOnClear()
     }
 }

@@ -1,19 +1,17 @@
 package com.manueldidonna.architexcalc.settings.autoclearhistory
 
-import android.app.Dialog
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
-import com.manueldidonna.arch.controller.ArxDialogController
 import com.manueldidonna.arch.controller.castTargetController
-import com.manueldidonna.arch.controller.requireActivity
+import com.manueldidonna.architexcalc.core.base.BaseDialogController
 import com.manueldidonna.architexcalc.settings.R
 import com.manueldidonna.architexcalc.settings.SettingsState
 
-internal class AutoClearHistoryDialog : ArxDialogController {
+internal class AutoClearHistoryDialog : BaseDialogController {
 
     private var initialIndex: Int = 0
 
@@ -28,21 +26,20 @@ internal class AutoClearHistoryDialog : ArxDialogController {
         targetController = target
     }
 
-    override fun onCreateDialog(savedViewState: Bundle?): Dialog {
-        return MaterialDialog(requireActivity())
-            .negativeButton(R.string.dialog_auto_clear_history_action_negative)
-            .listItemsSingleChoice(
-                res = R.array.settings_auto_clear_history_values,
-                initialSelection = initialIndex,
-                waitForPositiveButton = false
-            ) { dialog, index: Int, _ ->
-                castTargetController<Listener>().onAutoClearHistoryTimeChosen(SettingsState.getDaysFromIndex(index))
-                dialog.dismiss()
-            }
+    override fun onCreateDialog(savedViewState: Bundle?) = materialDialog {
+        listItemsSingleChoice(
+            res = R.array.settings_auto_clear_history_values,
+            initialSelection = initialIndex,
+            waitForPositiveButton = false
+        ) { dialog: MaterialDialog, index: Int, _ ->
+            castTargetController<Listener>()
+                .onAutoClearHistoryCallback(SettingsState.getDaysFromIndex(index))
+            dialog.dismiss()
+        }
     }
 
     interface Listener {
-        fun onAutoClearHistoryTimeChosen(days: Int)
+        fun onAutoClearHistoryCallback(days: Int)
     }
 
     companion object {
@@ -52,6 +49,4 @@ internal class AutoClearHistoryDialog : ArxDialogController {
             AutoClearHistoryDialog(target, initialDaysIndex).showDialog(router)
         }
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.manueldidonna.architexcalc.data.reactivesources
+package com.manueldidonna.architexcalc.core
 
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
