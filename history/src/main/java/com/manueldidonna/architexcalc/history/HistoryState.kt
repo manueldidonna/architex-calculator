@@ -6,5 +6,6 @@ import com.manueldidonna.architexcalc.history.data.HistoryItem
 
 data class HistoryState(
     val data: List<HistoryItem> = listOf(),
-    val askConfirmation: Boolean = true
+    val askConfirmation: Boolean = true,
+    val isSelectionActive: Boolean = false
 ) : ArxState

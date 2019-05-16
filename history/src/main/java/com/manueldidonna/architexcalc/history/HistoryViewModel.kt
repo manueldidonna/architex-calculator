@@ -4,28 +4,25 @@ import com.manueldidonna.architexcalc.core.base.BaseViewModel
 import com.manueldidonna.architexcalc.core.launchInteractor
 import com.manueldidonna.architexcalc.core.prefs.CorePreferences
 import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
-import com.manueldidonna.architexcalc.history.data.DeleteHistoryInteractor
 import com.manueldidonna.architexcalc.history.data.HistoryItem
-import com.manueldidonna.architexcalc.history.data.HistoryReactiveSource
+import com.manueldidonna.architexcalc.history.data.interactors.DeleteHistoryInteractor
+import com.manueldidonna.architexcalc.history.data.interactors.GetHistoryInteractor
 
 class HistoryViewModel(
     initialState: HistoryState,
-    historyReactiveSource: HistoryReactiveSource,
+    private val getHistory: GetHistoryInteractor,
     private val deleteHistory: DeleteHistoryInteractor,
     private val prefsManager: PreferencesManager
 ) : BaseViewModel<HistoryState>(initialState) {
 
     init {
-        historyReactiveSource.create(Unit).observe().autoSubscribe { entities ->
-            // todo: MOVE MAPPER AWAY FROM VIEWMODEL
-            setState {
-                copy(data = entities.map { entity -> HistoryItem(entity.id, entity.expression, entity.result) })
-            }
-        }
-
         prefsManager.observe(CorePreferences.ASK_CONFIRM).autoSubscribe { newValue ->
             setState { copy(askConfirmation = newValue) }
         }
+        getHistory.observe().autoSubscribe { items ->
+            setState { copy(data = items) }
+        }
+        coroutineScope.launchInteractor(getHistory)
     }
 
     fun setAskConfirmation(value: Boolean) {
@@ -37,8 +34,42 @@ class HistoryViewModel(
             coroutineScope.launchInteractor(deleteHistory, DeleteHistoryInteractor.Params(deleteAll = true))
     }
 
+    fun deleteSelectedItems() = setState {
+        if (data.isNotEmpty()) {
+            val idsToDelete = data.asSequence()
+                .filter { it.isSelected }
+                .map(HistoryItem::id)
+                .toList()
+            coroutineScope.launchInteractor(
+                deleteHistory, DeleteHistoryInteractor.Params(deleteAll = false, idsToDelete = idsToDelete)
+            )
+        }
+        return@setState copy(isSelectionActive = false)
+    }
+
+    fun selectItemById(id: Long, isSelected: Boolean) = setState {
+        var selectionMode = false
+        val newData = data.map { item ->
+            return@map if (item.id != id) item else {
+                selectionMode = true
+                HistoryItem(
+                    id = item.id,
+                    expression = item.expression,
+                    result = item.result,
+                    isSelected = isSelected
+                )
+            }
+        }
+        return@setState copy(data = newData, isSelectionActive = selectionMode)
+    }
+
     // TODO: remove fakeSubscribe
     fun fakeSubscribe(subscriber: (HistoryState) -> Unit) {
         subscribeState(subscriber = subscriber)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        getHistory.dispose()
     }
 }

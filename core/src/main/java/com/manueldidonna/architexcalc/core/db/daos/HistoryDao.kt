@@ -12,4 +12,7 @@ interface HistoryDao : BaseEntityDao<HistoryEntity> {
 
     @Query("DELETE FROM history")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM history where id = :itemId ")
+    suspend fun deleteById(itemId: Long)
 }
