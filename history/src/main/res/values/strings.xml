@@ -1,0 +1,11 @@
+<resources>
+    <string name="history_toolbar_title">History</string>
+    <!-- History Controller -->
+    <string name="history_clear_button_label">Clear History</string>
+    <string name="history_empty_history_label">No history</string>
+    <!-- Delete History Dialog -->
+    <string name="dialog_clear_history_title">Clear history permanently?</string>
+    <string name="dialog_clear_history_action_negative">Cancel</string>
+    <string name="dialog_clear_history_action_positive">Clear</string>
+    <string name="dialog_clear_history_prompt">Don\'t ask again</string>
+</resources>
