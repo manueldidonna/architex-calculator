@@ -16,7 +16,8 @@
     <string name="settings_fork_on_github">Fork on GitHub</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_version">Version 1.0.0</string>
-
+    <!-- GitHub link -->
+    <string name="settings_github_link">https://github.com/manueldidonna/architex-calculator</string>
     <!-- Auto Clear History Dialog -->
     <string name="dialog_auto_clear_history_action_negative">Cancel</string>
 </resources>

@@ -2,6 +2,8 @@ package com.manueldidonna.architexcalc.settings
 
 import android.content.Intent
 import android.view.View
+import androidx.core.net.toUri
+import com.manueldidonna.arch.controller.requireActivity
 import com.manueldidonna.arch.state.withState
 import com.manueldidonna.arch.viewmodel.arxViewModel
 import com.manueldidonna.architexcalc.core.base.BaseController
@@ -34,9 +36,10 @@ class SettingsController : BaseController<SettingsView>(), AutoClearHistoryDialo
                     val index = SettingsState.getIndexFromDays(state.autoClearHistoryDays)
                     AutoClearHistoryDialog.show(router, this, index)
                 }
-                is SettingsEvent.GithubPage -> @Suppress("UNREACHABLE_CODE") startActivity(
-                    Intent(Intent.ACTION_VIEW).setData(TODO("Create GitHub repo"))
-                )
+                is SettingsEvent.GithubPage -> {
+                    val url = requireActivity().getText(R.string.settings_github_link).toString()
+                    startActivity(Intent(Intent.ACTION_VIEW).setData(url.toUri()))
+                }
             }
         }
     }
