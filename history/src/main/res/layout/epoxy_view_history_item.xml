@@ -1,30 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:layout_width="match_parent"
     tools:layout_height="wrap_content"
-    tools:parentTag="android.widget.LinearLayout"
-    tools:orientation="vertical">
+    tools:layout_width="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <TextView
         android:id="@+id/expression"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
-        tools:text="Expression"
+        android:layout_marginEnd="16dp"
         android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/selection_check_box"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginStart="16dp"
+        tools:text="Expression" />
 
     <TextView
         android:id="@+id/result"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/selection_check_box"
+        app:layout_constraintTop_toBottomOf="@+id/expression"
+        app:layout_goneMarginStart="16dp"
+        tools:layout_editor_absoluteX="16dp"
         tools:text="Result" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/selection_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:checked="false"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </merge>

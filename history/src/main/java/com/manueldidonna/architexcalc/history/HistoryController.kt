@@ -7,8 +7,7 @@ import com.manueldidonna.architexcalc.core.base.BaseController
 import com.manueldidonna.architexcalc.history.clearhistory.ClearHistoryDialog
 import org.koin.core.parameter.parametersOf
 
-class HistoryController : BaseController<HistoryView>(),
-    ClearHistoryDialog.Listener {
+class HistoryController : BaseController<HistoryView>(), ClearHistoryDialog.Listener {
 
     override val layoutRes: Int = R.layout.controller_history
 
@@ -16,8 +15,7 @@ class HistoryController : BaseController<HistoryView>(),
         controllerScope.get<HistoryViewModel> { parametersOf(state) }
     }
 
-    override fun onCreateControllerView(layoutView: View) =
-        HistoryView(layoutView)
+    override fun onCreateControllerView(layoutView: View) = HistoryView(layoutView)
 
     override fun onControllerViewCreated(layoutView: View, controllerView: HistoryView) {
         viewModel.fakeSubscribe { state -> controllerView.render(state) }
@@ -43,4 +41,9 @@ class HistoryController : BaseController<HistoryView>(),
         viewModel.deleteHistory()
     }
 
+    override fun handleBack(): Boolean = withState(viewModel) { state ->
+        if (state.isSelectionActive)
+            viewModel.uncheckAllItems()
+        return@withState state.isSelectionActive
+    }
 }

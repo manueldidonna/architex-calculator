@@ -8,10 +8,12 @@ import com.airbnb.epoxy.EpoxyRecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.manueldidonna.architexcalc.core.R
 
-fun View.setSelectableBackground(){
+fun View.setSelectableBackground() {
     val backgroundValue = TypedValue()
     context.theme.resolveAttribute(R.attr.selectableItemBackground, backgroundValue, true)
     setBackgroundResource(backgroundValue.resourceId)
+    isClickable = true
+    isFocusable = true
 }
 
 fun ExtendedFloatingActionButton.setRecyclerView(recycler: RecyclerView) {

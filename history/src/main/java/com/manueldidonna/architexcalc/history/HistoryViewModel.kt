@@ -30,8 +30,11 @@ class HistoryViewModel(
     }
 
     fun deleteHistory() = withState {
-        if (it.data.isNotEmpty())
-            coroutineScope.launchInteractor(deleteHistory, DeleteHistoryInteractor.Params(deleteAll = true))
+        if (it.data.isNotEmpty()) {
+            coroutineScope.launchInteractor(
+                deleteHistory, DeleteHistoryInteractor.Params(deleteAll = true)
+            )
+        }
     }
 
     fun deleteSelectedItems() = setState {
@@ -48,10 +51,8 @@ class HistoryViewModel(
     }
 
     fun selectItemById(id: Long, isSelected: Boolean) = setState {
-        var selectionMode = false
         val newData = data.map { item ->
             return@map if (item.id != id) item else {
-                selectionMode = true
                 HistoryItem(
                     id = item.id,
                     expression = item.expression,
@@ -60,7 +61,22 @@ class HistoryViewModel(
                 )
             }
         }
-        return@setState copy(data = newData, isSelectionActive = selectionMode)
+        return@setState copy(data = newData, isSelectionActive = newData.any { it.isSelected })
+    }
+
+    // TODO: find a better way
+    fun uncheckAllItems()= setState {
+        val newData = data.map { item ->
+            return@map if (!item.isSelected) item else {
+                HistoryItem(
+                    id = item.id,
+                    expression = item.expression,
+                    result = item.result,
+                    isSelected = false
+                )
+            }
+        }
+        return@setState copy(data = newData, isSelectionActive = false)
     }
 
     // TODO: remove fakeSubscribe
