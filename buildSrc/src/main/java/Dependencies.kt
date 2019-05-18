@@ -30,7 +30,7 @@ private object Versions {
     const val rxkPrefs = "1.2.5"
     // AndroidX
     const val coreKtx = "1.0.1"
-    const val appCompat = "1.0.2"
+    const val appCompat = "1.1.0-alpha05"
     const val constraintLayout = "1.1.3"
     const val room = "2.1.0-alpha07"
     const val work = "2.0.1"
