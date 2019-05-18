@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary -->
+    <color name="color_primary">#e8325b</color>
+    <color name="color_primary_variant">#ff6b88</color>
+    <color name="color_on_primary">@android:color/black</color>
+
+    <!-- Secondary -->
+    <color name="color_secondary">#00dca5</color>
+    <color name="color_secondary_variant">#00a976</color>
+    <color name="color_on_secondary">@android:color/black</color>
+
+    <!-- Background -->
+    <color name="color_background">@android:color/white</color>
+    <color name="color_on_background">@color/text_color_high_emphasis</color>
+    <color name="color_surface">@android:color/white</color>
+
+    <!-- Text -->
+    <color name="text_color_high_emphasis">#DE000000</color>
+    <color name="text_color_medium_emphasis">#99000000</color>
+</resources>
