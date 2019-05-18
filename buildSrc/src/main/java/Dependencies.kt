@@ -24,7 +24,7 @@ private object Versions {
     const val kotlin = "1.3.21"
     const val coroutines = "1.2.0"
     // Android
-    const val materialComponents = "1.1.0-alpha05"
+    const val materialComponents = "1.1.0-alpha06"
     const val conductor = "3.0.0-rc1"
     const val materialDialogs = "3.0.0-alpha1"
     const val rxkPrefs = "1.2.5"
