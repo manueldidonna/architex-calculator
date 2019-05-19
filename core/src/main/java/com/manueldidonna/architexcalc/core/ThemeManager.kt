@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.BuildCompat
 import com.manueldidonna.architexcalc.core.prefs.Preferences
 import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
@@ -13,7 +14,7 @@ class ThemeManager(private val prefsManager: PreferencesManager) {
     private val disposables = CompositeDisposable()
 
     fun init() {
-        prefsManager.observe(SELECTED_THEME).subscribe { savedMode ->
+        observe().subscribe { savedMode ->
             AppCompatDelegate.setDefaultNightMode(savedMode.compatThemeMode())
             Timber.d("Theme mode updated: $savedMode")
         }.addTo(disposables)
@@ -30,6 +31,7 @@ class ThemeManager(private val prefsManager: PreferencesManager) {
         }
     }
 
+    fun observe(): Observable<String> = prefsManager.observe(SELECTED_THEME)
 
     fun enableDarkMode(enable: Boolean) {
         prefsManager.set(SELECTED_THEME, if (enable) DARK_MODE else LIGHT_MODE)
@@ -46,8 +48,8 @@ class ThemeManager(private val prefsManager: PreferencesManager) {
     companion object {
         private val SELECTED_THEME = Preferences.StringPreference("selected_theme")
 
-        private const val DARK_MODE = "theme:dark_mode"
-        private const val LIGHT_MODE = "theme:light_theme"
-        private const val DEFAULT_MODE = "theme:default"
+        const val DARK_MODE = "theme:dark_mode"
+        const val LIGHT_MODE = "theme:light_theme"
+        const val DEFAULT_MODE = "theme:default"
     }
 }
