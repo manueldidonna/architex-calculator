@@ -50,6 +50,7 @@ class SettingsViewModel(
             val req = PeriodicWorkRequestBuilder<AutoClearHistoryWorker>(days.toLong(), TimeUnit.DAYS)
                 .addTag(AutoClearHistoryWorker.TAG)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 15L, TimeUnit.MINUTES)
+                .setInitialDelay(days.toLong(), TimeUnit.DAYS)
                 .build()
             WorkManager
                 .getInstance()
