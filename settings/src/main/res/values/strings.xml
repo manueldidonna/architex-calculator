@@ -20,4 +20,10 @@
     <string name="settings_github_link">https://github.com/manueldidonna/architex-calculator</string>
     <!-- Auto Clear History Dialog -->
     <string name="dialog_auto_clear_history_action_negative">Cancel</string>
+    <!-- Theme Selector Dialog -->
+    <string-array name="settings_theme_mode_values">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Set by battery saver</item>
+    </string-array>
 </resources>
