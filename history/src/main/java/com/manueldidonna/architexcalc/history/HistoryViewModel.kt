@@ -47,7 +47,7 @@ class HistoryViewModel(
                 deleteHistory, DeleteHistoryInteractor.Params(deleteAll = false, idsToDelete = idsToDelete)
             )
         }
-        return@setState copy(isSelectionActive = false)
+        return@setState copy(selectedItems = 0)
     }
 
     fun selectItemById(id: Long, isSelected: Boolean) = setState {
@@ -61,7 +61,7 @@ class HistoryViewModel(
                 )
             }
         }
-        return@setState copy(data = newData, isSelectionActive = newData.any { it.isSelected })
+        return@setState copy(data = newData, selectedItems = newData.filter { it.isSelected }.size)
     }
 
     // TODO: find a better way
@@ -76,7 +76,7 @@ class HistoryViewModel(
                 )
             }
         }
-        return@setState copy(data = newData, isSelectionActive = false)
+        return@setState copy(data = newData, selectedItems = 0)
     }
 
     // TODO: remove fakeSubscribe

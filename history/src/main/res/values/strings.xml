@@ -2,6 +2,7 @@
     <string name="history_toolbar_title">History</string>
     <!-- History Controller -->
     <string name="history_clear_button_label">Clear History</string>
+    <string name="history_remove_items_button_label">Remove Items</string>
     <string name="history_empty_history_label">No history</string>
     <!-- Delete History Dialog -->
     <string name="dialog_clear_history_title">Clear history permanently?</string>
