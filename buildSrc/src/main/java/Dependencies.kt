@@ -33,7 +33,7 @@ private object Versions {
     const val appCompat = "1.0.2"
     const val constraintLayout = "1.1.3"
     const val room = "2.1.0-alpha07"
-    const val work = "2.0.1"
+    const val work = "2.1.0-alpha02"
     // JakeWharton
     const val butterKnife = "10.1.0"
     const val timber = "4.7.1"
