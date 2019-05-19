@@ -1,6 +1,7 @@
 package com.manueldidonna.architexcalc
 
 import android.app.Application
+import androidx.work.Configuration
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.manueldidonna.architexcalc.core.coreKoinModule
 import com.manueldidonna.architexcalc.data.appKoinModule
@@ -11,7 +12,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
-class ArxCalculatorApp : Application() {
+class ArxCalculatorApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
@@ -25,4 +26,8 @@ class ArxCalculatorApp : Application() {
             modules(appKoinModule, coreKoinModule, settingsKoinModule, historyKoinModule)
         }
     }
+
+    override fun getWorkManagerConfiguration() = Configuration.Builder()
+        .setMinimumLoggingLevel(android.util.Log.INFO)
+        .build()
 }

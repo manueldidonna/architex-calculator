@@ -22,6 +22,7 @@ dependencies {
     implementation AndroidX.appCompat
     implementation AndroidX.coreKtx
     implementation AndroidX.constraintLayout
+    implementation AndroidX.workManager
     implementation AndroidX.roomRuntime
     implementation AndroidX.roomKtx
     implementation AndroidX.roomRxJava
