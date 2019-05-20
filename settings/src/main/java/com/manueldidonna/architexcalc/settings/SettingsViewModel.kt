@@ -1,21 +1,18 @@
 package com.manueldidonna.architexcalc.settings
 
-import androidx.work.BackoffPolicy
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.manueldidonna.architexcalc.core.base.BaseViewModel
+import com.manueldidonna.architexcalc.core.launchInteractor
 import com.manueldidonna.architexcalc.core.prefs.CorePreferences.ASK_CONFIRM
 import com.manueldidonna.architexcalc.core.prefs.CorePreferences.DOUBLE_TAP_EXIT
 import com.manueldidonna.architexcalc.core.prefs.Preferences
 import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
+import com.manueldidonna.architexcalc.settings.data.AutoClearHistoryInteractor
 import com.manueldidonna.architexcalc.settings.data.SettingsPreferences.AUTO_CLEAR_HISTORY_DAYS
-import com.manueldidonna.architexcalc.settings.data.workers.AutoClearHistoryWorker
-import java.util.concurrent.TimeUnit
 
 class SettingsViewModel(
     initialState: SettingsState,
-    private val prefsManager: PreferencesManager
+    private val prefsManager: PreferencesManager,
+    private val autoClearHistory: AutoClearHistoryInteractor
 ) : BaseViewModel<SettingsState>(initialState) {
 
     init {
@@ -43,18 +40,7 @@ class SettingsViewModel(
     fun setAutoClearHistoryDays(days: Int) {
         require(days == 0 || days == 1 || days == 7 || days == 30) { "Custom values are not accepted" }
         prefsManager.set(AUTO_CLEAR_HISTORY_DAYS, days)
-
-        if (days == 0) {
-            WorkManager.getInstance().cancelUniqueWork(AutoClearHistoryWorker.TAG)
-        } else {
-            val req = PeriodicWorkRequestBuilder<AutoClearHistoryWorker>(days.toLong(), TimeUnit.DAYS)
-                .addTag(AutoClearHistoryWorker.TAG)
-                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 15L, TimeUnit.MINUTES)
-                .build()
-            WorkManager
-                .getInstance()
-                .enqueueUniquePeriodicWork(AutoClearHistoryWorker.TAG, ExistingPeriodicWorkPolicy.REPLACE, req)
-        }
+        coroutineScope.launchInteractor(autoClearHistory, days.toLong())
     }
 
     // TODO: remove fakeSubscribe

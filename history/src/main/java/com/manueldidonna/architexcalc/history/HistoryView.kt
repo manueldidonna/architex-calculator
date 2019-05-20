@@ -35,10 +35,8 @@ class HistoryView(view: View) : BaseContainerView<HistoryState, HistoryEvent>(vi
     }
 
     init {
-        toolbarTitle.text = historyTitleValue
-
         navigationIcon.emitOnClick(HistoryEvent.GoBack)
-        clearHistoryFab.emitOnClick(HistoryEvent.ClearHistory)
+        clearHistoryFab.setRecyclerView(recycler)
         recycler.apply {
             addItemDecoration(FixedDividerItemDecoration(recycler.context, LinearLayout.VERTICAL))
             setController(epoxyController)
@@ -46,19 +44,26 @@ class HistoryView(view: View) : BaseContainerView<HistoryState, HistoryEvent>(vi
 
         bind(HistoryState::data) { data ->
             emptyHistoryView.visibility = if (data.isNotEmpty()) View.GONE else View.VISIBLE
+            clearHistoryFab.visibility = if (data.isEmpty()) View.GONE else View.VISIBLE
         }
 
-        bind({ Pair(it.data, it.isSelectionActive) }) { (data, isActive) ->
-            clearHistoryFab.visibility = if (data.isEmpty() || isActive) View.GONE else View.VISIBLE
-            epoxyController.setData(data, isActive)
+        bind({ Pair(it.data, it.selectedItems) }) { (data, selectedItems) ->
+            epoxyController.setData(data, selectedItems > 0)
         }
 
-        bind(HistoryState::isSelectionActive) { isActive ->
-            // TODO: show delete icon in toolbar
-            if (isActive) {
-                recycler.clearOnScrollListeners()
+        bind(HistoryState::selectedItems) { selectedItems ->
+            if (selectedItems > 0) {
+                toolbarTitle.text = selectedItems.toString()
+                clearHistoryFab.apply{
+                    text = view.context.getString(R.string.history_remove_items_button_label)
+                    emitOnClick(HistoryEvent.ClearSelectedItems)
+                }
             } else {
-                clearHistoryFab.setRecyclerView(recycler)
+                toolbarTitle.text = historyTitleValue
+                clearHistoryFab.apply{
+                    text = view.context.getString(R.string.history_clear_button_label)
+                    emitOnClick(HistoryEvent.ClearHistory)
+                }
             }
         }
     }

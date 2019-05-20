@@ -42,8 +42,8 @@ class HistoryController : BaseController<HistoryView>(), ClearHistoryDialog.List
     }
 
     override fun handleBack(): Boolean = withState(viewModel) { state ->
-        if (state.isSelectionActive)
+        if (state.selectedItems > 0)
             viewModel.uncheckAllItems()
-        return@withState state.isSelectionActive
+        return@withState state.selectedItems > 0
     }
 }

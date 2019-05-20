@@ -2,10 +2,16 @@ package com.manueldidonna.architexcalc.history.data.epoxy
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.transition.ChangeBounds
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.airbnb.epoxy.*
 import com.manueldidonna.architexcalc.core.extensions.setSelectableBackground
 import com.manueldidonna.architexcalc.history.R
@@ -25,9 +31,15 @@ class EpoxyHistoryItem @JvmOverloads constructor(
     init {
         inflate(context, R.layout.epoxy_view_history_item, this)
         setSelectableBackground()
-        expressionView = findViewById(R.id.expression)
-        resultVIew = findViewById(R.id.result)
-        checkBox = findViewById(R.id.selection_check_box)
+        expressionView = findViewById<TextView>(R.id.expression).apply {
+            transitionName = EXPRESSION_TRANSITION_NAME
+        }
+        resultVIew = findViewById<TextView>(R.id.result).apply {
+            transitionName = RESULT_TRANSITION_NAME
+        }
+        checkBox = findViewById<AppCompatCheckBox>(R.id.selection_check_box).apply {
+            transitionName = CHECK_TRANSITION_NAME
+        }
     }
 
     @TextProp
@@ -51,7 +63,9 @@ class EpoxyHistoryItem @JvmOverloads constructor(
 
     @AfterPropsSet
     fun setupCheckBox() {
-        // TODO: animate checkbox visibility
+        // animate checkbox visibility changes
+        TransitionManager.beginDelayedTransition(this, selectionModeTransition)
+
         checkBox.visibility = if (showCheckBox == true) View.VISIBLE else View.GONE
         if (showCheckBox == true) {
             checkBox.isChecked = isSelected ?: false
@@ -64,11 +78,27 @@ class EpoxyHistoryItem @JvmOverloads constructor(
         }
         setOnLongClickListener {
             return@setOnLongClickListener if (showCheckBox == true) false else {
-                checkBox.isChecked
                 listener?.invoke(true)
                 true
             }
         }
+    }
 
+    companion object {
+        private const val EXPRESSION_TRANSITION_NAME = "expression_t"
+        private const val RESULT_TRANSITION_NAME = "result_t"
+        private const val CHECK_TRANSITION_NAME = "check_t"
+
+        private val selectionModeTransition = TransitionSet().apply {
+            addTransition(ChangeBounds().apply {
+                addTarget(EXPRESSION_TRANSITION_NAME)
+                addTarget(RESULT_TRANSITION_NAME)
+            })
+            addTransition(Slide(Gravity.START).apply {
+                addTarget(CHECK_TRANSITION_NAME)
+            })
+            interpolator = LinearOutSlowInInterpolator()
+            duration = 240L
+        }
     }
 }
