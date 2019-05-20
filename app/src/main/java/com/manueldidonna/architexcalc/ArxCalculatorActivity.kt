@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 
-class ArxCalculatorActivity : AppCompatActivity(), MainController.Navigation, SettingsController.Navigation {
+class ArxCalculatorActivity : AppCompatActivity(), MainController.Navigation {
 
     private val prefsManager: PreferencesManager by inject()
     private lateinit var router: Router
@@ -38,10 +38,6 @@ class ArxCalculatorActivity : AppCompatActivity(), MainController.Navigation, Se
 
     override fun openSettings() {
         router.pushWithStandardTransaction(SettingsController(), SETTINGS_TAG)
-    }
-
-    override fun openAppThemeEditor() {
-        TODO("Create AppThemeEditorController")
     }
 
     private val doubleTapToExit: Boolean get() = prefsManager.get(CorePreferences.DOUBLE_TAP_EXIT)

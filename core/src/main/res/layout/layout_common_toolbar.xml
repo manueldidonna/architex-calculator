@@ -22,7 +22,7 @@
         android:paddingEnd="8dp"
         android:paddingBottom="8dp"
         app:srcCompat="?attr/homeAsUpIndicator"
-        app:tint="?attr/colorSecondary" />
+        app:tint="?attr/colorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/toolbar_title"

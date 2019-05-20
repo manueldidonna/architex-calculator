@@ -9,6 +9,7 @@ import org.koin.dsl.module
 
 val coreKoinModule = module(override = true) {
     single<PreferencesManager> { RealPreferencesManager(androidContext()) }
+    single { ThemeManager(prefsManager = get()) }
     single {
         Room.databaseBuilder(
             androidContext(),

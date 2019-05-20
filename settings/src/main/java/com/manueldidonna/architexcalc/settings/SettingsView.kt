@@ -23,8 +23,6 @@ class SettingsView(view: View) : BaseContainerView<SettingsState, SettingsEvent>
     lateinit var toolbarTitle: AppCompatTextView
     @BindView(R2.id.settings_licenses)
     lateinit var licensesButton: AppCompatTextView
-    @BindView(R2.id.settings_app_theme)
-    lateinit var themeEditorButton: AppCompatTextView
     @BindView(R2.id.settings_github)
     lateinit var githubButton: LinearLayout
     @BindView(R2.id.settings_ask_clearing_history)
@@ -33,6 +31,8 @@ class SettingsView(view: View) : BaseContainerView<SettingsState, SettingsEvent>
     lateinit var autoClearHistoryButton: View
     @BindView(R2.id.settings_auto_clear_value)
     lateinit var autoClearHistoryValue: AppCompatTextView
+    @BindView(R2.id.settings_app_theme)
+    lateinit var appThemeButton: AppCompatTextView
     @BindView(R2.id.settings_double_tap_exit)
     lateinit var doubleTapExitSwitch: SwitchMaterial
 
@@ -40,7 +40,7 @@ class SettingsView(view: View) : BaseContainerView<SettingsState, SettingsEvent>
         toolbarTitle.text = settingsTitleValue
         navigationIcon.emitOnClick(SettingsEvent.GoBack)
         autoClearHistoryButton.emitOnClick(SettingsEvent.AutoClearHistory)
-        themeEditorButton.emitOnClick(SettingsEvent.AppThemeEditor)
+        appThemeButton.emitOnClick(SettingsEvent.AppThemeEditor)
         licensesButton.emitOnClick(SettingsEvent.Licenses)
         githubButton.emitOnClick((SettingsEvent.GithubPage))
         askClearHistorySwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -50,7 +50,6 @@ class SettingsView(view: View) : BaseContainerView<SettingsState, SettingsEvent>
             emit(SettingsEvent.DoubleTapExit(isChecked))
         }
 
-        // View binding
         bind(SettingsState::askConfirmation) { askConfirm ->
             askClearHistorySwitch.isChecked = askConfirm
         }

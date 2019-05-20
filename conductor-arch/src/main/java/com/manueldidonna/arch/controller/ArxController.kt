@@ -1,11 +1,11 @@
 package com.manueldidonna.arch.controller
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RestoreViewOnCreateController
 import com.manueldidonna.arch.viewmodel.ArxViewModelOwner
@@ -15,7 +15,7 @@ import java.util.*
 
 abstract class ArxController : RestoreViewOnCreateController(), ArxViewModelOwner {
 
-    override val viewModelStore = ArxViewModelStore()
+    final override val viewModelStore = ArxViewModelStore()
 
     final override val ownerId: String get() = arxPersistedOwnerId
 
@@ -62,12 +62,14 @@ abstract class ArxController : RestoreViewOnCreateController(), ArxViewModelOwne
         return inflateView(inflater, container)
     }
 
+    @CallSuper
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Timber.d("Save state for $ownerId")
         outState.putString(PERSISTED_OWNER_ID_KEY, ownerId)
     }
 
+    @CallSuper
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         savedInstanceState.getString(PERSISTED_OWNER_ID_KEY)?.let { arxPersistedOwnerId = it }

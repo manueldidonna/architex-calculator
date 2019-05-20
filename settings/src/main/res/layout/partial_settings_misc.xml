@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:padding="16dp"
+        tools:checked="true"
         android:text="@string/settings_double_tap_exit"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 

@@ -31,10 +31,9 @@ internal class AutoClearHistoryDialog : BaseDialogController {
             res = R.array.settings_auto_clear_history_values,
             initialSelection = initialIndex,
             waitForPositiveButton = false
-        ) { dialog: MaterialDialog, index: Int, _ ->
+        ) { _, index: Int, _ ->
             castTargetController<Listener>()
                 .onAutoClearHistoryCallback(SettingsState.getDaysFromIndex(index))
-            dialog.dismiss()
         }
     }
 

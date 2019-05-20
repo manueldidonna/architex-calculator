@@ -10,6 +10,7 @@ import com.manueldidonna.architexcalc.core.base.BaseController
 import com.manueldidonna.architexcalc.core.extensions.pushWithStandardTransaction
 import com.manueldidonna.architexcalc.settings.autoclearhistory.AutoClearHistoryDialog
 import com.manueldidonna.architexcalc.settings.licenses.LicensesController
+import com.manueldidonna.architexcalc.settings.themeselector.ThemeSelectorDialog
 import org.koin.core.parameter.parametersOf
 
 class SettingsController : BaseController<SettingsView>(), AutoClearHistoryDialog.Listener {
@@ -29,7 +30,7 @@ class SettingsController : BaseController<SettingsView>(), AutoClearHistoryDialo
             when (event) {
                 is SettingsEvent.GoBack -> router.popController(this)
                 is SettingsEvent.Licenses -> router.pushWithStandardTransaction(LicensesController())
-                is SettingsEvent.AppThemeEditor -> getNavigator<Navigation>().openAppThemeEditor()
+                is SettingsEvent.AppThemeEditor -> ThemeSelectorDialog.show(router)
                 is SettingsEvent.AskClearHistoryConfirmation -> viewModel.setAskConfirmation(event.value)
                 is SettingsEvent.DoubleTapExit -> viewModel.setDoubleTapToExit(event.value)
                 is SettingsEvent.AutoClearHistory -> withState(viewModel) { state ->
@@ -37,8 +38,8 @@ class SettingsController : BaseController<SettingsView>(), AutoClearHistoryDialo
                     AutoClearHistoryDialog.show(router, this, index)
                 }
                 is SettingsEvent.GithubPage -> {
-                    val url = requireActivity().getText(R.string.settings_github_link).toString()
-                    startActivity(Intent(Intent.ACTION_VIEW).setData(url.toUri()))
+                    val url = requireActivity().getString(R.string.settings_github_link).toUri()
+                    startActivity(Intent(Intent.ACTION_VIEW).setData(url))
                 }
             }
         }
@@ -46,9 +47,5 @@ class SettingsController : BaseController<SettingsView>(), AutoClearHistoryDialo
 
     override fun onAutoClearHistoryCallback(days: Int) {
         viewModel.setAutoClearHistoryDays(days)
-    }
-
-    interface Navigation {
-        fun openAppThemeEditor()
     }
 }
