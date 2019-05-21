@@ -20,8 +20,6 @@ class MainViewModel(
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    private val resultFormatter = Formatter()
-
     fun dispatch(event: NumKeyboardEvent) = when (event) {
         is NumKeyboardEvent.Number -> setExpression { appendNumber(event.value) }
         is NumKeyboardEvent.Operator -> setExpression { appendOperator(event.value) }
@@ -59,7 +57,7 @@ class MainViewModel(
         } else {
             when (val mathResult = mathEvaluator.eval(expression)) {
                 is EvaluationResult.Success -> copy(
-                    result = mathResult.format(resultFormatter),
+                   // result = mathResult.format(resultFormatter),
                     errorOnResult = false
                 )
                 is EvaluationResult.Error -> copy(errorOnResult = true)
