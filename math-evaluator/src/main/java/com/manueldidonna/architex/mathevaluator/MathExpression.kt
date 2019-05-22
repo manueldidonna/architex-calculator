@@ -8,6 +8,7 @@ class MathExpression(
     private var frozenBuilder = StringBuilder()
     private var activeBuilder = StringBuilder()
     private var isNumber = false
+    private var isDecimalSep = false
     // private var openBrackets = 0
 
     init {
@@ -16,21 +17,26 @@ class MathExpression(
         }
     }
 
-    fun appendNumber(number: Char) {
-        checkDebug(number.isDigit()) { "Char is not a digit" }
-        isNumber = true
-        activeBuilder.append(number)
-    }
-
     fun appendNumber(number: String) {
-        checkDebug(!number.any { !it.isDigit() }) { "String must contains only digits" }
-        isNumber = true
-        activeBuilder.append(number)
+        checkDebug(debug, !number.any { !it.isDigit() }) { "String must contains only digits" }
+        if (isDecimalSep) {
+            frozenBuilder.append(number)
+        } else {
+            isNumber = true
+            activeBuilder.append(number)
+        }
     }
 
-    fun appendOperator(operator: MathOperator) {
-        if (isNumber)
-            freezeBuilder()
+    fun appendDecimalSeparator() {
+        if (!isDecimalSep) {
+            if (isNumber)
+                freezeBuilder()
+            isDecimalSep = true
+            frozenBuilder.append(mathFormat.decimalSeparator)
+        }
+    }
+
+    fun appendOperator(operator: MathOperator) = resetNumberAndDecimal {
         if (!(frozenBuilder.length == 1 && frozenBuilder.last() == '-')) {
             val isPlusMinus = operator == MathOperator.PLUS_MINUS
             when {
@@ -39,18 +45,10 @@ class MathExpression(
                 }
                 isPlusMinus && frozenBuilder.last() == '+' -> frozenBuilder.replaceLast('-')
                 isPlusMinus && frozenBuilder.last() == '-' -> frozenBuilder.replaceLast('+')
-                !isPlusMinus && checkLastIsOperator() -> frozenBuilder.replaceLast(operator.value)
+                !isPlusMinus && frozenBuilder.checkLastIsOperator() -> frozenBuilder.replaceLast(operator.value)
                 else -> frozenBuilder.append(if (isPlusMinus) '+' else operator.value)
             }
         }
-    }
-
-    private fun StringBuilder.replaceLast(newValue: Char) {
-        deleteCharAt(lastIndex).append(newValue)
-    }
-
-    private fun checkLastIsOperator() = frozenBuilder.last().run {
-        this == '-' || this == '+' || this == MathOperator.DIVIDE.value || this == MathOperator.MULTIPLY.value
     }
 
     private fun freezeBuilder() {
@@ -60,9 +58,9 @@ class MathExpression(
         isNumber = false
     }
 
-    private inline fun checkDebug(condition: Boolean, lazyMessage: () -> Any) {
-        if (debug)
-            require(condition, lazyMessage)
+    private inline fun resetNumberAndDecimal(block: () -> Unit) {
+        isDecimalSep = false
+        if (isNumber) freezeBuilder()
+        block()
     }
-
 }
