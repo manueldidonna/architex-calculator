@@ -51,6 +51,12 @@ class MathExpression(
         }
     }
 
+    fun appendFunction(func: String) = resetNumberAndDecimal {
+        checkDebug(debug, !func.any { !it.isLetter() }) { "String must contains only letters" }
+        openBrackets++
+        frozenBuilder.append(func).append(OPEN_BRACKET_SYMBOL)
+    }
+
     fun appendBracket(type: MathBracket) = resetNumberAndDecimal {
         if (type == MathBracket.OPEN) openBrackets++ else openBrackets--
         frozenBuilder.append(type.value)
