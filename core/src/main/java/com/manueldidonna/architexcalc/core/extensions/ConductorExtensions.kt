@@ -5,7 +5,7 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.manueldidonna.architexcalc.core.ui.HorizontalSlideChangeHandler
 
-private const val standardTransactionDuration = 240L
+private const val standardTransactionDuration = 200L
 
 fun Router.setRootController(controller: Controller, tag: String? = null) {
     setRoot(RouterTransaction.with(controller).tag(tag))

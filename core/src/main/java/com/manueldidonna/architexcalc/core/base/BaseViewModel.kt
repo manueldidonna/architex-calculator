@@ -8,7 +8,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
 abstract class BaseViewModel<S : ArxState>(initialState: S) : ArxStateViewModel<S>(initialState) {
-    protected val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    protected val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onCleared() {
         super.onCleared()

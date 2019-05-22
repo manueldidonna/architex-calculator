@@ -20,10 +20,14 @@ fun ExtendedFloatingActionButton.setRecyclerView(recycler: RecyclerView) {
     recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             when {
-                dy < 0 && visibility == View.GONE -> show()
+                // scroll up when fab is hidden
+                dy < 0 && visibility == View.GONE -> visibility = View.VISIBLE
+                // scroll up when fab is visible
                 dy < 0 && visibility == View.VISIBLE -> extend()
+                // scroll down but not on bottom
                 dy > 0 && recyclerView.canScrollVertically(1) -> shrink()
-                dy > 0 && !recyclerView.canScrollVertically(1) -> hide()
+                // on bottom
+                dy > 0 && !recyclerView.canScrollVertically(1) -> visibility = View.GONE
             }
             super.onScrolled(recyclerView, dx, dy)
         }

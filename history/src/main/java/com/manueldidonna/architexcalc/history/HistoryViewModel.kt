@@ -65,7 +65,7 @@ class HistoryViewModel(
     }
 
     // TODO: find a better way
-    fun uncheckAllItems()= setState {
+    fun uncheckAllItems() = setState {
         val newData = data.map { item ->
             return@map if (!item.isSelected) item else {
                 HistoryItem(

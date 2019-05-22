@@ -12,7 +12,6 @@ import com.manueldidonna.architexcalc.core.base.BaseContainerView
 import com.manueldidonna.architexcalc.core.extensions.setRecyclerView
 import com.manueldidonna.architexcalc.core.ui.FixedDividerItemDecoration
 import com.manueldidonna.architexcalc.history.data.epoxy.HistoryEpoxyController
-import timber.log.Timber
 
 
 class HistoryView(view: View) : BaseContainerView<HistoryState, HistoryEvent>(view) {
@@ -30,9 +29,10 @@ class HistoryView(view: View) : BaseContainerView<HistoryState, HistoryEvent>(vi
     lateinit var emptyHistoryView: LinearLayout
 
     private val epoxyController = HistoryEpoxyController { id, isSelected ->
-        Timber.d("Callback invoked")
         emit(HistoryEvent.SelectItem(itemId = id, isSelected = isSelected))
     }
+
+    private var isSelectionActive = false
 
     init {
         navigationIcon.emitOnClick(HistoryEvent.GoBack)
@@ -54,15 +54,18 @@ class HistoryView(view: View) : BaseContainerView<HistoryState, HistoryEvent>(vi
         bind(HistoryState::selectedItems) { selectedItems ->
             if (selectedItems > 0) {
                 toolbarTitle.text = selectedItems.toString()
-                clearHistoryFab.apply{
+                clearHistoryFab.apply {
                     text = view.context.getString(R.string.history_remove_items_button_label)
-                    emitOnClick(HistoryEvent.ClearSelectedItems)
+                    if (!isSelectionActive)
+                        emitOnClick(HistoryEvent.ClearSelectedItems)
                 }
+                isSelectionActive = true
             } else {
                 toolbarTitle.text = historyTitleValue
-                clearHistoryFab.apply{
+                clearHistoryFab.apply {
                     text = view.context.getString(R.string.history_clear_button_label)
                     emitOnClick(HistoryEvent.ClearHistory)
+                    isSelectionActive = false
                 }
             }
         }

@@ -5,8 +5,8 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.addListener
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.bluelinelabs.conductor.changehandler.AnimatorChangeHandler
 import com.manueldidonna.architexcalc.core.extensions.pxToDp
 import timber.log.Timber
@@ -53,7 +53,7 @@ class HorizontalSlideChangeHandler(
         }
         return AnimatorSet().apply {
             playTogether(viewAnimators)
-            interpolator = AccelerateDecelerateInterpolator()
+            interpolator = LinearOutSlowInInterpolator()
             addListener(
                 onEnd = { resetZ(it); Timber.d("resetElevationOnEnd") },
                 onCancel = { resetZ(it); Timber.d("resetElevationOnCancel") }
