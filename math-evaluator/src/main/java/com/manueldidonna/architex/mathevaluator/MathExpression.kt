@@ -37,16 +37,16 @@ class MathExpression(
     }
 
     fun appendOperator(operator: MathOperator) = resetNumberAndDecimal {
-        if (!(frozenBuilder.length == 1 && frozenBuilder.last() == '-')) {
+        if (!(frozenBuilder.length == 1 && frozenBuilder.last() == MINUS_SYMBOL)) {
             val isPlusMinus = operator == MathOperator.PLUS_MINUS
             when {
                 frozenBuilder.isEmpty() -> if (isPlusMinus || operator == MathOperator.MINUS) {
-                    frozenBuilder.append('-')
+                    frozenBuilder.append(MINUS_SYMBOL)
                 }
-                isPlusMinus && frozenBuilder.last() == '+' -> frozenBuilder.replaceLast('-')
-                isPlusMinus && frozenBuilder.last() == '-' -> frozenBuilder.replaceLast('+')
+                isPlusMinus && frozenBuilder.last() == PLUS_SYMBOL -> frozenBuilder.replaceLast(MINUS_SYMBOL)
+                isPlusMinus && frozenBuilder.last() == MINUS_SYMBOL -> frozenBuilder.replaceLast(PLUS_SYMBOL)
                 !isPlusMinus && frozenBuilder.checkLastIsOperator() -> frozenBuilder.replaceLast(operator.value)
-                else -> frozenBuilder.append(if (isPlusMinus) '+' else operator.value)
+                else -> frozenBuilder.append(if (isPlusMinus) PLUS_SYMBOL else operator.value)
             }
         }
     }
