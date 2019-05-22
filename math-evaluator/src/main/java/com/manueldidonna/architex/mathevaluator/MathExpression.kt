@@ -9,7 +9,7 @@ class MathExpression(
     private var activeBuilder = StringBuilder()
     private var isNumber = false
     private var isDecimalSep = false
-    // private var openBrackets = 0
+    private var openBrackets = 0
 
     init {
         if (initialExpression.isNotBlank()) {
@@ -49,6 +49,11 @@ class MathExpression(
                 else -> frozenBuilder.append(if (isPlusMinus) PLUS_SYMBOL else operator.value)
             }
         }
+    }
+
+    fun appendBracket(type: MathBracket) = resetNumberAndDecimal {
+        if (type == MathBracket.OPEN) openBrackets++ else openBrackets--
+        frozenBuilder.append(type.value)
     }
 
     private fun freezeBuilder() {
