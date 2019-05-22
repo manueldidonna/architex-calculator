@@ -62,6 +62,57 @@ class MathExpression(
         frozenBuilder.append(type.value)
     }
 
+    fun deleteLastElement() {
+        if (isNumber) {
+            activeBuilder.deleteCharAt(activeBuilder.lastIndex)
+            if (activeBuilder.isEmpty())
+                isNumber = false
+            return
+        }
+        if (frozenBuilder.isNotEmpty()) {
+            val current = frozenBuilder[frozenBuilder.lastIndex]
+            frozenBuilder.deleteCharAt(frozenBuilder.lastIndex)
+            when {
+                current.isDigit() -> deleteNumber()
+                current == OPEN_BRACKET_SYMBOL -> {
+                    openBrackets--
+                    deleteFunction()
+                }
+                current == CLOSE_BRACKET_SYMBOL -> openBrackets++
+                current == mathFormat.decimalSeparator -> isDecimalSep = false
+            }
+        }
+    }
+
+    private fun deleteNumber() {
+        checkDebug(debug, activeBuilder.isEmpty()) { "ActiveBuilder must be empty" }
+        val index = frozenBuilder.lastIndex
+        loop@ for (i in index downTo 0) {
+            val current = frozenBuilder[i]
+            when {
+                current == mathFormat.groupingSeparator -> frozenBuilder.deleteCharAt(i)
+                current.isDigit() -> {
+                    frozenBuilder.deleteCharAt(i)
+                    activeBuilder.append(current)
+                }
+                else -> break@loop
+            }
+        }
+        if (activeBuilder.isNotEmpty()) {
+            isNumber = true
+            activeBuilder.reverse()
+        }
+    }
+
+    private fun deleteFunction() {
+        val index = frozenBuilder.lastIndex
+        loop@ for (i in index downTo 0) {
+            if (!frozenBuilder[i].isLetter())
+                break@loop
+            frozenBuilder.deleteCharAt(i)
+        }
+    }
+
     private fun freezeBuilder() {
         // TODO: avoid crash when activeBuilder.toString().toLong() is greater than Long.MAX_VALUE
         frozenBuilder.append(mathFormat.format(activeBuilder.toString().toLong()))
