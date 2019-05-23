@@ -1,5 +1,9 @@
 package com.manueldidonna.architex.mathevaluator
 
+
+fun MathExpression.eval(evaluator: MathEvaluator): MathResult = evaluator
+    .eval(buildExpression(fixBrackets = true))
+
 class MathExpression(
     private val mathFormat: MathFormat,
     initialExpression: String = "",
@@ -15,6 +19,20 @@ class MathExpression(
         if (initialExpression.isNotBlank()) {
             scanExpression(initialExpression)
         }
+    }
+
+    fun buildExpression(fixBrackets: Boolean): String {
+        var activeString = ""
+        if (activeBuilder.isNotEmpty())
+            activeString = mathFormat.format(activeBuilder.toString().toLong())
+        if (openBrackets > 0 && fixBrackets) {
+            var string = frozenBuilder.toString() + activeString
+            for (i in 0 until openBrackets) {
+                string += ')'
+            }
+            return string
+        }
+        return frozenBuilder.toString() + activeString
     }
 
     /**
