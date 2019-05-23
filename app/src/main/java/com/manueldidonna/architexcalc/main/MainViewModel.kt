@@ -56,11 +56,11 @@ class MainViewModel(
             copy(result = "", errorOnResult = false)
         } else {
             when (val mathResult = mathEvaluator.eval(expression)) {
-                is EvaluationResult.Success -> copy(
+                is MathResult.Success -> copy(
                    // result = mathResult.format(resultFormatter),
                     errorOnResult = false
                 )
-                is EvaluationResult.Error -> copy(errorOnResult = true)
+                is MathResult.Error -> copy(errorOnResult = true)
             }
         }
     }
