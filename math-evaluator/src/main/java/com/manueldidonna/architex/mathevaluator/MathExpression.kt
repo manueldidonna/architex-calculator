@@ -1,8 +1,10 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.utils.checkDebug
+import com.manueldidonna.architex.mathevaluator.utils.checkLastIsOperator
+import com.manueldidonna.architex.mathevaluator.utils.replaceLast
 
-fun MathExpression.eval(evaluator: MathEvaluator): MathResult = evaluator
-    .eval(buildExpression(fixBrackets = true))
+fun MathExpression.eval(evaluator: MathEvaluator): MathResult = evaluator.eval(buildExpression(true))
 
 class MathExpression(
     private val mathFormat: MathFormat,
@@ -21,18 +23,20 @@ class MathExpression(
         }
     }
 
-    fun buildExpression(fixBrackets: Boolean): String {
+    fun buildExpression(sanitize: Boolean): String {
         var activeString = ""
         if (activeBuilder.isNotEmpty())
             activeString = mathFormat.format(activeBuilder.toString().toLong())
-        if (openBrackets > 0 && fixBrackets) {
-            var string = frozenBuilder.toString() + activeString
-            for (i in 0 until openBrackets) {
-                string += ')'
-            }
-            return string
+        return if (!sanitize) frozenBuilder.toString() + activeString else {
+            StringBuilder().apply {
+                append(frozenBuilder.toString())
+                append(activeString)
+                if (checkLastIsOperator())
+                    deleteCharAt(lastIndex)
+                for (i in 0 until openBrackets)
+                    append(CLOSE_BRACKET_SYMBOL)
+            }.toString()
         }
-        return frozenBuilder.toString() + activeString
     }
 
     /**
@@ -102,7 +106,8 @@ class MathExpression(
                 }
                 isPlusMinus && frozenBuilder.last() == PLUS_SYMBOL -> frozenBuilder.replaceLast(MINUS_SYMBOL)
                 isPlusMinus && frozenBuilder.last() == MINUS_SYMBOL -> frozenBuilder.replaceLast(PLUS_SYMBOL)
-                !isPlusMinus && frozenBuilder.checkLastIsOperator() -> frozenBuilder.replaceLast(operator.value)
+                frozenBuilder.checkLastIsOperator() -> frozenBuilder
+                    .replaceLast(if (isPlusMinus) PLUS_SYMBOL else operator.value)
                 else -> frozenBuilder.append(if (isPlusMinus) PLUS_SYMBOL else operator.value)
             }
         }
