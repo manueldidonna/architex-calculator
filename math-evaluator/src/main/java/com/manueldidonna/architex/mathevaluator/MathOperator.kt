@@ -1,7 +1,7 @@
 package com.manueldidonna.architex.mathevaluator
 
 internal const val PLUS_SYMBOL = '+'
-internal const val MINUS_SYMBOL = '+'
+internal const val MINUS_SYMBOL = '-'
 internal const val MULTIPLY_SYMBOL = '×'
 internal const val ALTERNATIVE_MULTIPLY_SYMBOL = '*'
 internal const val DIVIDE_SYMBOL = '÷'
