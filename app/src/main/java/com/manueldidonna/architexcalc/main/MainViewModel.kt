@@ -1,63 +1,42 @@
 package com.manueldidonna.architexcalc.main
 
-import com.manueldidonna.arch.viewmodel.ArxStateViewModel
 import com.manueldidonna.architex.mathevaluator.*
+import com.manueldidonna.architexcalc.core.base.BaseViewModel
 import com.manueldidonna.architexcalc.core.launchInteractor
 import com.manueldidonna.architexcalc.data.interactors.InsertHistoryInteractor
 import com.manueldidonna.architexcalc.main.numkeyboard.NumKeyboardEvent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import org.threeten.bp.LocalDate
 import timber.log.Timber
 
 class MainViewModel(
     initialState: MainState,
+    private val mathFormat: MathFormat,
     private val mathEvaluator: MathEvaluator,
+    private val mathExpression: MathExpression,
     private val insertHistory: InsertHistoryInteractor
-) : ArxStateViewModel<MainState>(initialState) {
-
-    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+) : BaseViewModel<MainState>(initialState) {
 
     fun dispatch(event: NumKeyboardEvent) = when (event) {
+        is NumKeyboardEvent.DecimalSeparator -> setExpression { appendDecimalSeparator() }
         is NumKeyboardEvent.Number -> setExpression { appendNumber(event.value) }
         is NumKeyboardEvent.Operator -> setExpression { appendOperator(event.value) }
-        is NumKeyboardEvent.Cancel -> setExpression { removeLastElement() }
-        is NumKeyboardEvent.Clear -> setExpression { "" }
+        is NumKeyboardEvent.Cancel -> setExpression { deleteLastElement() }
+        is NumKeyboardEvent.Clear -> setExpression { clear() }
         is NumKeyboardEvent.Equal -> clearAndSaveToHistory()
     }
 
-    private inline fun setExpression(crossinline expr: String.() -> String) {
-        setState { copy(expression = expression.expr()) }
-        updateResult()
-    }
-
-    private fun clearAndSaveToHistory() = setState {
-        if (errorOnResult)
-            return@setState copy(expression = "", result = "", errorOnResult = false)
-        if (expression == result || result.isEmpty())
-            return@setState this
-
-        Timber.d("Saving to history")
-        coroutineScope.launchInteractor(
-            interactor = insertHistory,
-            param = InsertHistoryInteractor.Params(
-                date = LocalDate.now().toString(),
-                expression = expression,
-                result = result
-            )
-        )
-        return@setState copy(expression = this.result, result = "", errorOnResult = false)
-    }
-
-    private fun updateResult() = setState {
-        return@setState if (expression.isEmpty()) {
-            copy(result = "", errorOnResult = false)
+    private inline fun setExpression(crossinline expr: MathExpression.() -> Unit) = setState {
+        val newExpression = mathExpression.apply(expr).buildExpression(sanitize = true)
+        val notFormattedExpression = mathExpression.buildExpression(sanitize = false)
+        return@setState if (newExpression.isEmpty()) {
+            copy(expression = notFormattedExpression, result = "", errorOnResult = false)
         } else {
-            when (val mathResult = mathEvaluator.eval(expression)) {
+            when (val mathResult = mathExpression.eval(mathEvaluator)) {
                 is MathResult.Success -> copy(
-                   // result = mathResult.format(resultFormatter),
+                    expression = notFormattedExpression,
+                    result = mathResult.format(mathFormat).let { formattedResult ->
+                        return@let if (formattedResult == newExpression) "" else formattedResult
+                    },
                     errorOnResult = false
                 )
                 is MathResult.Error -> copy(errorOnResult = true)
@@ -65,14 +44,27 @@ class MainViewModel(
         }
     }
 
+    private fun clearAndSaveToHistory() = setState {
+        if (errorOnResult)
+            return@setState copy(expression = "", result = "", errorOnResult = false)
+        if (expression == result || result.isEmpty())
+            return@setState this
+        Timber.d("Saving to history")
+        coroutineScope.launchInteractor(
+            interactor = insertHistory,
+            param = InsertHistoryInteractor.Params(
+                date = LocalDate.now().toString(),
+                expression = mathExpression.buildExpression(sanitize = true),
+                result = result
+            )
+        )
+        mathExpression.addExpression(this.result, overwrite = true)
+        return@setState copy(expression = this.result, result = "", errorOnResult = false)
+    }
+
     // TODO: remove fakeSubscribe
     fun fakeSubscribe(subscriber: (MainState) -> Unit) {
         subscribeState(subscriber = subscriber)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        coroutineScope.cancel()
     }
 
 }

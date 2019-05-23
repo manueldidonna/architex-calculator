@@ -5,8 +5,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.BindViews
 import com.manueldidonna.arch.view.ArxSubjectView
-import com.manueldidonna.architex.mathevaluator.DECIMAL_SEPARATOR
-import com.manueldidonna.architex.mathevaluator.PLUS_MINUS_SYMBOL
+import com.manueldidonna.architex.mathevaluator.MathOperator
 import com.manueldidonna.architexcalc.R
 
 class NumKeyboardView(view: View) : ArxSubjectView<NumKeyboardEvent>(view) {
@@ -34,11 +33,11 @@ class NumKeyboardView(view: View) : ArxSubjectView<NumKeyboardEvent>(view) {
             button.clickInvoke(NumKeyboardEvent.Number(index.toString()))
         }
         // dot
-        dotButton.clickInvoke(NumKeyboardEvent.Number(DECIMAL_SEPARATOR.toString()))
+        dotButton.clickInvoke(NumKeyboardEvent.DecimalSeparator)
         // operators + - / x
-        multiplyButton.clickInvoke(NumKeyboardEvent.Operator('×'))
-        divButton.clickInvoke(NumKeyboardEvent.Operator('÷'))
-        plusMinusButton.clickInvoke(NumKeyboardEvent.Operator(PLUS_MINUS_SYMBOL))
+        multiplyButton.clickInvoke(NumKeyboardEvent.Operator(MathOperator.MULTIPLY))
+        divButton.clickInvoke(NumKeyboardEvent.Operator(MathOperator.DIVIDE))
+        plusMinusButton.clickInvoke(NumKeyboardEvent.Operator(MathOperator.PLUS_MINUS))
         // equal
         equalButton.clickInvoke(NumKeyboardEvent.Equal)
         // click -> cancel last char/math func
