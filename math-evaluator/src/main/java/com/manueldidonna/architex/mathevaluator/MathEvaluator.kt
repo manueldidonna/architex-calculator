@@ -6,11 +6,20 @@ interface MathEvaluator {
     fun eval(expr: String): MathResult
 }
 
-class StandardMathEvaluator : MathEvaluator {
+class StandardMathEvaluator(private val mathFormat: MathFormat) : MathEvaluator {
     override fun eval(expr: String): MathResult = try {
-        val result = ExpressionBuilder(expr.sanitizeForEvaluation()).build().evaluate()
-        MathResult.Success(result)
+        MathResult.Success(
+            value = ExpressionBuilder(expr.sanitizeForEvaluation()).build().evaluate()
+        )
     } catch (e: Exception) {
         MathResult.Error(e)
     }
+
+    private fun String.sanitizeForEvaluation(): String {
+        return replace(mathFormat.decimalSeparator, '.')
+            .replace(DIVIDE_SYMBOL, ALTERNATIVE_DIVIDE_SYMBOL)
+            .replace(MULTIPLY_SYMBOL, ALTERNATIVE_MULTIPLY_SYMBOL)
+            .replace(mathFormat.groupingSeparator.toString(), "")
+    }
+
 }
