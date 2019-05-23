@@ -13,7 +13,46 @@ class MathExpression(
 
     init {
         if (initialExpression.isNotBlank()) {
-            // TODO: scanExpression()
+            scanExpression(initialExpression)
+        }
+    }
+
+    /**
+     * if [overwrite] is true [newExpression] will overwrite
+     * the current one otherwise it's appended
+     */
+    fun addExpression(newExpression: String, overwrite: Boolean) {
+        if (overwrite)
+            clear()
+        scanExpression(newExpression)
+    }
+
+    /**
+     * Only used to scan functions within new expressions
+     */
+    private var isFunc = false
+
+    private fun scanExpression(newExpr: String) {
+        isFunc = false
+        newExpr.forEach { char ->
+            when {
+                char.isDigit() -> fixFunc { appendNumber(char.toString()) }
+                char == mathFormat.decimalSeparator -> fixFunc { appendDecimalSeparator() }
+                char == '(' -> fixFunc(addOpenBracket = false) { appendBracket(MathBracket.OPEN) }
+                char == ')' -> fixFunc { appendBracket(MathBracket.CLOSE) }
+                char.isLetter() -> resetNumberAndDecimal {
+                    isFunc = true
+                    frozenBuilder.append(char)
+                }
+                char == PLUS_SYMBOL -> fixFunc { appendOperator(MathOperator.PLUS) }
+                char == MINUS_SYMBOL -> fixFunc { appendOperator(MathOperator.MINUS) }
+                char == DIVIDE_SYMBOL || char == ALTERNATIVE_DIVIDE_SYMBOL -> fixFunc {
+                    appendOperator(MathOperator.DIVIDE)
+                }
+                char == MULTIPLY_SYMBOL || char == ALTERNATIVE_MULTIPLY_SYMBOL -> fixFunc {
+                    appendOperator(MathOperator.MULTIPLY)
+                }
+            }
         }
     }
 
@@ -113,6 +152,22 @@ class MathExpression(
         }
     }
 
+    /**
+     * Reset MathExpression to the initialization state
+     */
+    fun clear() {
+        if (activeBuilder.isNotEmpty())
+            activeBuilder.clear()
+        if (frozenBuilder.isNotEmpty())
+            frozenBuilder.clear()
+        isDecimalSep = false
+        isNumber = false
+        openBrackets = 0
+    }
+
+    /**
+     * Format the number within [activeBuilder] and append it to [frozenBuilder]
+     */
     private fun freezeBuilder() {
         // TODO: avoid crash when activeBuilder.toString().toLong() is greater than Long.MAX_VALUE
         frozenBuilder.append(mathFormat.format(activeBuilder.toString().toLong()))
@@ -120,9 +175,20 @@ class MathExpression(
         isNumber = false
     }
 
+    /**
+     * Fix function without an open bracket
+     */
+    private inline fun fixFunc(addOpenBracket: Boolean = true, body: () -> Unit) {
+        if (isFunc && addOpenBracket)
+            appendBracket(MathBracket.OPEN)
+        isFunc = false
+        body()
+    }
+
     private inline fun resetNumberAndDecimal(block: () -> Unit) {
         isDecimalSep = false
-        if (isNumber) freezeBuilder()
+        if (isNumber)
+            freezeBuilder()
         block()
     }
 }
