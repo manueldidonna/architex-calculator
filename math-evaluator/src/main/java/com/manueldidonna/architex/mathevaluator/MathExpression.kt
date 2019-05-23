@@ -31,7 +31,7 @@ class MathExpression(
             StringBuilder().apply {
                 append(frozenBuilder.toString())
                 append(activeString)
-                if (checkLastIsOperator())
+                if (isNotEmpty() && checkLastIsOperator())
                     deleteCharAt(lastIndex)
                 for (i in 0 until openBrackets)
                     append(CLOSE_BRACKET_SYMBOL)
@@ -135,7 +135,8 @@ class MathExpression(
             val current = frozenBuilder[frozenBuilder.lastIndex]
             frozenBuilder.deleteCharAt(frozenBuilder.lastIndex)
             when {
-                current.isDigit() -> deleteNumber()
+                (frozenBuilder.isNotEmpty() && frozenBuilder.last().isDigit())
+                        || current.isDigit() -> deleteNumber()
                 current == OPEN_BRACKET_SYMBOL -> {
                     openBrackets--
                     deleteFunction()
