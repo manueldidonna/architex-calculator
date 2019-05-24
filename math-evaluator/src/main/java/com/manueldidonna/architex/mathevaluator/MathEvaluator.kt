@@ -16,10 +16,10 @@ class StandardMathEvaluator(private val mathFormat: MathFormat) : MathEvaluator 
     }
 
     private fun String.sanitizeForEvaluation(): String {
-        return replace(mathFormat.decimalSeparator, '.')
-            .replace(DIVIDE_SYMBOL, ALTERNATIVE_DIVIDE_SYMBOL)
+        return replace(DIVIDE_SYMBOL, ALTERNATIVE_DIVIDE_SYMBOL)
             .replace(MULTIPLY_SYMBOL, ALTERNATIVE_MULTIPLY_SYMBOL)
             .replace(mathFormat.groupingSeparator.toString(), "")
+            .replace(mathFormat.decimalSeparator, '.')
     }
 
 }
