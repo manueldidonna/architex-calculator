@@ -23,6 +23,10 @@ class MathExpression(
         }
     }
 
+    inline fun buildExpression(sanitize: Boolean, body: MathExpression.() -> Unit): String {
+        return apply(body).buildExpression(sanitize)
+    }
+
     fun buildExpression(sanitize: Boolean): String {
         var activeString = ""
         if (activeBuilder.isNotEmpty())
@@ -79,7 +83,7 @@ class MathExpression(
     }
 
     fun appendNumber(number: String) {
-        checkDebug(debug, !number.any { !it.isDigit() }) { "String must contains only digits" }
+        checkDebug(debug, { !number.any { !it.isDigit() } }) { "String must contains only digits" }
         if (isDecimalSep) {
             frozenBuilder.append(number)
         } else {
@@ -114,7 +118,7 @@ class MathExpression(
     }
 
     fun appendFunction(func: String) = resetNumberAndDecimal {
-        checkDebug(debug, !func.any { !it.isLetter() }) { "String must contains only letters" }
+        checkDebug(debug, { !func.any { !it.isLetter() } }) { "String must contains only letters" }
         openBrackets++
         frozenBuilder.append(func).append(OPEN_BRACKET_SYMBOL)
     }
@@ -148,7 +152,7 @@ class MathExpression(
     }
 
     private fun deleteNumber() {
-        checkDebug(debug, activeBuilder.isEmpty()) { "ActiveBuilder must be empty" }
+        checkDebug(debug, { activeBuilder.isEmpty() }) { "ActiveBuilder must be empty" }
         val index = frozenBuilder.lastIndex
         loop@ for (i in index downTo 0) {
             val current = frozenBuilder[i]
