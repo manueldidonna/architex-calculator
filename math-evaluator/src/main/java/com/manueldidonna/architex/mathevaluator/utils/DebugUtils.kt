@@ -1,6 +1,6 @@
 package com.manueldidonna.architex.mathevaluator.utils
 
-inline fun checkDebug(debug: Boolean, condition: Boolean, lazyMessage: () -> Any) {
+inline fun checkDebug(debug: Boolean, lazyCondition: () -> Boolean, lazyMessage: () -> Any) {
     if (debug)
-        require(condition, lazyMessage)
+        require(lazyCondition(), lazyMessage)
 }
