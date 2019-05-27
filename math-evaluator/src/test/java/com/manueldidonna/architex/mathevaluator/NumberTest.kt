@@ -20,7 +20,7 @@ class NumberTest : FeatureSpec() {
     }
 
     init {
-        feature("Append Numbers") {
+        feature("Numbers") {
             scenario("7 digits") {
                 mathExpression.buildExpression(false) {
                     appendNumber("3456797")

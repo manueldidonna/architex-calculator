@@ -64,8 +64,17 @@ class MathExpression(
             when {
                 char.isDigit() -> fixFunc { appendNumber(char.toString()) }
                 char == mathFormat.decimalSeparator -> fixFunc { appendDecimalSeparator() }
-                char == '(' -> fixFunc(addOpenBracket = false) { appendBracket(MathBracket.OPEN) }
-                char == ')' -> fixFunc { appendBracket(MathBracket.CLOSE) }
+                char == OPEN_BRACKET_SYMBOL -> fixFunc(addOpenBracket = false) {
+                    appendBracket(MathBracket.OPEN)
+                }
+                char == CLOSE_BRACKET_SYMBOL -> fixFunc { appendBracket(MathBracket.CLOSE) }
+                // char.toLowerCase() == 'e' -> {
+                // it could be a function or a scientific notion
+                // function -> e() or exp() or other names with that letter
+                // scientific notion -> 1.783E8
+                //     if (isFunc)
+                //        frozenBuilder.append(char)
+                // }
                 char.isLetter() -> resetNumberAndDecimal {
                     isFunc = true
                     frozenBuilder.append(char)
@@ -102,11 +111,12 @@ class MathExpression(
     }
 
     fun appendOperator(operator: MathOperator) = resetNumberAndDecimal {
-        if (!(frozenBuilder.length == 1 && frozenBuilder.last() == MINUS_SYMBOL)) {
+        checkIfOperatorIsAllowed {
             val isPlusMinus = operator == MathOperator.PLUS_MINUS
             when {
-                frozenBuilder.isEmpty() -> if (isPlusMinus || operator == MathOperator.MINUS) {
-                    frozenBuilder.append(MINUS_SYMBOL)
+                frozenBuilder.isEmpty() || frozenBuilder.last() == OPEN_BRACKET_SYMBOL -> {
+                    if (isPlusMinus || operator == MathOperator.MINUS)
+                        frozenBuilder.append(MINUS_SYMBOL)
                 }
                 isPlusMinus && frozenBuilder.last() == PLUS_SYMBOL -> frozenBuilder.replaceLast(MINUS_SYMBOL)
                 isPlusMinus && frozenBuilder.last() == MINUS_SYMBOL -> frozenBuilder.replaceLast(PLUS_SYMBOL)
@@ -117,6 +127,15 @@ class MathExpression(
         }
     }
 
+    private inline fun checkIfOperatorIsAllowed(body: () -> Unit) {
+        when {
+            frozenBuilder.length == 1 && frozenBuilder.last() == MINUS_SYMBOL -> return
+            frozenBuilder.length >= 2 && frozenBuilder.last() == MINUS_SYMBOL
+                    && frozenBuilder[frozenBuilder.lastIndex - 1] == OPEN_BRACKET_SYMBOL -> return
+            else -> body()
+        }
+    }
+
     fun appendFunction(func: String) = resetNumberAndDecimal {
         checkDebug(debug, { !func.any { !it.isLetter() } }) { "String must contains only letters" }
         openBrackets++
@@ -124,6 +143,8 @@ class MathExpression(
     }
 
     fun appendBracket(type: MathBracket) = resetNumberAndDecimal {
+        if (openBrackets <= 0 && type == MathBracket.CLOSE)
+            return@resetNumberAndDecimal
         if (type == MathBracket.OPEN) openBrackets++ else openBrackets--
         frozenBuilder.append(type.value)
     }

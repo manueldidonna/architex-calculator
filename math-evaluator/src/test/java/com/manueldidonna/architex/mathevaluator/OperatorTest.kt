@@ -22,7 +22,7 @@ class OperatorTest : FeatureSpec() {
     }
 
     init {
-        feature("Append Math Operators") {
+        feature("Math Operators") {
             scenario("plus&minus") {
                 mathExpression.buildExpression(false) {
                     appendNumber("1")
@@ -87,6 +87,16 @@ class OperatorTest : FeatureSpec() {
                     appendOperator(MathOperator.PLUS)
                 } shouldBe "3+4+"
                 mathExpression.buildExpression(sanitize = true) shouldBe "3+4"
+            }
+            scenario("operators after an open bracket"){
+                mathExpression.buildExpression(false){
+                    appendNumber("3")
+                    appendBracket(MathBracket.OPEN)
+                    appendOperator(MathOperator.DIVIDE)
+                    appendOperator(MathOperator.PLUS_MINUS)
+                    appendOperator(MathOperator.MULTIPLY)
+                    appendNumber("5")
+                } shouldBe "3${OPEN_BRACKET_SYMBOL}${MINUS_SYMBOL}5"
             }
         }
     }

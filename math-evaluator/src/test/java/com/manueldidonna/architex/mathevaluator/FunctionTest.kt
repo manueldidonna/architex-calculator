@@ -20,7 +20,7 @@ class FunctionTest : FeatureSpec() {
     }
 
     init {
-        feature("Append Functions") {
+        feature("Math Functions") {
             scenario("brackets after function name") {
                 mathExpression.buildExpression(true) {
                     appendFunction("log")
