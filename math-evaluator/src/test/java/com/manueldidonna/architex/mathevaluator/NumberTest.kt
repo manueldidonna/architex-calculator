@@ -11,7 +11,8 @@ class NumberTest : FeatureSpec() {
     private lateinit var mathFormat: MathFormat
 
     override fun beforeSpec(spec: Spec) {
-        mathFormat = spyk(StandardMathFormat(Locale.ITALIAN))
+        val configuration = MathConfiguration(maximumFractionDigits = 4)
+        mathFormat = spyk(StandardMathFormat(Locale.ITALIAN, configuration))
         mathExpression = spyk(MathExpression(mathFormat, debug = true))
     }
 
@@ -50,18 +51,23 @@ class NumberTest : FeatureSpec() {
                         deleteLastElement()
                 } shouldBe "12"
             }
-            scenario("delete an operator & append a number"){
-                mathExpression.buildExpression(false){
+            scenario("delete an operator & append a number") {
+                mathExpression.buildExpression(false) {
                     appendNumber("123")
                     appendOperator(MathOperator.PLUS)
                 } shouldBe "123+"
-                mathExpression.buildExpression(false){
+                mathExpression.buildExpression(false) {
                     deleteLastElement()
                     appendNumber("4")
                 } shouldBe mathFormat.format(1234)
             }
             scenario("append letters with appendNumber()") {
                 shouldThrow<IllegalArgumentException> { mathExpression.appendNumber("3E") }
+            }
+            scenario("scientific notation") {
+                mathExpression.buildExpression(false) {
+                    appendScientificNumber("2345,85e-4")
+                } shouldBe mathFormat.format("2345.85e-4".toDouble())
             }
         }
     }

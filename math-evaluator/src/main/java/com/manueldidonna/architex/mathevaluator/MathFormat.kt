@@ -12,8 +12,16 @@ interface MathFormat {
     fun format(number: Long): String
 }
 
-class StandardMathFormat(locale: Locale = Locale.ITALIAN) : MathFormat {
+class StandardMathFormat(
+    locale: Locale = Locale.ITALIAN,
+    configuration: MathConfiguration = MathConfiguration()
+) : MathFormat {
     private val decimalFormat = NumberFormat.getInstance(locale) as DecimalFormat
+
+    init {
+        decimalFormat.maximumFractionDigits = configuration.maximumFractionDigits
+    }
+
     override val groupingSeparator = decimalFormat.decimalFormatSymbols.groupingSeparator
     override val decimalSeparator = decimalFormat.decimalFormatSymbols.decimalSeparator
     override fun format(number: Int): String = decimalFormat.format(number)

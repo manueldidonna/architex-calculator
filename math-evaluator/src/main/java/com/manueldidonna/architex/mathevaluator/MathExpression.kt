@@ -58,6 +58,7 @@ class MathExpression(
      */
     private var isFunc = false
 
+    // Scientific Notation is not supported by scan
     private fun scanExpression(newExpr: String) {
         isFunc = false
         newExpr.forEach { char ->
@@ -98,6 +99,29 @@ class MathExpression(
         } else {
             isNumber = true
             activeBuilder.append(number)
+        }
+    }
+
+    fun appendScientificNumber(number: String) {
+        checkDebug(debug, { number.count { it == mathFormat.decimalSeparator } <= 1 }) {
+            "A number can not contains more than one decimal separator<${mathFormat.decimalSeparator}>"
+        }
+        checkDebug(debug, { number.count { it.toLowerCase() == 'e' } <= 1 }) {
+            "A number can not contains more than one scientific notation symbol<E>"
+        }
+        mathFormat.format(number.replaceDecimalSeparatorWithDot().toDouble()).forEach { char ->
+            when {
+                char.isDigit() -> appendNumber(char.toString())
+                char == mathFormat.decimalSeparator -> appendDecimalSeparator()
+            }
+        }
+    }
+
+    private fun String.replaceDecimalSeparatorWithDot(): String {
+        return replace(mathFormat.groupingSeparator.toString(), "").run {
+            return@run if (mathFormat.decimalSeparator != '.')
+                replace(mathFormat.decimalSeparator, '.')
+            else this
         }
     }
 
