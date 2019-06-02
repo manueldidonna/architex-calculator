@@ -74,15 +74,14 @@
         app:layout_constraintTop_toTopOf="@+id/horiz_line_upper"
     />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <TextView
         android:id="@+id/expression_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#00000000"
-        android:gravity="end|center_vertical"
-        android:inputType="none"
-        android:textIsSelectable="false"
+        android:gravity="bottom|center_vertical|end"
+        android:scrollHorizontally="true"
+        android:ellipsize="none"
         android:paddingStart="24dp"
         android:paddingTop="16dp"
         android:paddingEnd="24dp"
@@ -97,22 +96,24 @@
         tools:text="159 + 159" />
 
     <TextView
-        android:id="@+id/result_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:gravity="end|center_vertical"
-        android:paddingStart="24dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="8dp"
-        android:singleLine="true"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-        android:textColor="?attr/textColorHighEmphasis"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toTopOf="@+id/horiz_line_upper"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="318" />
+            android:id="@+id/result_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:paddingStart="24dp"
+            android:paddingTop="8dp"
+            android:gravity="bottom|center_vertical|end"
+            android:scrollHorizontally="true"
+            android:ellipsize="none"
+            android:paddingEnd="24dp"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+            android:textColor="?attr/textColorHighEmphasis"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toTopOf="@+id/horiz_line_upper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="318"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

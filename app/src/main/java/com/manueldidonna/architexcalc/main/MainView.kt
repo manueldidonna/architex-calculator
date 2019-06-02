@@ -1,5 +1,6 @@
 package com.manueldidonna.architexcalc.main
 
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -18,7 +19,7 @@ class MainView(view: View, adapter: PagerAdapter) : ArxInteractiveButterBinder<M
     lateinit var panelErrorMessage: String
 
     @BindView(R.id.expression_text_view)
-    lateinit var expressionView: AppCompatEditText
+    lateinit var expressionView: TextView
     @BindView(R.id.result_text_view)
     lateinit var resultView: TextView
     @BindView(R.id.keyboard_view_pager)
@@ -36,8 +37,16 @@ class MainView(view: View, adapter: PagerAdapter) : ArxInteractiveButterBinder<M
         // Event emissions
         historyButton.setOnClickListener { emit(MainEvent.History) }
         settingsButton.setOnClickListener { emit(MainEvent.Settings) }
-        expressionView.copyOnLongClick("MATH_EXPRESSION") { text.toString() }
-        resultView.copyOnLongClick("RESULT_EXPRESSION") { text.toString() }
+        expressionView.apply {
+            copyOnLongClick("MATH_EXPRESSION") { text.toString() }
+            movementMethod = ScrollingMovementMethod()
+
+        }
+        resultView.apply {
+            copyOnLongClick("RESULT_EXPRESSION") { text.toString() }
+            movementMethod = ScrollingMovementMethod()
+        }
+
         // Bind view properties
         bind(MainState::expression) { expr -> expressionView.setText(expr) }
         bind({ Pair(it.result, it.errorOnResult) }) { (result, errorOnResult) ->
