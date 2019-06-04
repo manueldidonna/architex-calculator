@@ -1,21 +1,41 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.utils.checkDebug
-import com.manueldidonna.architex.mathevaluator.utils.checkLastIsOperator
-import com.manueldidonna.architex.mathevaluator.utils.replaceLast
+import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_MULTIPLY_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.Bracket
+import com.manueldidonna.architex.mathevaluator.internal.CLOSE_BRACKET_SYMBOL
+import com.manueldidonna.architex.mathevaluator.internal.CloseBracket
+import com.manueldidonna.architex.mathevaluator.internal.DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.Function
+import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.MULTIPLY_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.MathElement
+import com.manueldidonna.architex.mathevaluator.internal.MinusOperator
+import com.manueldidonna.architex.mathevaluator.internal.Number
+import com.manueldidonna.architex.mathevaluator.internal.OPEN_BRACKET_SYMBOL
+import com.manueldidonna.architex.mathevaluator.internal.OpenBracket
+import com.manueldidonna.architex.mathevaluator.internal.Operator
+import com.manueldidonna.architex.mathevaluator.internal.PLUS_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.PlusOperator
+import com.manueldidonna.architex.mathevaluator.internal.utils.checkDebug
+import com.manueldidonna.architex.mathevaluator.internal.utils.replaceLast
+import com.manueldidonna.architex.mathevaluator.internal.utils.safeLast
+import java.util.*
 
 fun MathExpression.eval(evaluator: MathEvaluator): MathResult = evaluator.eval(buildExpression(true))
+
+inline fun MathExpression.buildExpression(sanitize: Boolean, body: MathExpression.() -> Unit): String {
+    return apply(body).buildExpression(sanitize)
+}
 
 class MathExpression(
     private val mathFormat: MathFormat,
     initialExpression: String = "",
     private val debug: Boolean = false
 ) {
-    private var frozenBuilder = StringBuilder()
-    private var activeBuilder = StringBuilder()
-    private var isNumber = false
-    private var isDecimalSep = false
     private var openBrackets = 0
+    private val elements = ArrayDeque<MathElement>()
+    private val builder = StringBuilder()
 
     init {
         if (initialExpression.isNotBlank()) {
@@ -23,32 +43,12 @@ class MathExpression(
         }
     }
 
-    inline fun buildExpression(sanitize: Boolean, body: MathExpression.() -> Unit): String {
-        return apply(body).buildExpression(sanitize)
-    }
-
-    fun buildExpression(sanitize: Boolean): String {
-        var activeString = ""
-        if (activeBuilder.isNotEmpty())
-            activeString = mathFormat.format(activeBuilder.toString().toLong())
-        return if (!sanitize) frozenBuilder.toString() + activeString else {
-            StringBuilder().apply {
-                append(frozenBuilder.toString())
-                append(activeString)
-                if (isNotEmpty() && checkLastIsOperator())
-                    deleteCharAt(lastIndex)
-                for (i in 0 until openBrackets)
-                    append(CLOSE_BRACKET_SYMBOL)
-            }.toString()
-        }
-    }
-
     /**
      * if [overwrite] is true [newExpression] will overwrite
      * the current one otherwise it's appended
      */
-    fun addExpression(newExpression: String, overwrite: Boolean) {
-        if (overwrite)
+    fun addExpression(newExpression: String, overwriteCurrentExpression: Boolean) {
+        if (overwriteCurrentExpression)
             clear()
         scanExpression(newExpression)
     }
@@ -57,171 +57,159 @@ class MathExpression(
      * Only used to scan functions within new expressions
      */
     private var isFunc = false
+    private var currentFuncName = ""
+    /**
+     * Fix function without an open bracket
+     */
+    private inline fun fixFunc(body: () -> Unit) {
+        if (isFunc) {
+            appendFunction(currentFuncName)
+            currentFuncName = ""
+            isFunc = false
+        }
+        body()
+    }
 
-    // Scientific Notation is not supported by scan
     private fun scanExpression(newExpr: String) {
+        currentFuncName = ""
         isFunc = false
         newExpr.forEach { char ->
             when {
                 char.isDigit() -> fixFunc { appendNumber(char.toString()) }
-                char == mathFormat.decimalSeparator -> fixFunc { appendDecimalSeparator() }
-                char == OPEN_BRACKET_SYMBOL -> fixFunc(addOpenBracket = false) {
-                    appendBracket(MathBracket.OPEN)
+                char == mathFormat.decimalSeparator -> fixFunc {
+                    appendDecimalSeparator()
+                }
+                char == OPEN_BRACKET_SYMBOL -> {
+                    if (isFunc) {
+                        appendFunction(currentFuncName)
+                        currentFuncName = ""
+                        isFunc = false
+                    } else appendBracket(MathBracket.OPEN)
                 }
                 char == CLOSE_BRACKET_SYMBOL -> fixFunc { appendBracket(MathBracket.CLOSE) }
-                // char.toLowerCase() == 'e' -> {
-                // it could be a function or a scientific notion
-                // function -> e() or exp() or other names with that letter
-                // scientific notion -> 1.783E8
-                //     if (isFunc)
-                //        frozenBuilder.append(char)
-                // }
-                char.isLetter() -> resetNumberAndDecimal {
+                char == 'E' -> fixFunc { appendScientificNotation() }
+                char.isLetter() -> {
                     isFunc = true
-                    frozenBuilder.append(char)
+                    currentFuncName += char
                 }
-                char == PLUS_SYMBOL -> fixFunc { appendOperator(MathOperator.PLUS) }
-                char == MINUS_SYMBOL -> fixFunc { appendOperator(MathOperator.MINUS) }
-                char == DIVIDE_SYMBOL || char == ALTERNATIVE_DIVIDE_SYMBOL -> fixFunc {
+                char == PLUS_SYMBOL_CHAR -> fixFunc { appendOperator(MathOperator.PLUS) }
+                char == MINUS_SYMBOL_CHAR -> fixFunc { appendOperator(MathOperator.MINUS) }
+                char == DIVIDE_SYMBOL_CHAR || char == ALTERNATIVE_DIVIDE_SYMBOL_CHAR -> fixFunc {
                     appendOperator(MathOperator.DIVIDE)
                 }
-                char == MULTIPLY_SYMBOL || char == ALTERNATIVE_MULTIPLY_SYMBOL -> fixFunc {
+                char == MULTIPLY_SYMBOL_CHAR || char == ALTERNATIVE_MULTIPLY_SYMBOL_CHAR -> fixFunc {
                     appendOperator(MathOperator.MULTIPLY)
                 }
             }
         }
     }
 
-    fun appendNumber(number: String) {
-        checkDebug(debug, { !number.any { !it.isDigit() } }) { "String must contains only digits" }
-        if (isDecimalSep) {
-            frozenBuilder.append(number)
-        } else {
-            isNumber = true
-            activeBuilder.append(number)
-        }
-    }
-
-    fun appendScientificNumber(number: String) {
-        checkDebug(debug, { number.count { it == mathFormat.decimalSeparator } <= 1 }) {
-            "A number can not contains more than one decimal separator<${mathFormat.decimalSeparator}>"
-        }
-        checkDebug(debug, { number.count { it.toLowerCase() == 'e' } <= 1 }) {
-            "A number can not contains more than one scientific notation symbol<E>"
-        }
-        mathFormat.format(number.replaceDecimalSeparatorWithDot().toDouble()).forEach { char ->
-            when {
-                char.isDigit() -> appendNumber(char.toString())
-                char == mathFormat.decimalSeparator -> appendDecimalSeparator()
+    fun buildExpression(sanitize: Boolean): String {
+        if (elements.size <= 0)
+            return ""
+        return builder.apply {
+            clear()
+            elements.forEach { e ->
+                append(e.value)
             }
-        }
+            if (sanitize) {
+                if (elements.last is Operator)
+                    deleteCharAt(lastIndex)
+                for (i in 0 until openBrackets)
+                    append(CLOSE_BRACKET_SYMBOL)
+            }
+        }.toString()
     }
 
-    private fun String.replaceDecimalSeparatorWithDot(): String {
-        return replace(mathFormat.groupingSeparator.toString(), "").run {
-            return@run if (mathFormat.decimalSeparator != '.')
-                replace(mathFormat.decimalSeparator, '.')
-            else this
-        }
+    fun appendNumber(number: String) {
+        checkDebug(
+            debug,
+            { !number.any { !it.isDigit() } }) { "String must contains only digits" }
+        (elements.safeLast() as? Number)
+            ?.append(number)
+            ?: elements.add(Number(mathFormat).apply { append(number) })
     }
 
     fun appendDecimalSeparator() {
-        if (!isDecimalSep) {
-            if (isNumber)
-                freezeBuilder()
-            isDecimalSep = true
-            frozenBuilder.append(mathFormat.decimalSeparator)
-        }
+        (elements.safeLast() as? Number)
+            ?.appendDecimalSeparator()
+            ?: elements.add(Number(mathFormat).apply { appendDecimalSeparator() })
     }
 
-    fun appendOperator(operator: MathOperator) = resetNumberAndDecimal {
-        checkIfOperatorIsAllowed {
-            val isPlusMinus = operator == MathOperator.PLUS_MINUS
+    fun appendScientificNotation() {
+        (elements.safeLast() as? Number)
+            ?.appendScientificNotation()
+            ?: elements.add(Number(mathFormat).apply { appendScientificNotation() })
+    }
+
+    fun appendScientificNumber(number: String) {
+        checkDebug(
+            debug,
+            { number.count { it == 'E' } == 1 }) { "String must contains a scientific notation" }
+        val lastNumber: Number = (elements.safeLast() as? Number) ?: Number(
+            mathFormat
+        )
+            .also { elements.add(it) }
+        if (lastNumber.isScientific) return
+        number.forEach { char ->
             when {
-                frozenBuilder.isEmpty() || frozenBuilder.last() == OPEN_BRACKET_SYMBOL -> {
-                    if (isPlusMinus || operator == MathOperator.MINUS)
-                        frozenBuilder.append(MINUS_SYMBOL)
-                }
-                isPlusMinus && frozenBuilder.last() == PLUS_SYMBOL -> frozenBuilder.replaceLast(MINUS_SYMBOL)
-                isPlusMinus && frozenBuilder.last() == MINUS_SYMBOL -> frozenBuilder.replaceLast(PLUS_SYMBOL)
-                frozenBuilder.checkLastIsOperator() -> frozenBuilder
-                    .replaceLast(if (isPlusMinus) PLUS_SYMBOL else operator.value)
-                else -> frozenBuilder.append(if (isPlusMinus) PLUS_SYMBOL else operator.value)
+                char.isDigit()
+                        || (char == MINUS_SYMBOL_CHAR && lastNumber.isScientific) -> lastNumber.append(char)
+                char == mathFormat.decimalSeparator -> lastNumber.appendDecimalSeparator()
+                char == 'E' -> lastNumber.appendScientificNotation()
             }
         }
     }
 
-    private inline fun checkIfOperatorIsAllowed(body: () -> Unit) {
-        when {
-            frozenBuilder.length == 1 && frozenBuilder.last() == MINUS_SYMBOL -> return
-            frozenBuilder.length >= 2 && frozenBuilder.last() == MINUS_SYMBOL
-                    && frozenBuilder[frozenBuilder.lastIndex - 1] == OPEN_BRACKET_SYMBOL -> return
-            else -> body()
+    fun appendOperator(operator: MathOperator) {
+        if (elements.isEmpty() || !(elements.size == 1 && elements.last is MinusOperator)) {
+            val isPlusMinus = operator == MathOperator.PLUS_MINUS
+            val lastElement = elements.safeLast()
+            when {
+                elements.isEmpty() || lastElement is OpenBracket -> {
+                    if (isPlusMinus || operator == MathOperator.MINUS)
+                        elements.add(MinusOperator())
+                }
+                isPlusMinus && lastElement is PlusOperator -> elements.replaceLast(
+                    MinusOperator()
+                )
+                isPlusMinus && lastElement is MinusOperator -> elements.replaceLast(
+                    PlusOperator()
+                )
+                lastElement is Operator -> elements.apply {
+                    val removedOperator = removeLast()
+                    if (last !is Bracket || operator == MathOperator.PLUS || operator == MathOperator.MINUS) {
+                        add(operator.value())
+                    } else add(removedOperator)
+                }
+                else -> elements.add(operator.value())
+            }
         }
     }
 
-    fun appendFunction(func: String) = resetNumberAndDecimal {
-        checkDebug(debug, { !func.any { !it.isLetter() } }) { "String must contains only letters" }
+    fun appendFunction(func: String) {
+        checkDebug(
+            debug,
+            { !func.any { !it.isLetter() || it.isUpperCase() } }) {
+            "String must contains only lower case letters"
+        }
         openBrackets++
-        frozenBuilder.append(func).append(OPEN_BRACKET_SYMBOL)
+        elements.add(Function(name = func))
     }
 
-    fun appendBracket(type: MathBracket) = resetNumberAndDecimal {
-        if (openBrackets <= 0 && type == MathBracket.CLOSE)
-            return@resetNumberAndDecimal
-        if (type == MathBracket.OPEN) openBrackets++ else openBrackets--
-        frozenBuilder.append(type.value)
+    fun appendBracket(type: MathBracket) {
+        if (openBrackets > 0 || type == MathBracket.OPEN) {
+            if (type == MathBracket.OPEN) openBrackets++ else openBrackets--
+            elements.add(type.value())
+        }
     }
 
     fun deleteLastElement() {
-        if (isNumber) {
-            activeBuilder.deleteCharAt(activeBuilder.lastIndex)
-            if (activeBuilder.isEmpty())
-                isNumber = false
-            return
-        }
-        if (frozenBuilder.isNotEmpty()) {
-            val current = frozenBuilder[frozenBuilder.lastIndex]
-            frozenBuilder.deleteCharAt(frozenBuilder.lastIndex)
-            when {
-                (frozenBuilder.isNotEmpty() && frozenBuilder.last().isDigit())
-                        || current.isDigit() -> deleteNumber()
-                current == OPEN_BRACKET_SYMBOL -> {
-                    openBrackets--
-                    deleteFunction()
-                }
-                current == CLOSE_BRACKET_SYMBOL -> openBrackets++
-                current == mathFormat.decimalSeparator -> isDecimalSep = false
+        if (elements.size > 0 && elements.last.delete()) {
+            when (elements.removeLast()) {
+                is OpenBracket, is Function -> openBrackets--
+                is CloseBracket -> openBrackets++
             }
-        }
-    }
-
-    private fun deleteNumber() {
-        checkDebug(debug, { activeBuilder.isEmpty() }) { "ActiveBuilder must be empty" }
-        val index = frozenBuilder.lastIndex
-        loop@ for (i in index downTo 0) {
-            val current = frozenBuilder[i]
-            when {
-                current == mathFormat.groupingSeparator -> frozenBuilder.deleteCharAt(i)
-                current.isDigit() -> {
-                    frozenBuilder.deleteCharAt(i)
-                    activeBuilder.append(current)
-                }
-                else -> break@loop
-            }
-        }
-        if (activeBuilder.isNotEmpty()) {
-            isNumber = true
-            activeBuilder.reverse()
-        }
-    }
-
-    private fun deleteFunction() {
-        val index = frozenBuilder.lastIndex
-        loop@ for (i in index downTo 0) {
-            if (!frozenBuilder[i].isLetter())
-                break@loop
-            frozenBuilder.deleteCharAt(i)
         }
     }
 
@@ -229,39 +217,9 @@ class MathExpression(
      * Reset MathExpression to the initialization state
      */
     fun clear() {
-        if (activeBuilder.isNotEmpty())
-            activeBuilder.clear()
-        if (frozenBuilder.isNotEmpty())
-            frozenBuilder.clear()
-        isDecimalSep = false
-        isNumber = false
+        if (builder.isNotEmpty())
+            builder.clear()
+        elements.clear()
         openBrackets = 0
-    }
-
-    /**
-     * Format the number within [activeBuilder] and append it to [frozenBuilder]
-     */
-    private fun freezeBuilder() {
-        // TODO: avoid crash when activeBuilder.toString().toLong() is greater than Long.MAX_VALUE
-        frozenBuilder.append(mathFormat.format(activeBuilder.toString().toLong()))
-        activeBuilder.clear()
-        isNumber = false
-    }
-
-    /**
-     * Fix function without an open bracket
-     */
-    private inline fun fixFunc(addOpenBracket: Boolean = true, body: () -> Unit) {
-        if (isFunc && addOpenBracket)
-            appendBracket(MathBracket.OPEN)
-        isFunc = false
-        body()
-    }
-
-    private inline fun resetNumberAndDecimal(block: () -> Unit) {
-        isDecimalSep = false
-        if (isNumber)
-            freezeBuilder()
-        block()
     }
 }

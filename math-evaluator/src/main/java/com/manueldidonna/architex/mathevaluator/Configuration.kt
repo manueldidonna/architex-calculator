@@ -1,5 +1,5 @@
 package com.manueldidonna.architex.mathevaluator
 
-data class MathConfiguration (
+data class Configuration (
     val maximumFractionDigits: Int  = 4
 )

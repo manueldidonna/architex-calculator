@@ -48,6 +48,9 @@ class ExpressionTest : FeatureSpec() {
             scenario("scan -> 3+(-/4*6))"){
                 mathExpression.scan(" 3+(-/4*6))") shouldBe "3+(-4×6)"
             }
+            scenario("scan -> 3+4,56E34,3"){
+                mathExpression.scan("3+4,56E34,3") shouldBe "3+4${mathFormat.decimalSeparator}56E343"
+            }
         }
     }
 }

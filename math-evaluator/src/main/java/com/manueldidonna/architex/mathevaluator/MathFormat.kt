@@ -1,5 +1,6 @@
 package com.manueldidonna.architex.mathevaluator
 
+import java.math.BigInteger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -10,11 +11,12 @@ interface MathFormat {
     fun format(number: Int): String
     fun format(number: Double): String
     fun format(number: Long): String
+    fun format(number: BigInteger): String
 }
 
 class StandardMathFormat(
     locale: Locale = Locale.ITALIAN,
-    configuration: MathConfiguration = MathConfiguration()
+    configuration: Configuration = Configuration()
 ) : MathFormat {
     private val decimalFormat = NumberFormat.getInstance(locale) as DecimalFormat
 
@@ -27,4 +29,5 @@ class StandardMathFormat(
     override fun format(number: Int): String = decimalFormat.format(number)
     override fun format(number: Double): String = decimalFormat.format(number)
     override fun format(number: Long): String = decimalFormat.format(number)
+    override fun format(number: BigInteger): String = decimalFormat.format(number)
 }

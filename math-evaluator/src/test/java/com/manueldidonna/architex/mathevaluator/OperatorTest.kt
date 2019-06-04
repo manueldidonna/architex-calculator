@@ -1,5 +1,9 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.internal.DIVIDE_SYMBOL
+import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL
+import com.manueldidonna.architex.mathevaluator.internal.MULTIPLY_SYMBOL
+import com.manueldidonna.architex.mathevaluator.internal.OPEN_BRACKET_SYMBOL
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -79,8 +83,8 @@ class OperatorTest : FeatureSpec() {
                     appendOperator(MathOperator.DIVIDE)
                 } shouldBe "-"
             }
-            scenario("sanitize an expression removes last operator"){
-                mathExpression.buildExpression(false){
+            scenario("sanitize an expression removes last operator") {
+                mathExpression.buildExpression(false) {
                     appendNumber("3")
                     appendOperator(MathOperator.PLUS)
                     appendNumber("4")
@@ -88,15 +92,15 @@ class OperatorTest : FeatureSpec() {
                 } shouldBe "3+4+"
                 mathExpression.buildExpression(sanitize = true) shouldBe "3+4"
             }
-            scenario("operators after an open bracket"){
-                mathExpression.buildExpression(false){
+            scenario("operators after an open bracket") {
+                mathExpression.buildExpression(false) {
                     appendNumber("3")
                     appendBracket(MathBracket.OPEN)
                     appendOperator(MathOperator.DIVIDE)
                     appendOperator(MathOperator.PLUS_MINUS)
                     appendOperator(MathOperator.MULTIPLY)
                     appendNumber("5")
-                } shouldBe "3${OPEN_BRACKET_SYMBOL}${MINUS_SYMBOL}5"
+                } shouldBe "3$OPEN_BRACKET_SYMBOL${MINUS_SYMBOL}5"
             }
         }
     }

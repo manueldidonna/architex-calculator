@@ -3,7 +3,6 @@ package com.manueldidonna.architex.mathevaluator
 import io.kotlintest.*
 import io.kotlintest.specs.FeatureSpec
 import io.mockk.spyk
-import io.mockk.verify
 import java.util.*
 
 class FunctionTest : FeatureSpec() {
@@ -12,7 +11,7 @@ class FunctionTest : FeatureSpec() {
 
     override fun beforeSpec(spec: Spec) {
         mathFormat = spyk(StandardMathFormat(Locale.ITALIAN))
-        mathExpression = spyk(MathExpression(mathFormat, debug = true), recordPrivateCalls = true)
+        mathExpression = spyk(MathExpression(mathFormat, debug = true))
     }
 
     override fun afterTest(testCase: TestCase, result: TestResult) {
@@ -37,9 +36,6 @@ class FunctionTest : FeatureSpec() {
                     deleteLastElement()
                     deleteLastElement()
                 } shouldBe ""
-                verify(exactly = 2) { mathExpression.deleteLastElement() }
-                verify(exactly = 1) { mathExpression["deleteFunction"]() }
-                verify(exactly = 0) { mathExpression["deleteNumber"]() }
             }
             scenario("function name must contains only letter") {
                 shouldThrow<IllegalArgumentException> { mathExpression.appendFunction("log3") }

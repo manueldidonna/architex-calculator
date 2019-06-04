@@ -11,7 +11,7 @@ class NumberTest : FeatureSpec() {
     private lateinit var mathFormat: MathFormat
 
     override fun beforeSpec(spec: Spec) {
-        val configuration = MathConfiguration(maximumFractionDigits = 4)
+        val configuration = Configuration(maximumFractionDigits = 4)
         mathFormat = spyk(StandardMathFormat(Locale.ITALIAN, configuration))
         mathExpression = spyk(MathExpression(mathFormat, debug = true))
     }
@@ -64,10 +64,24 @@ class NumberTest : FeatureSpec() {
             scenario("append letters with appendNumber()") {
                 shouldThrow<IllegalArgumentException> { mathExpression.appendNumber("3E") }
             }
-            scenario("scientific notation") {
+          scenario("scientific notation") {
                 mathExpression.buildExpression(false) {
-                    appendScientificNumber("2345,85e-4")
-                } shouldBe mathFormat.format("2345.85e-4".toDouble())
+                    clear()
+                    appendScientificNumber("2345,85E-4")
+                    appendDecimalSeparator()
+                    appendNumber("345")
+                } shouldBe "2.345,85E-4345"
+                // Can't combine two scientific number
+                mathExpression.buildExpression(false) {
+                    appendScientificNumber("3E5")
+                } shouldBe "2.345,85E-4345"
+
+                mathExpression.buildExpression(false) {
+                    clear()
+                    appendScientificNumber("12345E1234")
+                    appendOperator(MathOperator.PLUS)
+                    deleteLastElement()
+                } shouldBe "12.345E1234"
             }
         }
     }

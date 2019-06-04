@@ -1,5 +1,9 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_MULTIPLY_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.MULTIPLY_SYMBOL_CHAR
 import net.objecthunter.exp4j.ExpressionBuilder
 
 interface MathEvaluator {
@@ -16,8 +20,14 @@ class StandardMathEvaluator(private val mathFormat: MathFormat) : MathEvaluator 
     }
 
     private fun String.sanitizeForEvaluation(): String {
-        return replace(DIVIDE_SYMBOL, ALTERNATIVE_DIVIDE_SYMBOL)
-            .replace(MULTIPLY_SYMBOL, ALTERNATIVE_MULTIPLY_SYMBOL)
+        return replace(
+            DIVIDE_SYMBOL_CHAR,
+            ALTERNATIVE_DIVIDE_SYMBOL_CHAR
+        )
+            .replace(
+                MULTIPLY_SYMBOL_CHAR,
+                ALTERNATIVE_MULTIPLY_SYMBOL_CHAR
+            )
             .replace(mathFormat.groupingSeparator.toString(), "")
             .replace(mathFormat.decimalSeparator, '.')
     }

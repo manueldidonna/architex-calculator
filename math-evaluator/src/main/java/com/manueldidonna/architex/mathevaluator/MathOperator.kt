@@ -1,16 +1,15 @@
 package com.manueldidonna.architex.mathevaluator
 
-internal const val PLUS_SYMBOL = '+'
-internal const val MINUS_SYMBOL = '-'
-internal const val MULTIPLY_SYMBOL = '×'
-internal const val ALTERNATIVE_MULTIPLY_SYMBOL = '*'
-internal const val DIVIDE_SYMBOL = '÷'
-internal const val ALTERNATIVE_DIVIDE_SYMBOL = '/'
+import com.manueldidonna.architex.mathevaluator.internal.DivideOperator
+import com.manueldidonna.architex.mathevaluator.internal.MinusOperator
+import com.manueldidonna.architex.mathevaluator.internal.MultiplyOperator
+import com.manueldidonna.architex.mathevaluator.internal.Operator
+import com.manueldidonna.architex.mathevaluator.internal.PlusOperator
 
-enum class MathOperator(internal val value: Char) {
-    PLUS_MINUS('±'),
-    PLUS(PLUS_SYMBOL),
-    MINUS(MINUS_SYMBOL),
-    MULTIPLY(MULTIPLY_SYMBOL),
-    DIVIDE(DIVIDE_SYMBOL)
+enum class MathOperator(internal val value: () -> Operator) {
+    PLUS_MINUS({ PlusOperator() }),
+    PLUS({ PlusOperator() }),
+    MINUS({ MinusOperator() }),
+    MULTIPLY({ MultiplyOperator() }),
+    DIVIDE({ DivideOperator() })
 }
