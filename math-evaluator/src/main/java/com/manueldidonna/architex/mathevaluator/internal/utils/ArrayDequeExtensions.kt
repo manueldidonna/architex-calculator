@@ -10,12 +10,3 @@ inline fun <reified E> ArrayDeque<E>.replaceLast(newElement: E) {
     removeLast()
     add(newElement)
 }
-
-inline fun <reified E> ArrayDeque<E>.replaceLastWithCondition(
-    newElement: E,
-    condition: (lastElement: E) -> Boolean
-) {
-    if(condition(removeLast()))
-    removeLast()
-    add(newElement)
-}

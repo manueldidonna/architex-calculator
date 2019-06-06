@@ -22,7 +22,7 @@ class ExpressionTest : FeatureSpec() {
     }
 
     private fun MathExpression.scan(expr: String) = buildExpression(true) {
-        addExpression(expr, overwrite = true)
+        addExpression(expr, overwriteCurrentExpression = true)
     }
 
     init {

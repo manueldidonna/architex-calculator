@@ -1,22 +1,8 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_DIVIDE_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_MULTIPLY_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.Bracket
-import com.manueldidonna.architex.mathevaluator.internal.CLOSE_BRACKET_SYMBOL
-import com.manueldidonna.architex.mathevaluator.internal.CloseBracket
-import com.manueldidonna.architex.mathevaluator.internal.DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.internal.*
 import com.manueldidonna.architex.mathevaluator.internal.Function
-import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.MULTIPLY_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.MathElement
-import com.manueldidonna.architex.mathevaluator.internal.MinusOperator
 import com.manueldidonna.architex.mathevaluator.internal.Number
-import com.manueldidonna.architex.mathevaluator.internal.OPEN_BRACKET_SYMBOL
-import com.manueldidonna.architex.mathevaluator.internal.OpenBracket
-import com.manueldidonna.architex.mathevaluator.internal.Operator
-import com.manueldidonna.architex.mathevaluator.internal.PLUS_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.PlusOperator
 import com.manueldidonna.architex.mathevaluator.internal.utils.checkDebug
 import com.manueldidonna.architex.mathevaluator.internal.utils.replaceLast
 import com.manueldidonna.architex.mathevaluator.internal.utils.safeLast
@@ -44,7 +30,7 @@ class MathExpression(
     }
 
     /**
-     * if [overwrite] is true [newExpression] will overwrite
+     * if [overwriteCurrentExpression] is true [newExpression] will overwrite
      * the current one otherwise it's appended
      */
     fun addExpression(newExpression: String, overwriteCurrentExpression: Boolean) {
@@ -122,9 +108,7 @@ class MathExpression(
     }
 
     fun appendNumber(number: String) {
-        checkDebug(
-            debug,
-            { !number.any { !it.isDigit() } }) { "String must contains only digits" }
+        checkDebug(debug, { !number.any { !it.isDigit() } }) { "String must contains only digits" }
         (elements.safeLast() as? Number)
             ?.append(number)
             ?: elements.add(Number(mathFormat).apply { append(number) })
@@ -143,18 +127,14 @@ class MathExpression(
     }
 
     fun appendScientificNumber(number: String) {
-        checkDebug(
-            debug,
-            { number.count { it == 'E' } == 1 }) { "String must contains a scientific notation" }
-        val lastNumber: Number = (elements.safeLast() as? Number) ?: Number(
-            mathFormat
-        )
-            .also { elements.add(it) }
+        checkDebug(debug, { number.count { it == 'E' } == 1 }) { "String must contains a scientific notation" }
+        val lastNumber = (elements.safeLast() as? Number) ?: Number(mathFormat).also { elements.add(it) }
         if (lastNumber.isScientific) return
         number.forEach { char ->
             when {
-                char.isDigit()
-                        || (char == MINUS_SYMBOL_CHAR && lastNumber.isScientific) -> lastNumber.append(char)
+                char.isDigit() || (char == MINUS_SYMBOL_CHAR && lastNumber.isScientific) -> {
+                    lastNumber.append(char)
+                }
                 char == mathFormat.decimalSeparator -> lastNumber.appendDecimalSeparator()
                 char == 'E' -> lastNumber.appendScientificNotation()
             }
@@ -170,12 +150,8 @@ class MathExpression(
                     if (isPlusMinus || operator == MathOperator.MINUS)
                         elements.add(MinusOperator())
                 }
-                isPlusMinus && lastElement is PlusOperator -> elements.replaceLast(
-                    MinusOperator()
-                )
-                isPlusMinus && lastElement is MinusOperator -> elements.replaceLast(
-                    PlusOperator()
-                )
+                isPlusMinus && lastElement is PlusOperator -> elements.replaceLast(MinusOperator())
+                isPlusMinus && lastElement is MinusOperator -> elements.replaceLast(PlusOperator())
                 lastElement is Operator -> elements.apply {
                     val removedOperator = removeLast()
                     if (last !is Bracket || operator == MathOperator.PLUS || operator == MathOperator.MINUS) {
@@ -188,9 +164,7 @@ class MathExpression(
     }
 
     fun appendFunction(func: String) {
-        checkDebug(
-            debug,
-            { !func.any { !it.isLetter() || it.isUpperCase() } }) {
+        checkDebug(debug, { !func.any { !it.isLetter() || it.isUpperCase() } }) {
             "String must contains only lower case letters"
         }
         openBrackets++

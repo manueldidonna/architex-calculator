@@ -16,7 +16,7 @@ class BracketTest : FeatureSpec() {
 
     override fun beforeSpec(spec: Spec) {
         mathFormat = spyk(StandardMathFormat(Locale.ITALIAN))
-        mathExpression = spyk(MathExpression(mathFormat, debug = true), recordPrivateCalls = true)
+        mathExpression = spyk(MathExpression(mathFormat, debug = true))
     }
 
     override fun afterTest(testCase: TestCase, result: TestResult) {

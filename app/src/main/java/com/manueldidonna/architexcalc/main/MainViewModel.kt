@@ -1,16 +1,19 @@
 package com.manueldidonna.architexcalc.main
 
-import com.manueldidonna.architex.mathevaluator.*
+import com.manueldidonna.architex.mathevaluator.MathEvaluator
+import com.manueldidonna.architex.mathevaluator.MathExpression
+import com.manueldidonna.architex.mathevaluator.MathFormat
+import com.manueldidonna.architex.mathevaluator.MathResult
 import com.manueldidonna.architexcalc.core.base.BaseViewModel
 import com.manueldidonna.architexcalc.core.launchInteractor
 import com.manueldidonna.architexcalc.data.interactors.InsertHistoryInteractor
 import com.manueldidonna.architexcalc.main.numkeyboard.NumKeyboardEvent
-import org.threeten.bp.LocalDate
 import timber.log.Timber
 
 class MainViewModel(
     initialState: MainState,
     private val mathFormat: MathFormat,
+    private val scientificMathFormat: MathFormat,
     private val mathEvaluator: MathEvaluator,
     private val mathExpression: MathExpression,
     private val insertHistory: InsertHistoryInteractor
@@ -26,21 +29,21 @@ class MainViewModel(
     }
 
     private inline fun setExpression(crossinline expr: MathExpression.() -> Unit) = setState {
-        val newExpression = mathExpression.apply(expr).buildExpression(sanitize = true)
-        val notFormattedExpression = mathExpression.buildExpression(sanitize = false)
-        return@setState if (newExpression.isEmpty()) {
-            copy(expression = notFormattedExpression, result = "", errorOnResult = false)
-        } else {
-            when (val mathResult = mathExpression.eval(mathEvaluator)) {
-                is MathResult.Success -> copy(
-                    expression = notFormattedExpression,
-                    result = mathResult.format(mathFormat).let { formattedResult ->
-                        return@let if (formattedResult == newExpression) "" else formattedResult
-                    },
+        val formattedExpression = mathExpression.apply(expr).buildExpression(sanitize = true)
+        val unformattedExpression = mathExpression.buildExpression(sanitize = false)
+        if (formattedExpression.isEmpty())
+            return@setState copy(expression = unformattedExpression, result = "", errorOnResult = false)
+
+        return@setState when (val mathResult = mathEvaluator.eval(formattedExpression)) {
+            is MathResult.Success -> {
+                val resultMathFormat = if (mathResult.value > 999999) scientificMathFormat else mathFormat
+                copy(
+                    expression = unformattedExpression,
+                    result = mathResult.format(resultMathFormat),
                     errorOnResult = false
                 )
-                is MathResult.Error -> copy(errorOnResult = true)
             }
+            is MathResult.Error -> copy(expression = unformattedExpression, errorOnResult = true)
         }
     }
 
@@ -53,12 +56,11 @@ class MainViewModel(
         coroutineScope.launchInteractor(
             interactor = insertHistory,
             param = InsertHistoryInteractor.Params(
-                date = LocalDate.now().toString(),
                 expression = mathExpression.buildExpression(sanitize = true),
                 result = result
             )
         )
-        mathExpression.addExpression(this.result, overwrite = true)
+        mathExpression.addExpression(this.result, overwriteCurrentExpression = true)
         return@setState copy(expression = this.result, result = "", errorOnResult = false)
     }
 

@@ -3,8 +3,7 @@ package com.manueldidonna.architex.mathevaluator.internal
 import com.manueldidonna.architex.mathevaluator.MathFormat
 import java.math.BigInteger
 
-internal data class Number(private val mathFormat: MathFormat) :
-    MathElement {
+internal data class Number(private val mathFormat: MathFormat) : MathElement {
     private val activeBuilder = StringBuilder()
     private val frozenBuilder = StringBuilder()
     var isDecimal = false

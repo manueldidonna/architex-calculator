@@ -21,7 +21,14 @@ class StandardMathFormat(
     private val decimalFormat = NumberFormat.getInstance(locale) as DecimalFormat
 
     init {
-        decimalFormat.maximumFractionDigits = configuration.maximumFractionDigits
+        decimalFormat.apply {
+            if (configuration.useScientificNotation)
+                applyPattern("0.0E0")
+            minimumFractionDigits = configuration.minimumFractionDigits
+            maximumFractionDigits = configuration.maximumFractionDigits
+            minimumIntegerDigits = configuration.minimumIntegerDigits
+            maximumIntegerDigits = configuration.maximumIntegerDigits
+        }
     }
 
     override val groupingSeparator = decimalFormat.decimalFormatSymbols.groupingSeparator

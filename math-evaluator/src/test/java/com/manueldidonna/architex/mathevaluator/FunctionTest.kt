@@ -26,7 +26,7 @@ class FunctionTest : FeatureSpec() {
                     appendNumber("3")
                 } shouldBe "log(3)"
                 mathExpression.buildExpression(true) {
-                    addExpression("log3", overwrite = true)
+                    addExpression("log3", overwriteCurrentExpression = true)
                 } shouldBe "log(3)"
             }
             scenario("delete a function") {
