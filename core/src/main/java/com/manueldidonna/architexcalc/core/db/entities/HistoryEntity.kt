@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "history")
 data class HistoryEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") override val id: Long = 0,
-    @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "expression") val expression: String,
     @ColumnInfo(name = "result") val result: String
 ) : BaseEntity

@@ -14,14 +14,13 @@ class InsertHistoryInteractor(
     override suspend fun invoke(param: Params) {
         historyDao.insert(
             HistoryEntity(
-                date = param.date,
                 expression = param.expression,
                 result = param.result
             )
         )
     }
 
-    data class Params(val date: String, val expression: String, val result: String)
+    data class Params(val expression: String, val result: String)
 }
 
 
