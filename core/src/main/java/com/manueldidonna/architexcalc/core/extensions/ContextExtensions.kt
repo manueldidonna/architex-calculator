@@ -1,5 +1,6 @@
 package com.manueldidonna.architexcalc.core.extensions
 
+import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Resources
@@ -10,6 +11,11 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 
 fun Context.clipboardManager() = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+fun Context.saveTextToClipBoard(label: String, text: String) {
+    (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
+        .primaryClip = ClipData.newPlainText(label, text)
+}
 
 fun Context.shortToast(@StringRes resText: Int) {
     Toast.makeText(this, resText, Toast.LENGTH_SHORT).show()

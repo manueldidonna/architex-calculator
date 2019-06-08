@@ -19,6 +19,10 @@ class MainViewModel(
     private val insertHistory: InsertHistoryInteractor
 ) : BaseViewModel<MainState>(initialState) {
 
+    fun appendExpression(newExpression: String, overwriteCurrentExpression: Boolean) {
+        setExpression { addExpression(newExpression, overwriteCurrentExpression) }
+    }
+
     fun dispatch(event: NumKeyboardEvent) = when (event) {
         is NumKeyboardEvent.DecimalSeparator -> setExpression { appendDecimalSeparator() }
         is NumKeyboardEvent.Number -> setExpression { appendNumber(event.value) }
@@ -36,7 +40,7 @@ class MainViewModel(
 
         return@setState when (val mathResult = mathEvaluator.eval(formattedExpression)) {
             is MathResult.Success -> {
-                val resultMathFormat = if (mathResult.value > 999999) scientificMathFormat else mathFormat
+                val resultMathFormat = if (mathResult.value > 999999999) scientificMathFormat else mathFormat
                 copy(
                     expression = unformattedExpression,
                     result = mathResult.format(resultMathFormat),
