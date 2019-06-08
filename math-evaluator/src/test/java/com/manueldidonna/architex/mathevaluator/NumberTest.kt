@@ -1,5 +1,6 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL
 import io.kotlintest.*
 import io.kotlintest.specs.FeatureSpec
 import io.mockk.spyk
@@ -70,11 +71,11 @@ class NumberTest : FeatureSpec() {
                     appendScientificNumber("2345,85E-4")
                     appendDecimalSeparator()
                     appendNumber("345")
-                } shouldBe "2.345,85E-4345"
+                } shouldBe "2.345,85E${MINUS_SYMBOL}4345"
                 // Can't combine two scientific number
                 mathExpression.buildExpression(false) {
                     appendScientificNumber("3E5")
-                } shouldBe "2.345,85E-4345"
+                } shouldBe "2.345,85E${MINUS_SYMBOL}4345"
 
                 mathExpression.buildExpression(false) {
                     clear()
@@ -82,6 +83,25 @@ class NumberTest : FeatureSpec() {
                     appendOperator(MathOperator.PLUS)
                     deleteLastElement()
                 } shouldBe "12.345E1234"
+            }
+            scenario("multiple zeros"){
+                mathExpression.buildExpression(true) {
+                    appendNumber("0")
+                    appendNumber("0")
+                    appendNumber("0")
+                    appendNumber("0")
+                    appendNumber("7")
+                } shouldBe "7"
+
+                mathExpression.buildExpression(true){
+                    deleteLastElement()
+                } shouldBe ""
+            }
+            scenario("number with only decimals"){
+                mathExpression.buildExpression(true){
+                    appendDecimalSeparator()
+                    appendNumber("345")
+                } shouldBe "${mathFormat.decimalSeparator}345"
             }
         }
     }

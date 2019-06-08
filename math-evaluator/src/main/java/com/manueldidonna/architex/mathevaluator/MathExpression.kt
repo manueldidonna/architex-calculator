@@ -126,9 +126,8 @@ class MathExpression(
         if (lastNumber.isScientific) return
         number.forEach { char ->
             when {
-                char.isDigit() || (char.isMinusSymbol() && lastNumber.isScientific) -> {
-                    lastNumber.append(char)
-                }
+                char.isDigit() -> lastNumber.append(char)
+                char.isMinusSymbol() && lastNumber.isScientific -> lastNumber.append(MINUS_SYMBOL_CHAR)
                 char == mathFormat.decimalSeparator -> lastNumber.appendDecimalSeparator()
                 char == 'E' -> lastNumber.appendScientificNotation()
             }

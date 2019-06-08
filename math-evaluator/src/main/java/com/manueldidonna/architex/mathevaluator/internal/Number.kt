@@ -15,7 +15,12 @@ internal data class Number(private val mathFormat: MathFormat) : MathElement {
         if (isDecimal || isScientific) {
             frozenBuilder.append(newNumber)
         } else {
-            activeBuilder.append(newNumber)
+            // there isn't a check for string with multiple zeros. ex: "000" will be accepted
+            if (newNumber != "0" || activeBuilder.toString() != "0") {
+                if (newNumber != "0" && activeBuilder.toString() == "0")
+                    activeBuilder.deleteCharAt(activeBuilder.lastIndex)
+                activeBuilder.append(newNumber)
+            }
         }
     }
 
@@ -23,7 +28,11 @@ internal data class Number(private val mathFormat: MathFormat) : MathElement {
         if (isDecimal || isScientific) {
             frozenBuilder.append(newNumber)
         } else {
-            activeBuilder.append(newNumber)
+            if (newNumber != '0' || activeBuilder.toString() != "0") {
+                if (newNumber != '0' && activeBuilder.toString() == "0")
+                    activeBuilder.deleteCharAt(activeBuilder.lastIndex)
+                activeBuilder.append(newNumber)
+            }
         }
     }
 
@@ -42,9 +51,14 @@ internal data class Number(private val mathFormat: MathFormat) : MathElement {
     }
 
     override val value: String
-        get() = if (frozenBuilder.isNotEmpty()) {
-            mathFormat.format(BigInteger(activeBuilder.toString())) + frozenBuilder.toString()
-        } else mathFormat.format(BigInteger(activeBuilder.toString()))
+        get() = when {
+            frozenBuilder.isNotEmpty() && activeBuilder.isNotEmpty() -> {
+                mathFormat.format(BigInteger(activeBuilder.toString())) + frozenBuilder.toString()
+            }
+            frozenBuilder.isNotEmpty() -> frozenBuilder.toString()
+            activeBuilder.isNotEmpty() -> mathFormat.format(BigInteger(activeBuilder.toString()))
+            else -> ""
+        }
 
     override fun delete(): Boolean {
         if (frozenBuilder.isNotEmpty())
