@@ -1,5 +1,6 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -37,7 +38,7 @@ class ExpressionTest : FeatureSpec() {
                 mathExpression.scan("+4*6") shouldBe "4×6"
             }
             scenario("scan -> -/5") {
-                mathExpression.scan("-/5") shouldBe "-5"
+                mathExpression.scan("-/5") shouldBe "${MINUS_SYMBOL}5"
             }
             scenario("scan -> 3-/5") {
                 mathExpression.scan("3-/5") shouldBe "3÷5"
@@ -46,7 +47,7 @@ class ExpressionTest : FeatureSpec() {
                 mathExpression.scan("3+(log4)/(5+2)") shouldBe "3+(log(4)÷(5+2))"
             }
             scenario("scan -> 3+(-/4*6))"){
-                mathExpression.scan(" 3+(-/4*6))") shouldBe "3+(-4×6)"
+                mathExpression.scan(" 3+(-/4*6))") shouldBe "3+(${MINUS_SYMBOL}4×6)"
             }
             scenario("scan -> 3+4,56E34,3"){
                 mathExpression.scan("3+4,56E34,3") shouldBe "3+4${mathFormat.decimalSeparator}56E343"

@@ -36,20 +36,20 @@ class OperatorTest : FeatureSpec() {
             scenario("plus&minus with an empty string") {
                 mathExpression.buildExpression(false) {
                     appendOperator(MathOperator.PLUS_MINUS)
-                } shouldBe "-"
+                } shouldBe MINUS_SYMBOL
             }
             scenario("plus&minus twice in a row") {
                 mathExpression.buildExpression(false) {
                     appendNumber("1")
                     appendOperator(MathOperator.PLUS_MINUS)
                     appendOperator(MathOperator.PLUS_MINUS)
-                } shouldBe "1-"
+                } shouldBe "1$MINUS_SYMBOL"
             }
             scenario("plus&minus twice in a row with an empty string") {
                 mathExpression.buildExpression(false) {
                     appendOperator(MathOperator.PLUS_MINUS)
                     appendOperator(MathOperator.PLUS_MINUS)
-                } shouldBe "-"
+                } shouldBe MINUS_SYMBOL
             }
             scenario("multiply/divide/plus with an empty string") {
                 mathExpression.buildExpression(false) {
@@ -81,7 +81,7 @@ class OperatorTest : FeatureSpec() {
                     clear()
                     appendOperator(MathOperator.MINUS)
                     appendOperator(MathOperator.DIVIDE)
-                } shouldBe "-"
+                } shouldBe MINUS_SYMBOL
             }
             scenario("sanitize an expression removes last operator") {
                 mathExpression.buildExpression(false) {

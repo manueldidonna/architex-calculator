@@ -3,9 +3,7 @@ package com.manueldidonna.architex.mathevaluator
 import com.manueldidonna.architex.mathevaluator.internal.*
 import com.manueldidonna.architex.mathevaluator.internal.Function
 import com.manueldidonna.architex.mathevaluator.internal.Number
-import com.manueldidonna.architex.mathevaluator.internal.utils.checkDebug
-import com.manueldidonna.architex.mathevaluator.internal.utils.replaceLast
-import com.manueldidonna.architex.mathevaluator.internal.utils.safeLast
+import com.manueldidonna.architex.mathevaluator.internal.utils.*
 import java.util.*
 
 fun MathExpression.eval(evaluator: MathEvaluator): MathResult = evaluator.eval(buildExpression(true))
@@ -79,13 +77,9 @@ class MathExpression(
                     currentFuncName += char
                 }
                 char == PLUS_SYMBOL_CHAR -> fixFunc { appendOperator(MathOperator.PLUS) }
-                char == MINUS_SYMBOL_CHAR -> fixFunc { appendOperator(MathOperator.MINUS) }
-                char == DIVIDE_SYMBOL_CHAR || char == ALTERNATIVE_DIVIDE_SYMBOL_CHAR -> fixFunc {
-                    appendOperator(MathOperator.DIVIDE)
-                }
-                char == MULTIPLY_SYMBOL_CHAR || char == ALTERNATIVE_MULTIPLY_SYMBOL_CHAR -> fixFunc {
-                    appendOperator(MathOperator.MULTIPLY)
-                }
+                char.isMinusSymbol() -> fixFunc { appendOperator(MathOperator.MINUS) }
+                char.isDivideSymbol() -> fixFunc { appendOperator(MathOperator.DIVIDE) }
+                char.isMultiplySimbol() -> fixFunc { appendOperator(MathOperator.MULTIPLY) }
             }
         }
     }
@@ -132,7 +126,7 @@ class MathExpression(
         if (lastNumber.isScientific) return
         number.forEach { char ->
             when {
-                char.isDigit() || (char == MINUS_SYMBOL_CHAR && lastNumber.isScientific) -> {
+                char.isDigit() || (char.isMinusSymbol() && lastNumber.isScientific) -> {
                     lastNumber.append(char)
                 }
                 char == mathFormat.decimalSeparator -> lastNumber.appendDecimalSeparator()
