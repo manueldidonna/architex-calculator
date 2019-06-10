@@ -1,9 +1,8 @@
 package com.manueldidonna.architexcalc.core
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.disposables.Disposable
+import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.Subject
 import kotlinx.coroutines.*
 
 interface Interactor<in P> {
@@ -11,24 +10,15 @@ interface Interactor<in P> {
     suspend operator fun invoke(param: P)
 }
 
-abstract class RxInteractor<in P, T> : Interactor<P> {
-    override val dispatcher: CoroutineDispatcher = Dispatchers.Default
+abstract class RxInteractor<P : Any, T> {
+    private val subject: Subject<P> = BehaviorSubject.create()
+    private val observable = subject.switchMap(::createObservable)
 
-    private var disposable: Disposable? = null
-    private val subject: BehaviorSubject<T> = BehaviorSubject.create()
+    operator fun invoke(params: P) = subject.onNext(params)
 
-    fun observe(): Flowable<T> = subject.toFlowable(BackpressureStrategy.LATEST)
+    protected abstract fun createObservable(params: P): Observable<T>
 
-    fun dispose(){
-        disposable?.dispose()
-    }
-
-    final override suspend fun invoke(param: P) {
-        disposable?.dispose()
-        disposable = createObservable(param).subscribe(subject::onNext, subject::onError)
-    }
-
-    protected abstract fun createObservable(params: P): Flowable<T>
+    fun observe(): Observable<T> = observable
 }
 
 fun <P> CoroutineScope.launchInteractor(interactor: Interactor<P>, param: P): Job {

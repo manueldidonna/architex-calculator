@@ -10,19 +10,15 @@ import com.manueldidonna.architexcalc.history.data.interactors.GetHistoryInterac
 
 class HistoryViewModel(
     initialState: HistoryState,
-    private val getHistory: GetHistoryInteractor,
+    getHistory: GetHistoryInteractor,
     private val deleteHistory: DeleteHistoryInteractor,
     private val prefsManager: PreferencesManager
 ) : BaseViewModel<HistoryState>(initialState) {
 
     init {
-        prefsManager.observe(CorePreferences.ASK_CONFIRM).autoSubscribe { newValue ->
-            setState { copy(askConfirmation = newValue) }
-        }
-        getHistory.observe().autoSubscribe { items ->
+        getHistory().observe().autoSubscribe { items ->
             setState { copy(data = items) }
         }
-        coroutineScope.launchInteractor(getHistory)
     }
 
     fun setAskConfirmation(value: Boolean) {
@@ -84,8 +80,4 @@ class HistoryViewModel(
         subscribeState(subscriber = subscriber)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        getHistory.dispose()
-    }
 }
