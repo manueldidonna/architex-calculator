@@ -1,10 +1,11 @@
 package com.manueldidonna.architexcalc.history.data.epoxy
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
@@ -14,6 +15,7 @@ import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.airbnb.epoxy.*
 import com.manueldidonna.architexcalc.core.extensions.setSelectableBackground
+import com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
 import com.manueldidonna.architexcalc.history.R
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -24,18 +26,20 @@ class EpoxyHistoryItem @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private val expressionView: TextView
-    private val resultVIew: TextView
+    private val expressionView: HorizontalScrollTextView
+    private val resultView: HorizontalScrollTextView
     private val checkBox: AppCompatCheckBox
 
     init {
         inflate(context, R.layout.epoxy_view_history_item, this)
         setSelectableBackground()
-        expressionView = findViewById<TextView>(R.id.expression).apply {
+        expressionView = findViewById<HorizontalScrollTextView>(R.id.expression).apply {
             transitionName = EXPRESSION_TRANSITION_NAME
+            setOnTouchListener(FixedTouchListener(this, this@EpoxyHistoryItem))
         }
-        resultVIew = findViewById<TextView>(R.id.result).apply {
+        resultView = findViewById<HorizontalScrollTextView>(R.id.result).apply {
             transitionName = RESULT_TRANSITION_NAME
+            setOnTouchListener(FixedTouchListener(this, this@EpoxyHistoryItem))
         }
         checkBox = findViewById<AppCompatCheckBox>(R.id.selection_check_box).apply {
             transitionName = CHECK_TRANSITION_NAME
@@ -49,7 +53,7 @@ class EpoxyHistoryItem @JvmOverloads constructor(
 
     @TextProp
     fun setResult(text: CharSequence) {
-        resultVIew.text = text
+        resultView.text = text
     }
 
     var showCheckBox: Boolean? = null
@@ -81,6 +85,54 @@ class EpoxyHistoryItem @JvmOverloads constructor(
                 listener?.invoke(true)
                 true
             }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private class FixedTouchListener(
+        private val scrollView: HorizontalScrollTextView,
+        private val parentView: View
+    ) : OnTouchListener {
+        private var pressedX = 0F
+        private var pressedY = 0F
+        private var stayedWithinClickDistance = true
+
+        override fun onTouch(v: View, event: MotionEvent): Boolean {
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    pressedX = event.x
+                    pressedY = event.y
+                    stayedWithinClickDistance = true
+                    parentView.onTouchEvent(event)
+                }
+                MotionEvent.ACTION_UP,
+                MotionEvent.ACTION_CANCEL -> parentView.onTouchEvent(event)
+                MotionEvent.ACTION_MOVE -> if (scrollView.canScroll) {
+                    if (isTouchWithinCustomDistanceInDp(event)) {
+                        parentView.onTouchEvent(event)
+                    } else {
+                        val ev = MotionEvent.obtain(event)
+                        ev.action = MotionEvent.ACTION_CANCEL
+                        parentView.onTouchEvent(ev)
+                        ev.recycle()
+                    }
+                } else parentView.onTouchEvent(event)
+            }
+            return false
+        }
+
+        private fun isTouchWithinCustomDistanceInDp(event: MotionEvent): Boolean {
+            if (stayedWithinClickDistance && measureDistance(pressedX, pressedY, event.x, event.y) > 15) {
+                stayedWithinClickDistance = false
+            }
+            return stayedWithinClickDistance
+        }
+
+        private fun measureDistance(x1: Float, y1: Float, x2: Float, y2: Float): Float {
+            val dx = x2 - x1
+            val dy = y2 - y1
+            val pixelDistance = Math.sqrt((dx * dx + dy * dy).toDouble()).toFloat()
+            return (pixelDistance / parentView.context.resources.displayMetrics.density)
         }
     }
 

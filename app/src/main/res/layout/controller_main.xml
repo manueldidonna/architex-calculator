@@ -40,8 +40,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/horiz_line_upper"
- />
+        app:layout_constraintTop_toTopOf="@+id/horiz_line_upper" />
 
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
         android:id="@+id/pager_indicator"
@@ -71,49 +70,40 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@+id/pager_indicator"
-        app:layout_constraintTop_toTopOf="@+id/horiz_line_upper"
-    />
+        app:layout_constraintTop_toTopOf="@+id/horiz_line_upper" />
 
-    <TextView
-        android:id="@+id/expression_text_view"
+    <com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
+        android:id="@+id/scrollable_expression"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        android:ellipsize="none"
-        android:gravity="bottom|center_vertical|end"
-        android:scrollHorizontally="true"
-        android:paddingStart="24dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="8dp"
-        android:singleLine="true"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        android:textSize="48sp"
-        android:textColor="?attr/textColorMediumEmphasis"
-        app:layout_constraintBottom_toTopOf="@+id/result_text_view"
+        app:layout_constraintBottom_toTopOf="@+id/scrollable_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="159 + 159" />
+        app:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        app:textColor="?attr/textColorMediumEmphasis"
+        app:textSize="48sp"
+        app:textGravity="end"
+        tools:text="156+156"/>
 
-    <TextView
-            android:id="@+id/result_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:paddingStart="24dp"
-            android:paddingTop="8dp"
-            android:gravity="bottom|center_vertical|end"
-            android:scrollHorizontally="true"
-            android:ellipsize="none"
-            android:paddingEnd="24dp"
-            android:paddingBottom="8dp"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            android:textColor="?attr/textColorHighEmphasis"
-            android:textSize="60sp"
-            app:layout_constraintBottom_toTopOf="@+id/horiz_line_upper"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="318"/>
+    <com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
+        android:id="@+id/scrollable_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@+id/horiz_line_upper"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+        app:textColor="?attr/textColorHighEmphasis"
+        app:textSize="60sp"
+        app:textGravity="end"
+        tools:text="312"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

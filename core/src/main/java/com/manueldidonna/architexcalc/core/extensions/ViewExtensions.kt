@@ -2,11 +2,14 @@ package com.manueldidonna.architexcalc.core.extensions
 
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.manueldidonna.architexcalc.core.R
+
+inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(): T = layoutParams as T
 
 fun View.setSelectableBackground() {
     val backgroundValue = TypedValue()
