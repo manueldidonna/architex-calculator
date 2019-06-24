@@ -37,17 +37,11 @@ fun ExtendedFloatingActionButton.setRecyclerView(recycler: RecyclerView) {
     })
 }
 
-inline fun EpoxyRecyclerView.buildModels(crossinline buildModels: EpoxyController.() -> Unit) {
-    buildModelsWith {
-        it.buildModels()
-    }
-}
-
 inline fun <T> EpoxyRecyclerView.iterateAndBuildModels(
     data: List<T>,
     crossinline buildModels: EpoxyController.(index: Int, element: T) -> Unit
-) = buildModelsWith { controller ->
+) = withModels {
     data.forEachIndexed { index, element ->
-        controller.buildModels(index, element)
+        buildModels(index, element)
     }
 }

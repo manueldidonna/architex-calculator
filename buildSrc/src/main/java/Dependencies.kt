@@ -39,7 +39,7 @@ private object Versions {
     const val timber = "4.7.1"
     const val threetenabp = "1.2.0"
     // AirBnb
-    const val epoxy = "3.4.2"
+    const val epoxy = "3.6.0"
     // Rx
     const val rxKotlin = "2.2.0"
     const val rxAndroid = "2.1.0"
