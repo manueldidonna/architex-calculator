@@ -9,16 +9,16 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.manueldidonna.arch.view.ArxInteractiveView
-import com.manueldidonna.arch.view.createSubject
+import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.architexcalc.core.extensions.iterateAndBuildModels
 import com.manueldidonna.architexcalc.core.ui.FixedDividerItemDecoration
 import com.manueldidonna.architexcalc.settings.R2
 import com.manueldidonna.architexcalc.settings.data.epoxy.epoxyLicenseItem
-import io.reactivex.Observable
 
-internal class LicensesView(view: View, licenses: List<LicenseItem>) : ArxInteractiveView<LicensesEvent> {
-    private val subject = createSubject()
-
+internal class LicensesView(
+    view: View,
+    licenses: List<LicenseItem>
+) : ArxInteractiveView<LicensesEvent> by ArxSubjectView() {
     @BindString(R2.string.licenses_toolbar_title)
     lateinit var licensesTitleValue: String
     @BindView(R2.id.toolbar_navigation_icon)
@@ -31,7 +31,7 @@ internal class LicensesView(view: View, licenses: List<LicenseItem>) : ArxIntera
     init {
         ButterKnife.bind(this, view)
         toolbarTitle.text = licensesTitleValue
-        navigationIcon.setOnClickListener { emit(LicensesEvent.GoBack) }
+        navigationIcon.setOnClickListener { emitEvent(LicensesEvent.GoBack) }
         recycler.apply {
             addItemDecoration(FixedDividerItemDecoration(recycler.context, LinearLayout.VERTICAL))
             iterateAndBuildModels(licenses) { index, item ->
@@ -40,19 +40,10 @@ internal class LicensesView(view: View, licenses: List<LicenseItem>) : ArxIntera
                     name(item.name)
                     type(item.type)
                     listener { _ ->
-                        emit(LicensesEvent.OpenLicenseUrl(item.url))
+                        emitEvent(LicensesEvent.OpenLicenseUrl(item.url))
                     }
                 }
             }
         }
-    }
-
-
-    override fun getUserInteractionEvents(): Observable<LicensesEvent> {
-        return subject
-    }
-
-    private fun emit(event: LicensesEvent) {
-        subject.onNext(event)
     }
 }

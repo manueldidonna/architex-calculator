@@ -6,13 +6,12 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.manueldidonna.arch.state.ArxState
 import com.manueldidonna.arch.view.ArxInteractiveView
+import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.arch.view.ArxViewBinder
-import com.manueldidonna.arch.view.createSubject
-import io.reactivex.Observable
 
 @Suppress("LeakingThis")
 abstract class BaseContainerView<S : ArxState, E : Any>(view: View) : ArxViewBinder<S>(view),
-    ArxInteractiveView<E> {
+    ArxInteractiveView<E> by ArxSubjectView() {
 
     inline fun <reified T : View> findView(@IdRes viewId: Int) = lazy {
         view.findViewById<T>(viewId)
@@ -20,17 +19,7 @@ abstract class BaseContainerView<S : ArxState, E : Any>(view: View) : ArxViewBin
 
     protected val unbinder: Unbinder = ButterKnife.bind(this, view)
 
-    private val subject = createSubject()
-
-    final override fun getUserInteractionEvents(): Observable<E> {
-        return subject
-    }
-
     protected fun View.emitOnClick(event: E) {
-        setOnClickListener { subject.onNext(event) }
-    }
-
-    protected fun emit(event: E) {
-        subject.onNext(event)
+        setOnClickListener { emitEvent(event) }
     }
 }

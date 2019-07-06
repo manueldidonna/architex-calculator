@@ -4,20 +4,18 @@ import android.view.View
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.manueldidonna.arch.view.ArxInteractiveView
-import com.manueldidonna.arch.view.createSubject
+import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.architexcalc.R
-import io.reactivex.Observable
 
 class FuncKeyboardView(
     view: View,
-    funcs: List<String>,
+    functions: List<String>,
     constants: List<String>
-) : ArxInteractiveView<FuncKeyboardEvent> {
-    private val subject = createSubject()
+) : ArxInteractiveView<FuncKeyboardEvent> by ArxSubjectView() {
 
     init {
         view.findViewById<EpoxyRecyclerView>(R.id.func_recycler).withModels {
-            iterateWithHeader("Math functions", funcs) {}
+            iterateWithHeader("Math functions", functions) {}
             iterateWithHeader("Constants", constants) {}
         }
     }
@@ -40,5 +38,4 @@ class FuncKeyboardView(
         }
     }
 
-    override fun getUserInteractionEvents(): Observable<FuncKeyboardEvent> = subject
 }

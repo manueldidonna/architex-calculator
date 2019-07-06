@@ -17,6 +17,7 @@ interface ArxRenderView<S> : ArxView {
  */
 interface ArxInteractiveView<E : Any> : ArxView {
     fun getUserInteractionEvents(): Observable<E>
+    fun emitEvent(event: E)
 }
 
 fun <E : Any> ArxInteractiveView<E>.createSubject(): Subject<E> {

@@ -34,14 +34,14 @@ class MainView(view: View, adapter: PagerAdapter) : BaseContainerView<MainState,
         historyButton.emitOnClick(MainEvent.History)
         settingsButton.emitOnClick(MainEvent.Settings)
         scrollableExpression.onChildLongClickListener {
-            emit(MainEvent.CopyPasteExpression(scrollableExpression.text.toString()))
+            emitEvent(MainEvent.CopyPasteExpression(scrollableExpression.text.toString()))
             return@onChildLongClickListener true
         }
         scrollableResult.onChildLongClickListener {
             val textToCopy = scrollableResult.text.toString()
             if (textToCopy.isEmpty() || textToCopy == panelErrorMessage)
                 return@onChildLongClickListener false
-            emit(MainEvent.CopyResult(textToCopy))
+            emitEvent(MainEvent.CopyResult(textToCopy))
             return@onChildLongClickListener true
         }
 

@@ -44,10 +44,10 @@ class SettingsView(view: View) : BaseContainerView<SettingsState, SettingsEvent>
         licensesButton.emitOnClick(SettingsEvent.Licenses)
         githubButton.emitOnClick((SettingsEvent.GithubPage))
         askClearHistorySwitch.setOnCheckedChangeListener { _, isChecked ->
-            emit(SettingsEvent.AskClearHistoryConfirmation(isChecked))
+            emitEvent(SettingsEvent.AskClearHistoryConfirmation(isChecked))
         }
         doubleTapExitSwitch.setOnCheckedChangeListener { _, isChecked ->
-            emit(SettingsEvent.DoubleTapExit(isChecked))
+            emitEvent(SettingsEvent.DoubleTapExit(isChecked))
         }
 
         bind(SettingsState::askConfirmation) { askConfirm ->
