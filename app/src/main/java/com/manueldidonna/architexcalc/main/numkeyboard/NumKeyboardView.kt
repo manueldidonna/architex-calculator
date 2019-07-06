@@ -4,11 +4,13 @@ import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.BindViews
+import butterknife.ButterKnife
+import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.architex.mathevaluator.MathOperator
 import com.manueldidonna.architexcalc.R
 
-class NumKeyboardView(view: View) : ArxSubjectView<NumKeyboardEvent>(view) {
+class NumKeyboardView(view: View) : ArxInteractiveView<NumKeyboardEvent> by ArxSubjectView() {
 
     @BindViews(
         R.id.zero_button, R.id.one_button, R.id.two_button, R.id.three_button, R.id.four_button,
@@ -29,6 +31,7 @@ class NumKeyboardView(view: View) : ArxSubjectView<NumKeyboardEvent>(view) {
     lateinit var cancelButton: TextView
 
     init {
+        ButterKnife.bind(this, view)
         numberButtons.forEachIndexed { index, button ->
             button.clickInvoke(NumKeyboardEvent.Number(index.toString()))
         }
@@ -44,13 +47,13 @@ class NumKeyboardView(view: View) : ArxSubjectView<NumKeyboardEvent>(view) {
         cancelButton.clickInvoke(NumKeyboardEvent.Cancel)
         // long click -> clear all
         cancelButton.setOnLongClickListener {
-            emit(NumKeyboardEvent.Clear)
+            emitEvent(NumKeyboardEvent.Clear)
             return@setOnLongClickListener true
         }
     }
 
     private fun View.clickInvoke(event: NumKeyboardEvent) {
-        setOnClickListener { emit(event) }
+        setOnClickListener { emitEvent(event) }
     }
 
 }
