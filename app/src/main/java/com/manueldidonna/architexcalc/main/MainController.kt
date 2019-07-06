@@ -13,8 +13,10 @@ import com.manueldidonna.architexcalc.core.extensions.saveTextToClipBoard
 import com.manueldidonna.architexcalc.core.extensions.setRootController
 import com.manueldidonna.architexcalc.core.extensions.shortToast
 import com.manueldidonna.architexcalc.main.copypaste.CopyPasteDialog
+import com.manueldidonna.architexcalc.main.funckeyboard.FuncKeyboardController
 import com.manueldidonna.architexcalc.main.numkeyboard.NumKeyboardController
 import org.koin.core.parameter.parametersOf
+import java.lang.IllegalStateException
 
 class MainController : BaseController<MainView>(), CopyPasteDialog.Listener {
 
@@ -25,12 +27,13 @@ class MainController : BaseController<MainView>(), CopyPasteDialog.Listener {
     }
 
     private val pagerAdapter = object : RouterPagerAdapter(this) {
-        override fun getCount(): Int = 1
+        override fun getCount(): Int = 2
         override fun configureRouter(router: Router, position: Int) {
             if (!router.hasRootController()) {
                 val controller = when (position) {
                     0 -> NumKeyboardController()
-                    else -> TODO("Create FuncKeyboardController")
+                    1 -> FuncKeyboardController()
+                    else -> throw IllegalStateException("Pager index out of bounds")
                 }
                 router.setRootController(controller)
             }
