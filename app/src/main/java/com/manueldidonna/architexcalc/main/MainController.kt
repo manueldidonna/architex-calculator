@@ -43,7 +43,7 @@ class MainController : BaseController<MainView>(), CopyPasteDialog.Listener {
     override fun onCreateControllerView(layoutView: View) = MainView(layoutView, pagerAdapter)
 
     override fun onControllerViewCreated(layoutView: View, controllerView: MainView) {
-        viewModel.fakeSubscribe { state -> controllerView.render(state) }
+        viewModel.fakeSubscribe { state -> controllerView.dispatchNewState(state) }
         controllerView.subscribeUserInteractionEvents { event: MainEvent ->
             when (event) {
                 is MainEvent.Settings -> getNavigator<Navigation>().openSettings()

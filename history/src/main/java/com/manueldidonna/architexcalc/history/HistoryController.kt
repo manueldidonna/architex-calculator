@@ -18,7 +18,7 @@ class HistoryController : BaseController<HistoryView>(), ClearHistoryDialog.List
     override fun onCreateControllerView(layoutView: View) = HistoryView(layoutView)
 
     override fun onControllerViewCreated(layoutView: View, controllerView: HistoryView) {
-        viewModel.fakeSubscribe { state -> controllerView.render(state) }
+        viewModel.fakeSubscribe { controllerView.dispatchNewState(it) }
         controllerView.subscribeUserInteractionEvents { event ->
             when (event) {
                 is HistoryEvent.GoBack -> router.popController(this)

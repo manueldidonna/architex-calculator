@@ -8,9 +8,12 @@ import butterknife.BindArray
 import butterknife.BindString
 import butterknife.BindView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.manueldidonna.arch.view.*
 import com.manueldidonna.architexcalc.core.base.BaseContainerView
 
-class SettingsView(view: View) : BaseContainerView<SettingsState, SettingsEvent>(view) {
+class SettingsView(view: View) : BaseContainerView(view),
+    ArxBinderView<SettingsState> by ArxStateBinderView(),
+    ArxInteractiveView<SettingsEvent> by ArxSubjectView() {
     // Resources
     @BindString(R2.string.settings_toolbar_title)
     lateinit var settingsTitleValue: String
@@ -38,11 +41,11 @@ class SettingsView(view: View) : BaseContainerView<SettingsState, SettingsEvent>
 
     init {
         toolbarTitle.text = settingsTitleValue
-        navigationIcon.emitOnClick(SettingsEvent.GoBack)
-        autoClearHistoryButton.emitOnClick(SettingsEvent.AutoClearHistory)
-        appThemeButton.emitOnClick(SettingsEvent.AppThemeEditor)
-        licensesButton.emitOnClick(SettingsEvent.Licenses)
-        githubButton.emitOnClick((SettingsEvent.GithubPage))
+        emitOnClick(navigationIcon, SettingsEvent.GoBack)
+        emitOnClick(autoClearHistoryButton, SettingsEvent.AutoClearHistory)
+        emitOnClick(appThemeButton, SettingsEvent.AppThemeEditor)
+        emitOnClick(licensesButton, SettingsEvent.Licenses)
+        emitOnClick(githubButton, SettingsEvent.GithubPage)
         askClearHistorySwitch.setOnCheckedChangeListener { _, isChecked ->
             emitEvent(SettingsEvent.AskClearHistoryConfirmation(isChecked))
         }

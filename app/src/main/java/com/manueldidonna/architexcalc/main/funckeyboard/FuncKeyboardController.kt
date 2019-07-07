@@ -10,7 +10,7 @@ class FuncKeyboardController : BaseController<FuncKeyboardView>() {
 
     override val layoutRes: Int = R.layout.controller_func_keyboard
 
-    override fun onCreateControllerView(layoutView: View) = FuncKeyboardView(layoutView, funcs, constants)
+    override fun onCreateControllerView(layoutView: View) = FuncKeyboardView(layoutView, functions, constants)
 
     override fun onControllerViewCreated(layoutView: View, controllerView: FuncKeyboardView) {
         val parentViewModel = getArxViewModel<MainViewModel>(requireParentViewModelOwner())
@@ -18,7 +18,7 @@ class FuncKeyboardController : BaseController<FuncKeyboardView>() {
     }
 
     companion object {
-        private val funcs = listOf("sin", "cos", "tan", "ln", "log", "\u221a", "(", ")", "%", "^", "!")
+        private val functions = listOf("sin", "cos", "tan", "ln", "log", "\u221a", "(", ")", "%", "^", "!")
         private val constants = listOf("\u03C0", "e")
     }
 }

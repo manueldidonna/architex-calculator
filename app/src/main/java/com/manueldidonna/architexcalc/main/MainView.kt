@@ -6,12 +6,15 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import butterknife.BindString
 import butterknife.BindView
+import com.manueldidonna.arch.view.*
 import com.manueldidonna.architexcalc.R
 import com.manueldidonna.architexcalc.core.base.BaseContainerView
 import com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
-class MainView(view: View, adapter: PagerAdapter) : BaseContainerView<MainState, MainEvent>(view) {
+class MainView(view: View, adapter: PagerAdapter) : BaseContainerView(view),
+    ArxBinderView<MainState> by ArxStateBinderView(),
+    ArxInteractiveView<MainEvent> by ArxSubjectView() {
 
     @BindString(R.string.calculator_panel_error)
     lateinit var panelErrorMessage: String
@@ -31,8 +34,8 @@ class MainView(view: View, adapter: PagerAdapter) : BaseContainerView<MainState,
         keyboardPager.adapter = adapter
         wormDotsIndicator.setViewPager(keyboardPager)
         // Event emissions
-        historyButton.emitOnClick(MainEvent.History)
-        settingsButton.emitOnClick(MainEvent.Settings)
+        emitOnClick(historyButton, MainEvent.History)
+        emitOnClick(settingsButton, MainEvent.Settings)
         scrollableExpression.onChildLongClickListener {
             emitEvent(MainEvent.CopyPasteExpression(scrollableExpression.text.toString()))
             return@onChildLongClickListener true

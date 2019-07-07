@@ -25,7 +25,7 @@ class SettingsController : BaseController<SettingsView>(), AutoClearHistoryDialo
 
     // TODO: introduce fun onControllerViewEvents(event: SettingsEvent)
     override fun onControllerViewCreated(layoutView: View, controllerView: SettingsView) {
-        viewModel.fakeSubscribe { state -> controllerView.render(state) }
+        viewModel.fakeSubscribe { state -> controllerView.dispatchNewState(state) }
         controllerView.subscribeUserInteractionEvents { event ->
             when (event) {
                 is SettingsEvent.GoBack -> router.popController(this)

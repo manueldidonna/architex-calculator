@@ -4,13 +4,16 @@ import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.BindViews
-import butterknife.ButterKnife
 import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxSubjectView
+import com.manueldidonna.arch.view.emitOnClick
+import com.manueldidonna.arch.view.emitOnLongClick
 import com.manueldidonna.architex.mathevaluator.MathOperator
 import com.manueldidonna.architexcalc.R
+import com.manueldidonna.architexcalc.core.base.BaseContainerView
 
-class NumKeyboardView(view: View) : ArxInteractiveView<NumKeyboardEvent> by ArxSubjectView() {
+class NumKeyboardView(view: View) : BaseContainerView(view),
+    ArxInteractiveView<NumKeyboardEvent> by ArxSubjectView() {
 
     @BindViews(
         R.id.zero_button, R.id.one_button, R.id.two_button, R.id.three_button, R.id.four_button,
@@ -31,29 +34,20 @@ class NumKeyboardView(view: View) : ArxInteractiveView<NumKeyboardEvent> by ArxS
     lateinit var cancelButton: TextView
 
     init {
-        ButterKnife.bind(this, view)
         numberButtons.forEachIndexed { index, button ->
-            button.clickInvoke(NumKeyboardEvent.Number(index.toString()))
+            emitOnClick(button, NumKeyboardEvent.Number(index.toString()))
         }
         // dot
-        dotButton.clickInvoke(NumKeyboardEvent.DecimalSeparator)
+        emitOnClick(dotButton, NumKeyboardEvent.DecimalSeparator)
         // operators + - / x
-        multiplyButton.clickInvoke(NumKeyboardEvent.Operator(MathOperator.MULTIPLY))
-        divButton.clickInvoke(NumKeyboardEvent.Operator(MathOperator.DIVIDE))
-        plusMinusButton.clickInvoke(NumKeyboardEvent.Operator(MathOperator.PLUS_MINUS))
+        emitOnClick(multiplyButton, NumKeyboardEvent.Operator(MathOperator.MULTIPLY))
+        emitOnClick(divButton, NumKeyboardEvent.Operator(MathOperator.DIVIDE))
+        emitOnClick(plusMinusButton, NumKeyboardEvent.Operator(MathOperator.PLUS_MINUS))
         // equal
-        equalButton.clickInvoke(NumKeyboardEvent.Equal)
+        emitOnClick(equalButton, NumKeyboardEvent.Equal)
         // click -> cancel last char/math func
-        cancelButton.clickInvoke(NumKeyboardEvent.Cancel)
+        emitOnClick(cancelButton, NumKeyboardEvent.Cancel)
         // long click -> clear all
-        cancelButton.setOnLongClickListener {
-            emitEvent(NumKeyboardEvent.Clear)
-            return@setOnLongClickListener true
-        }
+        emitOnLongClick(cancelButton, NumKeyboardEvent.Clear)
     }
-
-    private fun View.clickInvoke(event: NumKeyboardEvent) {
-        setOnClickListener { emitEvent(event) }
-    }
-
 }

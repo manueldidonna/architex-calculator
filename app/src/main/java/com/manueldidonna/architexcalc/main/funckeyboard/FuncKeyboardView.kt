@@ -6,12 +6,13 @@ import com.airbnb.epoxy.EpoxyRecyclerView
 import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.architexcalc.R
+import com.manueldidonna.architexcalc.core.base.BaseContainerView
 
 class FuncKeyboardView(
     view: View,
     functions: List<String>,
     constants: List<String>
-) : ArxInteractiveView<FuncKeyboardEvent> by ArxSubjectView() {
+) : BaseContainerView(view), ArxInteractiveView<FuncKeyboardEvent> by ArxSubjectView() {
 
     init {
         view.findViewById<EpoxyRecyclerView>(R.id.func_recycler).withModels {
