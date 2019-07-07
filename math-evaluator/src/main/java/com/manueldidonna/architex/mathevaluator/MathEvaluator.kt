@@ -12,7 +12,7 @@ interface MathEvaluator {
     fun eval(expr: String): MathResult
 }
 
-class StandardMathEvaluator(private val mathFormat: MathFormat) : MathEvaluator {
+class Exp4JEvaluator(private val mathFormat: MathFormat) : MathEvaluator {
     override fun eval(expr: String): MathResult = try {
         MathResult.Success(
             value = ExpressionBuilder(expr.sanitizeForEvaluation())

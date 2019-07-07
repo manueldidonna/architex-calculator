@@ -17,7 +17,7 @@ class EvaluatorTest : FeatureSpec() {
     override fun beforeSpec(spec: Spec) {
         mathFormat = spyk(StandardMathFormat(Locale.ITALIAN))
         mathExpression = spyk(MathExpression(mathFormat, debug = true))
-        mathEvaluator = spyk(StandardMathEvaluator(mathFormat))
+        mathEvaluator = spyk(Exp4JEvaluator(mathFormat))
         resultMathFormat = StandardMathFormat(
             Locale.ITALIAN,
             Configuration(maximumFractionDigits = 4, maximumIntegerDigits = 1, useScientificNotation = true)

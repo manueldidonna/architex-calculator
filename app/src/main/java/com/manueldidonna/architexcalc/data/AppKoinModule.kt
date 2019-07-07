@@ -14,7 +14,7 @@ val appKoinModule = module(override = true) {
     factory<Locale> { ConfigurationCompat.getLocales(androidApplication().resources.configuration).get(0) }
     factory<MathFormat> { StandardMathFormat(locale = get()) }
     factory { MathExpression(mathFormat = get(), debug = BuildConfig.DEBUG) }
-    factory<MathEvaluator> { StandardMathEvaluator(mathFormat = get()) }
+    factory<MathEvaluator> { Exp4JEvaluator(mathFormat = get()) }
     factory { InsertHistoryInteractor(get()) }
     scoped { (state: MainState) ->
         MainViewModel(
