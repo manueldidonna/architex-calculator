@@ -13,18 +13,11 @@ inline fun MathExpression.buildExpression(sanitize: Boolean, body: MathExpressio
 
 class MathExpression(
     private val mathFormat: MathFormat,
-    initialExpression: String = "",
     private val debug: Boolean = false
 ) {
     private var openBrackets = 0
     private val elements = ArrayDeque<MathElement>()
     private val builder = StringBuilder()
-
-    init {
-        if (initialExpression.isNotBlank()) {
-            scanExpression(initialExpression)
-        }
-    }
 
     /**
      * if [overwriteCurrentExpression] is true [newExpression] will overwrite
