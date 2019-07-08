@@ -1,11 +1,6 @@
 package com.manueldidonna.architex.mathevaluator
 
 import com.manueldidonna.architex.mathevaluator.internal.*
-import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_DIVIDE_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_MULTIPLY_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.DIVIDE_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.MULTIPLY_SYMBOL_CHAR
 import net.objecthunter.exp4j.ExpressionBuilder
 
 interface MathEvaluator {
@@ -31,4 +26,17 @@ class Exp4JEvaluator(private val mathFormat: MathFormat) : MathEvaluator {
             .replace(mathFormat.decimalSeparator, '.')
     }
 
+    companion object {
+        // Constants
+        val PI_CONST = MathConstant("\u03C0", "pi")
+        val EULER_CONST = MathConstant("e", "e")
+        // Functions
+        val COS_FUNC = SingleNameFunction("cos")
+        val SIN_FUNC = SingleNameFunction("sin")
+        val TAN_FUNC = SingleNameFunction("tan")
+        val LN_FUNC = DoubleNameFunction("ln", "log")
+        val LOG10_FUNC = DoubleNameFunction("log", "log10")
+        val SQRT_FUNC = DoubleNameFunction("\u221a", "sqrt")
+        val EULER_EXP_FUNC = SingleNameFunction("exp")
+    }
 }

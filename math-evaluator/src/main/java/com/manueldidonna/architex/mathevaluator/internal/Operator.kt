@@ -15,6 +15,8 @@ internal const val DIVIDE_SYMBOL = "÷"
 internal const val DIVIDE_SYMBOL_CHAR = '÷'
 internal const val ALTERNATIVE_DIVIDE_SYMBOL_CHAR = '/'
 
+const val EXP_SYMBOL = "^"
+internal const val EXP_SYMBOL_CHAR = '^'
 
 internal interface Operator : MathElement
 
@@ -32,4 +34,8 @@ internal class DivideOperator : Operator {
 
 internal class MultiplyOperator : Operator {
     override val value = MULTIPLY_SYMBOL
+}
+
+internal class ExpOperator : Operator {
+    override val value = EXP_SYMBOL
 }

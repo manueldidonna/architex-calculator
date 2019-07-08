@@ -1,11 +1,10 @@
 package com.manueldidonna.architex.mathevaluator.internal
 
-internal const val OPEN_BRACKET_SYMBOL = '('
-internal const val CLOSE_BRACKET_SYMBOL = ')'
+interface HasOpenBracket
 
 internal interface Bracket : MathElement
 
-internal class OpenBracket : Bracket {
+internal class OpenBracket : Bracket, HasOpenBracket {
     override val value = "("
 }
 

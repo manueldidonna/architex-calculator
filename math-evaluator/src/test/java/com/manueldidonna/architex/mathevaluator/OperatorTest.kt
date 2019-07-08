@@ -3,7 +3,6 @@ package com.manueldidonna.architex.mathevaluator
 import com.manueldidonna.architex.mathevaluator.internal.DIVIDE_SYMBOL
 import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL
 import com.manueldidonna.architex.mathevaluator.internal.MULTIPLY_SYMBOL
-import com.manueldidonna.architex.mathevaluator.internal.OPEN_BRACKET_SYMBOL
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -90,7 +89,7 @@ class OperatorTest : FeatureSpec() {
                     appendNumber("4")
                     appendOperator(MathOperator.PLUS)
                 } shouldBe "3+4+"
-                mathExpression.buildExpression(sanitize = true) shouldBe "3+4"
+                mathExpression.buildExpression(sanitizeToEval = true) shouldBe "3+4"
             }
             scenario("operators after an open bracket") {
                 mathExpression.buildExpression(false) {
@@ -100,7 +99,7 @@ class OperatorTest : FeatureSpec() {
                     appendOperator(MathOperator.PLUS_MINUS)
                     appendOperator(MathOperator.MULTIPLY)
                     appendNumber("5")
-                } shouldBe "3$OPEN_BRACKET_SYMBOL${MINUS_SYMBOL}5"
+                } shouldBe "3$OPEN_BRACKET_SYMBOL_CHAR${MINUS_SYMBOL}5"
             }
         }
     }

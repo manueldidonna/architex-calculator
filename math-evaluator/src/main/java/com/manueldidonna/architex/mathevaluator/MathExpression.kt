@@ -1,7 +1,6 @@
 package com.manueldidonna.architex.mathevaluator
 
 import com.manueldidonna.architex.mathevaluator.internal.*
-import com.manueldidonna.architex.mathevaluator.internal.Function
 import com.manueldidonna.architex.mathevaluator.internal.Number
 import com.manueldidonna.architex.mathevaluator.internal.utils.*
 import java.util.*
@@ -63,14 +62,14 @@ class MathExpression(
                 char == mathFormat.decimalSeparator -> fixFunc {
                     appendDecimalSeparator()
                 }
-                char == OPEN_BRACKET_SYMBOL -> {
+                char == OPEN_BRACKET_SYMBOL_CHAR -> {
                     if (isFunc) {
                         appendFunction(currentFuncName)
                         currentFuncName = ""
                         isFunc = false
                     } else appendBracket(MathBracket.OPEN)
                 }
-                char == CLOSE_BRACKET_SYMBOL -> fixFunc { appendBracket(MathBracket.CLOSE) }
+                char == CLOSE_BRACKET_SYMBOL_CHAR -> fixFunc { appendBracket(MathBracket.CLOSE) }
                 char == 'E' -> fixFunc { appendScientificNotation() }
                 char.isLetter() -> {
                     isFunc = true
@@ -84,21 +83,24 @@ class MathExpression(
         }
     }
 
-    fun buildExpression(sanitize: Boolean): String {
-        if (elements.size <= 0)
+    fun buildExpression(sanitizeToEval: Boolean): String {
+        if (elements.size <= 0 || elements.last is HasOpenBracket)
             return ""
-        return builder.apply {
-            clear()
+        builder.clear()
+        if (sanitizeToEval) {
             elements.forEach { e ->
-                append(e.value)
+                builder.append(if (e is DoubleNameFunction) e.alternativeValue else e.value)
             }
-            if (sanitize) {
-                if (elements.last is Operator)
-                    deleteCharAt(lastIndex)
-                for (i in 0 until openBrackets)
-                    append(CLOSE_BRACKET_SYMBOL)
+            if (elements.last is Operator)
+                builder.deleteCharAt(builder.lastIndex)
+            for (i in 0 until openBrackets)
+                builder.append(CLOSE_BRACKET_SYMBOL_CHAR)
+        } else {
+            elements.forEach { e ->
+                builder.append(if (e is MathConstant) e.name else e.value)
             }
-        }.toString()
+        }
+        return builder.toString()
     }
 
     fun appendNumber(number: String) {
@@ -115,9 +117,7 @@ class MathExpression(
     }
 
     fun appendScientificNotation() {
-        (elements.safeLast() as? Number)
-            ?.appendScientificNotation()
-            ?: elements.add(Number(mathFormat).apply { appendScientificNotation() })
+        (elements.safeLast() as? Number)?.appendScientificNotation()
     }
 
     fun appendScientificNumber(number: String) {
@@ -139,7 +139,7 @@ class MathExpression(
             val isPlusMinus = operator == MathOperator.PLUS_MINUS
             val lastElement = elements.safeLast()
             when {
-                elements.isEmpty() || lastElement is OpenBracket -> {
+                elements.isEmpty() || lastElement is HasOpenBracket -> {
                     if (isPlusMinus || operator == MathOperator.MINUS)
                         elements.add(MinusOperator())
                 }
@@ -147,7 +147,7 @@ class MathExpression(
                 isPlusMinus && lastElement is MinusOperator -> elements.replaceLast(PlusOperator())
                 lastElement is Operator -> elements.apply {
                     val removedOperator = removeLast()
-                    if (last !is Bracket || operator == MathOperator.PLUS || operator == MathOperator.MINUS) {
+                    if (last !is HasOpenBracket || operator == MathOperator.PLUS || operator == MathOperator.MINUS) {
                         add(operator.value())
                     } else add(removedOperator)
                 }
@@ -161,10 +161,25 @@ class MathExpression(
             "String must contains only lower case letters"
         }
         openBrackets++
-        elements.add(Function(name = func))
+        elements.add(SingleNameFunction(name = func))
     }
 
+    fun appendFunction(func: MathFunction) {
+        openBrackets++
+        elements.add(func)
+    }
+
+    fun appendConstant(constant: MathConstant) {
+        elements.add(constant)
+    }
+
+    /**
+     * Cannot append a close bracket if [openBrackets] is 0
+     * Cannot have empty brackets
+     */
     fun appendBracket(type: MathBracket) {
+        if (type == MathBracket.CLOSE && elements.last is OpenBracket)
+            return
         if (openBrackets > 0 || type == MathBracket.OPEN) {
             if (type == MathBracket.OPEN) openBrackets++ else openBrackets--
             elements.add(type.value())
@@ -174,7 +189,7 @@ class MathExpression(
     fun deleteLastElement() {
         if (elements.size > 0 && elements.last.delete()) {
             when (elements.removeLast()) {
-                is OpenBracket, is Function -> openBrackets--
+                is HasOpenBracket -> openBrackets--
                 is CloseBracket -> openBrackets++
             }
         }
