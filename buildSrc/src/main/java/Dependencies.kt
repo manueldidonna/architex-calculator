@@ -21,7 +21,7 @@ object Modules {
 
 private object Versions {
     // Jetbrains
-    const val kotlin = "1.3.21"
+    const val kotlin = "1.3.41"
     const val coroutines = "1.2.0"
     // Android
     const val materialComponents = "1.1.0-alpha06"
