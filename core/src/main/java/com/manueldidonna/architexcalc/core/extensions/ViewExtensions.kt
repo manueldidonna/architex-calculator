@@ -12,6 +12,11 @@ import com.manueldidonna.architexcalc.core.R
 
 inline fun <reified T : View> View.findBy(@IdRes viewId: Int) = lazy { findViewById<T>(viewId) }
 
+inline fun <reified T : View> View.find(@IdRes viewId: Int): T = findViewById(viewId)
+inline fun <reified T : View> View.find(@IdRes viewId: Int, block: T.() -> Unit): T {
+    return findViewById<T>(viewId).apply { block() }
+}
+
 inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(): T = layoutParams as T
 
 fun View.setSelectableBackground() {
