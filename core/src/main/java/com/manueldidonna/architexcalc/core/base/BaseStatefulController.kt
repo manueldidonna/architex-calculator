@@ -6,31 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import com.manueldidonna.arch.ControllerDisposable
-import com.manueldidonna.arch.controller.ReactiveController
 import com.manueldidonna.arch.controller.StatefulArxController
+import com.manueldidonna.arch.controller.observeEvents
 import com.manueldidonna.arch.state.ArxState
 import com.manueldidonna.arch.statemanager.ReactiveArxStateManager
-import com.manueldidonna.arch.view.ArxRenderView
-import com.manueldidonna.arch.view.ArxView
-import com.manueldidonna.arch.view.ArxViewOwner
+import com.manueldidonna.arch.view.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import org.koin.core.KoinComponent
+import org.koin.core.scope.Scope
+import kotlin.reflect.KProperty1
 
-@Suppress("LeakingThis")
-abstract class BaseStatefulController<SM : ReactiveArxStateManager<S>, S : ArxState> : StatefulArxController<SM, S>,
-    ReactiveController, ArxViewOwner {
+abstract class BaseStatefulController<SM : ReactiveArxStateManager<S>, S : ArxState>(args: Bundle?) :
+    StatefulArxController<SM, S>(args), ArxViewOwner by BaseArxViewOwner(), KoinComponent {
 
-    protected constructor() : super()
-    protected constructor(args: Bundle) : super(args)
+    protected constructor() : this(null)
+
+    protected val controllerScope: Scope by lazy { getKoin().createScope(controllerId) }
 
     @get:LayoutRes
     abstract val layoutRes: Int
-
-    final override val controllerDisposable = ControllerDisposable()
-
-    init {
-        controllerDisposable.bindToControllerLifecycle(this)
-    }
 
     /**
      * The layout is inflated by default from [layoutRes] resource
@@ -39,36 +33,50 @@ abstract class BaseStatefulController<SM : ReactiveArxStateManager<S>, S : ArxSt
         return inflater.inflate(layoutRes, container, false)
     }
 
-    private val views: MutableList<ArxView> = mutableListOf()
-    override fun <V : ArxView> addView(view: V): V = view.also { views.add(it) }
-
-    override fun clearViews() {
-        renderLoopers.clear()
-        views.clear()
-    }
-
-    private val renderLoopers: MutableList<(S) -> Unit> = mutableListOf()
-    protected fun <S2> renderState(view: ArxRenderView<S2>, body: (S) -> S2) {
-        renderLoopers.add { state ->
-            view.render(body(state))
-        }
-    }
-
-    @CallSuper
-    override fun onViewCreated(view: View) {
-        stateManager
-            .observable()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { state ->
-                ArrayList(renderLoopers).forEach { render ->
-                    render(state)
-                }
-            }.disposeOnDestroyView()
-    }
-
     @CallSuper
     override fun onDestroyView(view: View) {
         super.onDestroyView(view)
         clearViews()
+    }
+
+    @CallSuper
+    override fun onDestroy() {
+        super.onDestroy()
+        controllerScope.close()
+    }
+
+    protected inline fun <V : ArxInteractiveView<E>, E : Any> V.onEvents(crossinline block: (E) -> Unit) = apply {
+        observeEvents(this, block)
+    }
+
+    protected fun <V : ArxBinderView<S>> V.subscribeToStateChanges() = apply {
+        stateManager
+            .observable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::dispatchNewState)
+            .disposeOnDestroyView()
+    }
+
+    protected fun <V : ArxRenderView<S>> V.subscribeToStateChanges() = apply {
+        stateManager
+            .observable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::render)
+            .disposeOnDestroyView()
+    }
+
+    private data class ArxTuple1<A>(val a: A)
+
+    protected fun <A, S2, V : ArxRenderView<S2>> V.subscribeToStateChanges(
+        prop1: KProperty1<S, A>,
+        subscriber: (A) -> S2
+    ) = apply {
+        stateManager
+            .observable()
+            .map { ArxTuple1(prop1.get(it)) }
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { (a) -> this.render(subscriber(a)) }
+            .disposeOnDestroyView()
     }
 }

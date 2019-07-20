@@ -6,23 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import com.manueldidonna.arch.ControllerDisposable
-import com.manueldidonna.arch.controller.ReactiveController
-import com.manueldidonna.arch.controller.StatelessArxController
+import com.manueldidonna.arch.controller.ReactiveArxController
+import com.manueldidonna.arch.controller.observeEvents
+import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxView
 import com.manueldidonna.arch.view.ArxViewOwner
+import com.manueldidonna.arch.view.BaseArxViewOwner
+import org.koin.core.KoinComponent
+import org.koin.core.scope.Scope
 
 @Suppress("LeakingThis")
-abstract class BaseStatelessController : StatelessArxController, ReactiveController, ArxViewOwner {
+abstract class BaseStatelessController(args: Bundle?) : ReactiveArxController(args), KoinComponent,
+    ArxViewOwner by BaseArxViewOwner() {
 
-    protected constructor() : super()
-    protected constructor(args: Bundle) : super(args)
+    protected constructor() : this(null)
 
-    final override val controllerDisposable: ControllerDisposable = ControllerDisposable()
-
-    init {
-        controllerDisposable.bindToControllerLifecycle(this)
-    }
+    protected val controllerScope: Scope by lazy { getKoin().createScope(controllerId) }
 
     @get:LayoutRes
     abstract val layoutRes: Int
@@ -34,16 +33,19 @@ abstract class BaseStatelessController : StatelessArxController, ReactiveControl
         return inflater.inflate(layoutRes, container, false)
     }
 
-    private val views: MutableList<ArxView> = mutableListOf()
-    override fun <V : ArxView> addView(view: V): V = view.also { views.add(it) }
-
-    override fun clearViews() {
-        views.clear()
-    }
-
     @CallSuper
     override fun onDestroyView(view: View) {
         super.onDestroyView(view)
         clearViews()
+    }
+
+    @CallSuper
+    override fun onDestroy() {
+        super.onDestroy()
+        controllerScope.close()
+    }
+
+    protected inline fun <V : ArxInteractiveView<E>, E : Any> V.onEvents(crossinline block: (E) -> Unit) = apply {
+        observeEvents(this, block)
     }
 }
