@@ -10,9 +10,9 @@ import com.manueldidonna.architexcalc.core.extensions.setRootController
 import com.manueldidonna.architexcalc.core.extensions.shortToast
 import com.manueldidonna.architexcalc.core.prefs.CorePreferences
 import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
-import com.manueldidonna.architexcalc.history.HistoryController
+import com.manueldidonna.architexcalc.history.ui.HistoryController
 import com.manueldidonna.architexcalc.main.MainController
-import com.manueldidonna.architexcalc.settings.SettingsController
+import com.manueldidonna.architexcalc.settings.ui.SettingsController
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
@@ -40,7 +40,7 @@ class ArxCalculatorActivity : AppCompatActivity(), MainController.Navigation {
         router.pushWithStandardTransaction(SettingsController(), SETTINGS_TAG)
     }
 
-    private val doubleTapToExit: Boolean get() = prefsManager.get(CorePreferences.DOUBLE_TAP_EXIT)
+    private val doubleTapToExit: Boolean get() = prefsManager.get(CorePreferences.DOUBLE_TAP_TO_EXIT_APP)
 
     private var backPressedInMillis = 0L
 

@@ -6,8 +6,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.manueldidonna.architexcalc.core.ThemeManager
 import com.manueldidonna.architexcalc.core.coreKoinModule
 import com.manueldidonna.architexcalc.data.appKoinModule
-import com.manueldidonna.architexcalc.history.data.historyKoinModule
-import com.manueldidonna.architexcalc.settings.data.settingsKoinModule
+import com.manueldidonna.architexcalc.history.historyKoinModule
+import com.manueldidonna.architexcalc.settings.settingsKoinModule
 import com.manueldidonna.architexcalc.util.TimberKoinLogger
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext

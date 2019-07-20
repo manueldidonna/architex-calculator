@@ -7,7 +7,7 @@ import com.manueldidonna.architexcalc.core.prefs.RealPreferencesManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val coreKoinModule = module(override = true) {
+val coreKoinModule = module(createdAtStart = true, override = true) {
     single<PreferencesManager> { RealPreferencesManager(androidContext()) }
     single { ThemeManager(prefsManager = get()) }
     single(createdAtStart = true) {
@@ -17,5 +17,5 @@ val coreKoinModule = module(override = true) {
             ArxCalculatorDatabase.DATABASE_NAME
         ).build()
     }
-    factory { get<ArxCalculatorDatabase>().historyDao() }
+    single { get<ArxCalculatorDatabase>().historyDao() }
 }
