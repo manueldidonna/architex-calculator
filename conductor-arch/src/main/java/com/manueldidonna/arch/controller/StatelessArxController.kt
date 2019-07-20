@@ -8,7 +8,7 @@ import android.view.ViewGroup
 abstract class StatelessArxController : AbstractArxController {
 
     protected constructor() : super()
-    protected constructor(args: Bundle) : super(args)
+    protected constructor(args: Bundle?) : super(args)
 
     final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedViewState: Bundle?): View {
         return inflateView(inflater, container).also { view -> onViewCreated(view) }

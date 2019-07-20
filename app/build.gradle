@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-kapt'
 apply from: '../common_build_config.gradle'
 
+androidExtensions {
+    experimental = true
+}
+
 android {
     defaultConfig {
         applicationId "com.manueldidonna.architexcalc"

@@ -12,7 +12,7 @@ import java.util.*
 abstract class AbstractArxController : RestoreViewOnCreateController {
 
     protected constructor() : super()
-    protected constructor(args: Bundle) : super(args)
+    protected constructor(args: Bundle?) : super(args)
 
     var controllerId: String = "${this::class.java.simpleName}@${UUID.randomUUID()}"
         private set
