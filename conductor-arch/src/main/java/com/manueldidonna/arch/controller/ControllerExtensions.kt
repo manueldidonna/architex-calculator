@@ -16,6 +16,9 @@ fun Controller.requireTargetController(): Controller = targetController
 inline fun <reified T> Controller.castTargetController(): T = requireTargetController() as? T
     ?: throw IllegalStateException("Target Controller must implements ${T::class.java.simpleName} ")
 
+inline fun <reified T> Controller.castActivity(): T = requireActivity() as? T
+    ?: throw IllegalStateException("Activity must implements ${T::class.java.simpleName} ")
+
 fun Controller.getString(@StringRes resId: Int): String = requireActivity().getString(resId)
 
 fun <C : Controller> C.setTarget(controller: Controller): C = apply { targetController = controller }
