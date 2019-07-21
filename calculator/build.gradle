@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'kotlin-kapt'
+apply from: '../common_build_config.gradle'
+
+androidExtensions {
+    experimental = true
+}
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation project(Modules.core)
+    implementation project(Modules.conductorArch)
+    implementation project(Modules.mathEvaluator)
+
+    implementation Jetbrains.coroutinesCore
+    implementation Jetbrains.coroutinesAndroid
+
+    implementation Android.materialComponents
+    implementation Android.conductor
+    implementation Android.conductorSupport
+    implementation Android.materialDialogsCore
+    implementation Android.viewPagerDots
+
+    implementation Rx.kotlin
+    implementation Rx.android
+
+    implementation AirBnb.epoxy
+    kapt AirBnb.epoxyProcessor
+
+    implementation Koin.android
+}
