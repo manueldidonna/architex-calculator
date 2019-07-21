@@ -14,6 +14,7 @@ object Releases {
 object Modules {
     const val conductorArch = ":conductor-arch"
     const val mathEvaluator = ":math-evaluator"
+    const val calculator = ":calculator"
     const val history = ":history"
     const val settings = ":settings"
     const val core = ":core"

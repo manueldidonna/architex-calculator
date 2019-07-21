@@ -1,1 +1,10 @@
-include ':app', ':math-evaluator', ':conductor-arch', ':settings', ':core', ':history'
+include ':app'
+// core
+include ':core'
+// screens (ui modules)
+include ':calculator'
+include ':history'
+include ':settings'
+// not-ui modules
+include ':math-evaluator'
+include ':conductor-arch'

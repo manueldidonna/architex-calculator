@@ -1,6 +1,5 @@
 package com.manueldidonna.arch
 
-import android.view.View
 import com.bluelinelabs.conductor.Controller
 import java.io.Serializable
 
@@ -17,7 +16,7 @@ private class ConductorLifecycleAwareLazy<out T>(controller: Controller, initial
 
     init {
         controller.addLifecycleListener(object : Controller.LifecycleListener() {
-            override fun postCreateView(controller: Controller, view: View) {
+            override fun preCreateView(controller: Controller) {
                 if (!isInitialized()) value
                 controller.removeLifecycleListener(this)
             }

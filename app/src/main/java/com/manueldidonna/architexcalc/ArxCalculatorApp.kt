@@ -2,12 +2,11 @@ package com.manueldidonna.architexcalc
 
 import android.app.Application
 import androidx.work.Configuration
-import com.jakewharton.threetenabp.AndroidThreeTen
+import com.manueldidonna.architex.calculator.calculatorKoinModule
 import com.manueldidonna.architexcalc.core.ThemeManager
 import com.manueldidonna.architexcalc.core.coreKoinModule
-import com.manueldidonna.architexcalc.data.appKoinModule
-import com.manueldidonna.architexcalc.history.data.historyKoinModule
-import com.manueldidonna.architexcalc.settings.data.settingsKoinModule
+import com.manueldidonna.architexcalc.history.historyKoinModule
+import com.manueldidonna.architexcalc.settings.settingsKoinModule
 import com.manueldidonna.architexcalc.util.TimberKoinLogger
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
@@ -17,9 +16,6 @@ import timber.log.Timber
 class ArxCalculatorApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
-        // JSR-310 library
-        AndroidThreeTen.init(this)
-
         // Logger
         if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
@@ -28,7 +24,7 @@ class ArxCalculatorApp : Application(), Configuration.Provider {
         startKoin {
             logger(TimberKoinLogger())
             androidContext(this@ArxCalculatorApp)
-            modules(appKoinModule, coreKoinModule, settingsKoinModule, historyKoinModule)
+            modules(coreKoinModule, calculatorKoinModule, settingsKoinModule, historyKoinModule)
         }
 
         // ThemeManager
