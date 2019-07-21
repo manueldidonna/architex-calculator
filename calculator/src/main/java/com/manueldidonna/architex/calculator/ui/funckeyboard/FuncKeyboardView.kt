@@ -10,7 +10,7 @@ import com.manueldidonna.architex.mathevaluator.*
 import com.manueldidonna.architex.mathevaluator.internal.EXP_SYMBOL
 import com.manueldidonna.architexcalc.core.extensions.find
 
-sealed class FuncKeyboardEvent {
+internal sealed class FuncKeyboardEvent {
     data class Function(val func: MathFunction) : FuncKeyboardEvent()
     data class Bracket(val bracket: MathBracket) : FuncKeyboardEvent()
     data class Constant(val constant: MathConstant) : FuncKeyboardEvent()
@@ -18,7 +18,7 @@ sealed class FuncKeyboardEvent {
     object ScientificNotation : FuncKeyboardEvent()
 }
 
-class FuncKeyboardView(
+internal class FuncKeyboardView(
     view: View,
     functions: List<MathFunction>,
     constants: List<MathConstant>

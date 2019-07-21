@@ -10,7 +10,7 @@ import com.manueldidonna.architex.mathevaluator.Exp4JEvaluator
 import com.manueldidonna.architex.mathevaluator.MathOperator
 import com.manueldidonna.architexcalc.core.base.BaseStatefulController
 
-class FuncKeyboardController : BaseStatefulController<CalculatorStateManager, CalculatorState>() {
+internal class FuncKeyboardController : BaseStatefulController<CalculatorStateManager, CalculatorState>() {
 
     override val saveStateOnProcessDeath = false
 

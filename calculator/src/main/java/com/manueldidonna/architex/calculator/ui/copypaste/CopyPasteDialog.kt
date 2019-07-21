@@ -15,7 +15,7 @@ import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architexcalc.core.base.BaseDialogController
 import com.manueldidonna.architexcalc.core.extensions.find
 
-class CopyPasteDialog(args: Bundle) : BaseDialogController(args) {
+internal class CopyPasteDialog(args: Bundle) : BaseDialogController(args) {
 
     private var savedClipText: String = getArgs().getString(CLIP_TEXT_KEY, "")
     private var currentExpression: String = getArgs().getString(EXPRESSION_KEY, "")

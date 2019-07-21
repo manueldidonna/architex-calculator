@@ -2,7 +2,6 @@ package com.manueldidonna.architex.calculator.ui.numkeyboard
 
 import android.view.View
 import com.manueldidonna.arch.controller.castParentController
-import com.manueldidonna.arch.viewmodel.getArxViewModel
 import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architex.calculator.ui.CalculatorController
 import com.manueldidonna.architex.calculator.ui.CalculatorState
@@ -10,7 +9,7 @@ import com.manueldidonna.architex.calculator.ui.CalculatorStateManager
 import com.manueldidonna.architexcalc.core.base.BaseStatefulController
 
 
-class NumKeyboardController : BaseStatefulController<CalculatorStateManager, CalculatorState>() {
+internal class NumKeyboardController : BaseStatefulController<CalculatorStateManager, CalculatorState>() {
 
     override val saveStateOnProcessDeath = false
 

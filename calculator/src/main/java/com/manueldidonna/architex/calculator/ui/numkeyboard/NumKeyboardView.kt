@@ -9,7 +9,7 @@ import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architex.mathevaluator.MathOperator
 import com.manueldidonna.architexcalc.core.extensions.find
 
-sealed class NumKeyboardEvent {
+internal sealed class NumKeyboardEvent {
     object Cancel : NumKeyboardEvent()
     object Clear : NumKeyboardEvent()
     object Equal : NumKeyboardEvent()
@@ -18,7 +18,7 @@ sealed class NumKeyboardEvent {
     data class Operator(val value: MathOperator) : NumKeyboardEvent()
 }
 
-class NumKeyboardView(view: View) : ArxInteractiveView<NumKeyboardEvent> by ArxSubjectView() {
+internal class NumKeyboardView(view: View) : ArxInteractiveView<NumKeyboardEvent> by ArxSubjectView() {
 
     private val zeroButton = view.find<View>(R.id.zero_button)
     private val oneButton = view.find<View>(R.id.one_button)

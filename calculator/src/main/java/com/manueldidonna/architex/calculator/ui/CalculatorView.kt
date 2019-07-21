@@ -10,14 +10,14 @@ import com.manueldidonna.architexcalc.core.extensions.find
 import com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
-sealed class CalculatorEvent {
+internal sealed class CalculatorEvent {
     object ShowHistory : CalculatorEvent()
     object ShowSettings : CalculatorEvent()
     data class CopyPasteExpression(val text: String) : CalculatorEvent()
     data class CopyResult(val text: String) : CalculatorEvent()
 }
 
-class CalculatorView(view: View, adapter: PagerAdapter) : ArxBinderView<CalculatorState> by ArxStateBinderView(),
+internal class CalculatorView(view: View, adapter: PagerAdapter) : ArxBinderView<CalculatorState> by ArxStateBinderView(),
     ArxInteractiveView<CalculatorEvent> by ArxSubjectView() {
 
     private val panelErrorMessage = view.resources.getString(R.string.calculator_panel_error)
