@@ -21,6 +21,10 @@ dependencies {
     implementation Jetbrains.coroutinesCore
     implementation Jetbrains.coroutinesAndroid
 
+    implementation AndroidX.appCompat
+    implementation AndroidX.coreKtx
+    implementation AndroidX.constraintLayout
+
     implementation Android.materialComponents
     implementation Android.conductor
     implementation Android.conductorSupport
@@ -32,6 +36,8 @@ dependencies {
 
     implementation AirBnb.epoxy
     kapt AirBnb.epoxyProcessor
+
+    implementation JakeWharton.timber
 
     implementation Koin.android
 }

@@ -1,34 +1,42 @@
-package com.manueldidonna.architexcalc.main.funckeyboard
+package com.manueldidonna.architex.calculator.ui.funckeyboard
 
 import android.view.View
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxSubjectView
+import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architex.mathevaluator.*
 import com.manueldidonna.architex.mathevaluator.internal.EXP_SYMBOL
-import com.manueldidonna.architexcalc.R
-import com.manueldidonna.architexcalc.core.base.BaseContainerView
+import com.manueldidonna.architexcalc.core.extensions.find
+
+sealed class FuncKeyboardEvent {
+    data class Function(val func: MathFunction) : FuncKeyboardEvent()
+    data class Bracket(val bracket: MathBracket) : FuncKeyboardEvent()
+    data class Constant(val constant: MathConstant) : FuncKeyboardEvent()
+    object ExpOperator : FuncKeyboardEvent()
+    object ScientificNotation : FuncKeyboardEvent()
+}
 
 class FuncKeyboardView(
     view: View,
     functions: List<MathFunction>,
     constants: List<MathConstant>
-) : BaseContainerView(view), ArxInteractiveView<FuncKeyboardEvent> by ArxSubjectView() {
+) : ArxInteractiveView<FuncKeyboardEvent> by ArxSubjectView() {
 
     init {
-        view.findViewById<EpoxyRecyclerView>(R.id.func_recycler).withModels {
+        view.find<EpoxyRecyclerView>(R.id.func_recycler).withModels {
             selectableHeaderEpoxyView {
                 id("extra")
                 headerTitle("Extra")
             }
             functions.forEach { function ->
-                addMathElement(function.name) { FuncKeyboardEvent.AppendFunction(function) }
+                addMathElement(function.name) { FuncKeyboardEvent.Function(function) }
             }
-            addMathElement(EXP_SYMBOL) { FuncKeyboardEvent.AppendExp }
-            addMathElement(OPEN_BRACKET_SYMBOL) { FuncKeyboardEvent.AppendBracket(MathBracket.OPEN) }
-            addMathElement(CLOSE_BRACKET_SYMBOL) { FuncKeyboardEvent.AppendBracket(MathBracket.CLOSE) }
-            addMathElement("E") { FuncKeyboardEvent.AppendScientificNotation }
+            addMathElement(EXP_SYMBOL) { FuncKeyboardEvent.ExpOperator }
+            addMathElement(OPEN_BRACKET_SYMBOL) { FuncKeyboardEvent.Bracket(MathBracket.OPEN) }
+            addMathElement(CLOSE_BRACKET_SYMBOL) { FuncKeyboardEvent.Bracket(MathBracket.CLOSE) }
+            addMathElement("E") { FuncKeyboardEvent.ScientificNotation }
             // TODO: percent operator
             // TODO: ! operator
             selectableHeaderEpoxyView {
@@ -36,7 +44,7 @@ class FuncKeyboardView(
                 headerTitle("Constants")
             }
             constants.forEach { const ->
-                addMathElement(const.name) { FuncKeyboardEvent.AppendConstant(const) }
+                addMathElement(const.name) { FuncKeyboardEvent.Constant(const) }
             }
         }
     }

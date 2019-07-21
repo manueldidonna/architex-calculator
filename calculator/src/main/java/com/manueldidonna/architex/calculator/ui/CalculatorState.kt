@@ -1,8 +1,8 @@
-package com.manueldidonna.architexcalc.main
+package com.manueldidonna.architex.calculator.ui
 
 import com.manueldidonna.arch.state.ArxState
 
-data class MainState(
+data class CalculatorState(
     val expression: String = "",
     val result: String = "",
     val errorOnResult: Boolean = false

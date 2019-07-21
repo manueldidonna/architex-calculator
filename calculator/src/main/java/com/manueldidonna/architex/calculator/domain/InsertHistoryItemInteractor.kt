@@ -1,4 +1,4 @@
-package com.manueldidonna.architexcalc.data.interactors
+package com.manueldidonna.architex.calculator.domain
 
 import com.manueldidonna.architexcalc.core.Interactor
 import com.manueldidonna.architexcalc.core.db.daos.HistoryDao
@@ -6,9 +6,9 @@ import com.manueldidonna.architexcalc.core.db.entities.HistoryEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-class InsertHistoryInteractor(
+class InsertHistoryItemInteractor(
     private val historyDao: HistoryDao
-) : Interactor<InsertHistoryInteractor.Params> {
+) : Interactor<InsertHistoryItemInteractor.Params> {
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
     override suspend fun invoke(param: Params) {

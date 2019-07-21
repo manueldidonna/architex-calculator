@@ -1,23 +1,22 @@
-package com.manueldidonna.architexcalc.data
+package com.manueldidonna.architex.calculator
 
 import androidx.core.os.ConfigurationCompat
+import com.manueldidonna.architex.calculator.domain.InsertHistoryItemInteractor
+import com.manueldidonna.architex.calculator.ui.CalculatorState
+import com.manueldidonna.architex.calculator.ui.CalculatorStateManager
 import com.manueldidonna.architex.mathevaluator.*
-import com.manueldidonna.architexcalc.BuildConfig
-import com.manueldidonna.architexcalc.data.interactors.InsertHistoryInteractor
-import com.manueldidonna.architexcalc.main.MainState
-import com.manueldidonna.architexcalc.main.MainViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 import java.util.*
 
-val appKoinModule = module(override = true) {
+val calculatorKoinModule = module(override = true) {
     factory<Locale> { ConfigurationCompat.getLocales(androidApplication().resources.configuration).get(0) }
     factory<MathFormat> { StandardMathFormat(locale = get()) }
     factory { MathExpression(mathFormat = get(), debug = BuildConfig.DEBUG) }
     factory<MathEvaluator> { Exp4JEvaluator(mathFormat = get()) }
-    factory { InsertHistoryInteractor(get()) }
-    scoped { (state: MainState) ->
-        MainViewModel(
+    factory { InsertHistoryItemInteractor(get()) }
+    scoped { (state: CalculatorState) ->
+        CalculatorStateManager(
             initialState = state,
             mathFormat = get(),
             scientificMathFormat = StandardMathFormat(
@@ -26,7 +25,7 @@ val appKoinModule = module(override = true) {
             ),
             mathEvaluator = get(),
             mathExpression = get(),
-            insertHistory = get()
+            insertHistoryItem = get()
         )
     }
 }

@@ -1,33 +1,33 @@
-package com.manueldidonna.architexcalc.main.funckeyboard
+package com.manueldidonna.architex.calculator.ui.funckeyboard
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import androidx.appcompat.widget.AppCompatTextView
+import android.widget.TextView
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
-import com.manueldidonna.architexcalc.R
+import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architexcalc.core.extensions.setSelectableBackground
 
-@ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT, fullSpan = false)
-class MathElementEpoxyView @JvmOverloads constructor(
+@ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT, fullSpan = true)
+class SelectableHeaderEpoxyView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private val mathElementTextView: AppCompatTextView
+    private val headerTitle: TextView
 
     init {
-        inflate(context, R.layout.epoxy_view_math_element, this)
+        inflate(context, R.layout.epoxy_view_selectable_header, this)
         setSelectableBackground()
-        mathElementTextView = findViewById(R.id.math_element_name)
+        headerTitle = findViewById(R.id.header_title)
     }
 
     @TextProp
-    fun setElementName(funcName: CharSequence) {
-        mathElementTextView.text = funcName
+    fun setHeaderTitle(title: CharSequence) {
+        headerTitle.text = title
     }
 
     @CallbackProp

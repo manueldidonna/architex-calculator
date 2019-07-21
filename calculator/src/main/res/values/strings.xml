@@ -1,2 +1,15 @@
 <resources>
+    <string name="settings_button_label">Settings</string>
+    <string name="history_button_label">History</string>
+
+    <string name="clipboard_empty_expression">Empty expression</string>
+    <string name="clipboard_result_copied">Result value copied</string>
+    <string name="clipboard_expression_copied">Expression value Copied</string>
+    <string name="calculator_panel_error">Error</string>
+
+    <!-- Copy-Paste Expression Dialog -->
+    <string name="copy_paste_dialog_title">Text saved on clipboard</string>
+    <string name="copy_paste_dialog_copy_expression">Copy current expression</string>
+    <string name="copy_paste_dialog_append_expression">Append the saved text</string>
+    <string name="copy_paste_dialog_overwrite_expression">Overwrite with saved text</string>
 </resources>
