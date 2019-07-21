@@ -13,6 +13,9 @@ fun Controller.requireParentController(): Controller = parentController
 fun Controller.requireTargetController(): Controller = targetController
     ?: throw IllegalStateException("Target Controller does not exist")
 
+inline fun <reified T> Controller.castParentController(): T = requireParentController() as? T
+    ?: throw IllegalStateException("Parent Controller must implements ${T::class.java.simpleName} ")
+
 inline fun <reified T> Controller.castTargetController(): T = requireTargetController() as? T
     ?: throw IllegalStateException("Target Controller must implements ${T::class.java.simpleName} ")
 
