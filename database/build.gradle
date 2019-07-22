@@ -4,7 +4,7 @@ apply plugin: 'com.squareup.sqldelight'
 
 sqldelight {
     MyDatabase {
-        packageName = "com.manueldidonna.architex.database"
+        packageName = "com.manueldidonna.architexcalc.database"
     }
 }
 
