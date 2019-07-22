@@ -33,7 +33,7 @@ private object Versions {
     // Android
     const val materialComponents = "1.1.0-alpha06"
     const val conductor = "3.0.0-rc1"
-    const val materialDialogs = "3.0.0-beta2"
+    const val materialDialogs = "3.1.0"
     const val rxkPrefs = "1.2.5"
     // AndroidX
     const val coreKtx = "1.0.1"
