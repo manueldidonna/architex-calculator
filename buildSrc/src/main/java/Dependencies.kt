@@ -18,12 +18,13 @@ object Modules {
     const val history = ":history"
     const val settings = ":settings"
     const val core = ":core"
+    const val database =":database"
 }
 
 object GradlePlugins {
     const val butterKnifePlugin = "com.jakewharton:butterknife-gradle-plugin:${Versions.butterKnife}"
     const val versionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.21.0"
-    const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val sqldelightPlugin = "com.squareup.sqldelight:gradle-plugin:${Versions.sqldelight}"
 }
 
 private object Versions {
@@ -52,6 +53,8 @@ private object Versions {
     const val rxAndroid = "2.1.1"
     // Koin
     const val koin = "2.0.1"
+    // Square
+    const val sqldelight ="1.1.4"
 }
 
 object Jetbrains {
@@ -104,4 +107,8 @@ object Koin {
     const val androidScope = "org.koin:koin-androidx-scope:${Versions.koin}"
     const val unitTest = "org.koin:koin-test:${Versions.koin}"
     const val ext = "org.koin:koin-core-ext:${Versions.koin}"
+}
+
+object Square {
+   const val sqldelightAndroid = "com.squareup.sqldelight:android-driver:${Versions.sqldelight}"
 }
