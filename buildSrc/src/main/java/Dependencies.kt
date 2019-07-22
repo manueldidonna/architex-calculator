@@ -51,7 +51,7 @@ private object Versions {
     const val rxKotlin = "2.3.0"
     const val rxAndroid = "2.1.1"
     // Koin
-    const val koin = "2.0.0-rc-2"
+    const val koin = "2.0.1"
 }
 
 object Jetbrains {
