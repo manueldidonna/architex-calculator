@@ -20,6 +20,12 @@ object Modules {
     const val core = ":core"
 }
 
+object GradlePlugins {
+    const val butterKnifePlugin = "com.jakewharton:butterknife-gradle-plugin:${Versions.butterKnife}"
+    const val versionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.21.0"
+    const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+}
+
 private object Versions {
     // Jetbrains
     const val kotlin = "1.3.41"
@@ -80,7 +86,6 @@ object JakeWharton {
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     const val butterKnife = "com.jakewharton:butterknife:${Versions.butterKnife}"
     const val butterKnifeCompiler = "com.jakewharton:butterknife-compiler:${Versions.butterKnife}"
-    const val butterKnifeGradlePlugin = "com.jakewharton:butterknife-gradle-plugin:${Versions.butterKnife}"
 }
 
 object AirBnb {
