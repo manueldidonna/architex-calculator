@@ -48,8 +48,8 @@ private object Versions {
     // AirBnb
     const val epoxy = "3.6.0"
     // Rx
-    const val rxKotlin = "2.2.0"
-    const val rxAndroid = "2.1.0"
+    const val rxKotlin = "2.3.0"
+    const val rxAndroid = "2.1.1"
     // Koin
     const val koin = "2.0.0-rc-2"
 }
