@@ -1,0 +1,15 @@
+apply plugin: "com.github.ben-manes.versions"
+
+dependencyUpdates.resolutionStrategy {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            // beta & rc releases are accepted
+            boolean rejected = ['alpha', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Not stable')
+            }
+        }
+    }
+}

@@ -10,7 +10,7 @@ test {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // noinspection DifferentStdlibGradleVersion
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation Jetbrains.stdlib
     implementation files('libs/exp4j-0.4.8.jar')
     testImplementation "io.mockk:mockk:1.9.2"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.3.2"

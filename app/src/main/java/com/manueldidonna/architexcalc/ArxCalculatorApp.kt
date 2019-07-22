@@ -24,7 +24,7 @@ class ArxCalculatorApp : Application(), Configuration.Provider {
         startKoin {
             logger(TimberKoinLogger())
             androidContext(this@ArxCalculatorApp)
-            modules(coreKoinModule, calculatorKoinModule, settingsKoinModule, historyKoinModule)
+            modules(listOf(coreKoinModule, calculatorKoinModule, settingsKoinModule, historyKoinModule))
         }
 
         // ThemeManager

@@ -20,6 +20,12 @@ object Modules {
     const val core = ":core"
 }
 
+object GradlePlugins {
+    const val butterKnifePlugin = "com.jakewharton:butterknife-gradle-plugin:${Versions.butterKnife}"
+    const val versionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.21.0"
+    const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+}
+
 private object Versions {
     // Jetbrains
     const val kotlin = "1.3.41"
@@ -27,14 +33,14 @@ private object Versions {
     // Android
     const val materialComponents = "1.1.0-alpha06"
     const val conductor = "3.0.0-rc1"
-    const val materialDialogs = "3.0.0-beta2"
+    const val materialDialogs = "3.1.0"
     const val rxkPrefs = "1.2.5"
     // AndroidX
     const val coreKtx = "1.0.1"
     const val appCompat = "1.1.0-alpha05"
     const val constraintLayout = "1.1.3"
-    const val room = "2.1.0-alpha07"
-    const val work = "2.1.0-alpha02"
+    const val room = "2.1.0"
+    const val work = "2.1.0"
     // JakeWharton
     const val butterKnife = "10.1.0"
     const val timber = "4.7.1"
@@ -42,10 +48,10 @@ private object Versions {
     // AirBnb
     const val epoxy = "3.6.0"
     // Rx
-    const val rxKotlin = "2.2.0"
-    const val rxAndroid = "2.1.0"
+    const val rxKotlin = "2.3.0"
+    const val rxAndroid = "2.1.1"
     // Koin
-    const val koin = "2.0.0-rc-2"
+    const val koin = "2.0.1"
 }
 
 object Jetbrains {
@@ -80,7 +86,6 @@ object JakeWharton {
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     const val butterKnife = "com.jakewharton:butterknife:${Versions.butterKnife}"
     const val butterKnifeCompiler = "com.jakewharton:butterknife-compiler:${Versions.butterKnife}"
-    const val butterKnifeGradlePlugin = "com.jakewharton:butterknife-gradle-plugin:${Versions.butterKnife}"
 }
 
 object AirBnb {
