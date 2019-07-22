@@ -39,8 +39,8 @@ private object Versions {
     const val coreKtx = "1.0.1"
     const val appCompat = "1.1.0-alpha05"
     const val constraintLayout = "1.1.3"
-    const val room = "2.1.0-alpha07"
-    const val work = "2.1.0-alpha02"
+    const val room = "2.1.0"
+    const val work = "2.1.0"
     // JakeWharton
     const val butterKnife = "10.1.0"
     const val timber = "4.7.1"
