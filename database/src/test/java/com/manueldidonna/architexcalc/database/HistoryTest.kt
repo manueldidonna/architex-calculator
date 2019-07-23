@@ -35,4 +35,17 @@ class HistoryTest {
         historyQueries.deleteAll()
         assertThat(historyQueries.selectAll().executeAsList()).isEmpty()
     }
+
+    @Test
+    fun deleteEntityById(){
+        historyQueries.insert("1+1", "2")
+        historyQueries.insert("2+2", "4")
+        val entities = historyQueries.selectAll().executeAsList()
+        assertThat(entities).hasSize(2)
+        historyQueries.deleteById(entities[0].id)
+        val updatedEntities = historyQueries.selectAll().executeAsList()
+        assertThat(updatedEntities).hasSize(1)
+        assertThat(updatedEntities[0].expression).isEqualTo("2+2")
+        assertThat(updatedEntities[0].result).isEqualTo("4")
+    }
 }
