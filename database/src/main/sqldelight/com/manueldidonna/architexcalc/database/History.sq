@@ -8,10 +8,6 @@ insert:
 INSERT INTO history (expression, result)
 VALUES (?, ?);
 
-insertFullObject:
-INSERT INTO history (expression, result)
-VALUES ?;
-
 selectAll:
 SELECT *
 FROM history;
