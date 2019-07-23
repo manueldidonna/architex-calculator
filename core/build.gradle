@@ -10,11 +10,6 @@ androidExtensions {
 android {
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
-            }
-        }
     }
 }
 
@@ -27,10 +22,6 @@ dependencies {
     implementation AndroidX.appCompat
     implementation AndroidX.coreKtx
     implementation AndroidX.constraintLayout
-    implementation AndroidX.roomRuntime
-    implementation AndroidX.roomKtx
-    implementation AndroidX.roomRxJava
-    kapt AndroidX.roomCompiler
 
     implementation Android.materialComponents
     implementation Android.conductor

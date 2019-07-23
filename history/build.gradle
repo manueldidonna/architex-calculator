@@ -24,7 +24,6 @@ dependencies {
     implementation AndroidX.appCompat
     implementation AndroidX.coreKtx
     implementation AndroidX.constraintLayout
-    implementation AndroidX.roomRuntime
 
     implementation Android.materialComponents
     implementation Android.conductor
