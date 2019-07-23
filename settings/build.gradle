@@ -16,6 +16,7 @@ android {
 dependencies {
     implementation project(Modules.core)
     implementation project(Modules.conductorArch)
+    implementation project(Modules.database)
 
     implementation Jetbrains.coroutinesCore
     implementation Jetbrains.coroutinesAndroid

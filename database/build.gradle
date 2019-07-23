@@ -16,5 +16,7 @@ android {
 
 dependencies {
     implementation Square.sqldelightAndroid
+    implementation Square.sqldelightRxJava
+    implementation Rx.android
     implementation Koin.android
 }

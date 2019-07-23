@@ -3,8 +3,8 @@ package com.manueldidonna.architexcalc.history.ui
 import android.os.Handler
 import com.airbnb.epoxy.EpoxyController
 import com.manueldidonna.architexcalc.core.BuildConfig
-import com.manueldidonna.architexcalc.core.db.entities.HistoryEntity
 import com.manueldidonna.architexcalc.core.getAsyncHandler
+import com.manueldidonna.architexcalc.database.History
 
 private val asyncEpoxyHandler: Handler = getAsyncHandler("epoxy")
 
@@ -12,14 +12,14 @@ class HistoryEpoxyController(
     private val callback: (Long, Boolean) -> Unit
 ) : EpoxyController(asyncEpoxyHandler, asyncEpoxyHandler) {
 
-    private var data: List<HistoryEntity> = listOf()
+    private var data: List<History> = listOf()
     private var selectedIds: Set<Long> = setOf()
 
     init {
         isDebugLoggingEnabled = BuildConfig.DEBUG
     }
 
-    fun setData(data: List<HistoryEntity>, selectedIds: Set<Long>) {
+    fun setData(data: List<History>, selectedIds: Set<Long>) {
         this.data = data
         this.selectedIds = selectedIds
         requestModelBuild()

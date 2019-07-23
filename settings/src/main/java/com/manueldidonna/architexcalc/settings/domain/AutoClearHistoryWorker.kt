@@ -3,7 +3,7 @@ package com.manueldidonna.architexcalc.settings.domain
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.manueldidonna.architexcalc.core.db.daos.HistoryDao
+import com.manueldidonna.architexcalc.database.HistoryRepository
 import kotlinx.coroutines.coroutineScope
 import org.koin.core.KoinComponent
 import org.koin.core.get
@@ -16,7 +16,7 @@ class AutoClearHistoryWorker(
 
     override suspend fun doWork(): Result = coroutineScope {
         try {
-            get<HistoryDao>().deleteAll()
+            get<HistoryRepository>().deleteAll()
             Result.success()
         } catch (ex: Exception) {
             Timber.e("Error clearing history from worker")

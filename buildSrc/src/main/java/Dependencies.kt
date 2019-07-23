@@ -52,7 +52,7 @@ private object Versions {
     const val rxKotlin = "2.3.0"
     const val rxAndroid = "2.1.1"
     // Koin
-    const val koin = "2.0.1"
+    const val koin = "2.0.0-rc-2"
     // Square
     const val sqldelight ="1.1.4"
 }
@@ -110,5 +110,6 @@ object Koin {
 }
 
 object Square {
-   const val sqldelightAndroid = "com.squareup.sqldelight:android-driver:${Versions.sqldelight}"
+    const val sqldelightAndroid = "com.squareup.sqldelight:android-driver:${Versions.sqldelight}"
+    const val sqldelightRxJava = "com.squareup.sqldelight:rxjava2-extensions:${Versions.sqldelight}"
 }

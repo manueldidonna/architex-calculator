@@ -16,6 +16,7 @@ android {
 dependencies {
     implementation project(Modules.conductorArch)
     implementation project(Modules.core)
+    implementation project(Modules.database)
     implementation project(Modules.calculator)
     implementation project(Modules.settings)
     implementation project(Modules.history)
