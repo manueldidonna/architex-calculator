@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+apply from: '../common_build_config.gradle'
+apply plugin: 'com.squareup.sqldelight'
+
+sqldelight {
+    MyDatabase {
+        packageName = "com.manueldidonna.architexcalc.database"
+    }
+}
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation Square.sqldelightAndroid
+    implementation Square.sqldelightRxJava
+    implementation Rx.android
+    implementation Koin.android
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.google.truth:truth:1.0'
+    testImplementation Square.sqldelightJvm
+
+}

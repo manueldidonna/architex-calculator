@@ -18,12 +18,13 @@ object Modules {
     const val history = ":history"
     const val settings = ":settings"
     const val core = ":core"
+    const val database =":database"
 }
 
 object GradlePlugins {
     const val butterKnifePlugin = "com.jakewharton:butterknife-gradle-plugin:${Versions.butterKnife}"
     const val versionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.21.0"
-    const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val sqldelightPlugin = "com.squareup.sqldelight:gradle-plugin:${Versions.sqldelight}"
 }
 
 private object Versions {
@@ -39,7 +40,6 @@ private object Versions {
     const val coreKtx = "1.0.1"
     const val appCompat = "1.1.0-alpha05"
     const val constraintLayout = "1.1.3"
-    const val room = "2.1.0"
     const val work = "2.1.0"
     // JakeWharton
     const val butterKnife = "10.1.0"
@@ -51,7 +51,9 @@ private object Versions {
     const val rxKotlin = "2.3.0"
     const val rxAndroid = "2.1.1"
     // Koin
-    const val koin = "2.0.1"
+    const val koin = "2.0.0-rc-2"
+    // Square
+    const val sqldelight ="1.1.4"
 }
 
 object Jetbrains {
@@ -74,10 +76,6 @@ object AndroidX {
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-    const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
-    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
-    const val roomRxJava = "androidx.room:room-rxjava2:${Versions.room}"
-    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
     const val workManager = "androidx.work:work-runtime-ktx:${Versions.work}"
 }
 
@@ -104,4 +102,10 @@ object Koin {
     const val androidScope = "org.koin:koin-androidx-scope:${Versions.koin}"
     const val unitTest = "org.koin:koin-test:${Versions.koin}"
     const val ext = "org.koin:koin-core-ext:${Versions.koin}"
+}
+
+object Square {
+    const val sqldelightJvm = "com.squareup.sqldelight:sqlite-driver:${Versions.sqldelight}"
+    const val sqldelightAndroid = "com.squareup.sqldelight:android-driver:${Versions.sqldelight}"
+    const val sqldelightRxJava = "com.squareup.sqldelight:rxjava2-extensions:${Versions.sqldelight}"
 }

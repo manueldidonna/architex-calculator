@@ -1,0 +1,22 @@
+CREATE TABLE history (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  expression TEXT NOT NULL,
+  result TEXT NOT NULL
+);
+
+insert:
+INSERT INTO history (expression, result)
+VALUES (?, ?);
+
+selectAll:
+SELECT *
+FROM history;
+
+deleteAll:
+DELETE
+FROM history;
+
+deleteById:
+DELETE
+FROM history
+WHERE id = :entity_id;
