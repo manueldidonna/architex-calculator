@@ -5,6 +5,9 @@ import com.manueldidonna.architexcalc.database.History
 import com.manueldidonna.architexcalc.database.HistoryRepository
 import io.reactivex.Observable
 
+/**
+ * Get history items sorted by an ascendant order (from the least recent)
+ */
 class GetHistoryItemsInteractor(
     private val historyRepository: HistoryRepository
 ) : RxInteractor<Unit, List<History>>() {

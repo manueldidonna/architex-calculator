@@ -3,6 +3,7 @@ package com.manueldidonna.architexcalc.history.ui
 import com.manueldidonna.architexcalc.core.base.BaseStateManager
 import com.manueldidonna.architexcalc.core.launchInteractor
 import com.manueldidonna.architexcalc.core.prefs.CorePreferences
+import com.manueldidonna.architexcalc.core.prefs.Preferences
 import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
 import com.manueldidonna.architexcalc.history.domain.DeleteAllHistoryItemsInteractor
 import com.manueldidonna.architexcalc.history.domain.DeleteHistoryItemsInteractor
@@ -17,12 +18,21 @@ class HistoryStateManager(
 ) : BaseStateManager<HistoryState>(initialState) {
 
     init {
+        prefsManager.observe(DESCENDANT_HISTORY_ORDER)
+            .distinctUntilChanged()
+            .autoSubscribe { newValue ->
+                setState { copy(data = data.reversed(), isDescendantHistoryOrder = newValue) }
+            }
         prefsManager.observe(CorePreferences.ASK_TO_CLEAR_HISTORY).autoSubscribe { newValue ->
             setState { copy(askToClearHistory = newValue) }
         }
         getHistoryItems().observe().autoSubscribe { items ->
-            setState { copy(data = items) }
+            setState { copy(data = if (isDescendantHistoryOrder) items.reversed() else items) }
         }
+    }
+
+    fun updateHistoryOrder(isDescendantOrder: Boolean) {
+        prefsManager.set(DESCENDANT_HISTORY_ORDER, isDescendantOrder)
     }
 
     fun setAskConfirmation(value: Boolean) {
@@ -46,4 +56,8 @@ class HistoryStateManager(
     }
 
     fun deselectAllItems() = setState { copy(selectedItemIds = hashSetOf()) }
+
+    companion object {
+        private val DESCENDANT_HISTORY_ORDER = Preferences.BooleanPreference("desc_history_order")
+    }
 }

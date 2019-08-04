@@ -10,16 +10,21 @@ import com.manueldidonna.arch.view.emitOnClick
 import com.manueldidonna.architexcalc.core.extensions.find
 import com.manueldidonna.architexcalc.history.R
 
-internal object ToolbarGoBackEvent
+internal sealed class HistoryToolbarEvent {
+    object GoBack : HistoryToolbarEvent()
+    object UpdateHistoryOrder : HistoryToolbarEvent()
+}
 
 internal class HistoryToolbarView(view: View) : ArxRenderView<Int>,
-    ArxInteractiveView<ToolbarGoBackEvent> by ArxSubjectView() {
+    ArxInteractiveView<HistoryToolbarEvent> by ArxSubjectView() {
     private val toolbarTitle = view.resources.getString(R.string.history_toolbar_title)
     private val titleView = view.find<AppCompatTextView>(R.id.toolbar_title)
     private val navigationIconView = view.find<AppCompatImageView>(R.id.toolbar_navigation_icon)
+    private val invertHistoryOrderIconView = view.find<View>(R.id.history_order_icon)
 
     init {
-        emitOnClick(navigationIconView, ToolbarGoBackEvent)
+        emitOnClick(navigationIconView, HistoryToolbarEvent.GoBack)
+        emitOnClick(invertHistoryOrderIconView, HistoryToolbarEvent.UpdateHistoryOrder)
     }
 
     override fun render(state: Int) {

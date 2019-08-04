@@ -9,4 +9,9 @@
     <string name="dialog_clear_history_action_negative">Cancel</string>
     <string name="dialog_clear_history_action_positive">Clear</string>
     <string name="dialog_clear_history_prompt">Don\'t ask again</string>
+    <!-- Update History Order Dialog -->
+    <string-array name="dialog_update_history_order_values">
+        <item>From the least recent</item> <!-- ascendant -->
+        <item>From the most recent</item> <!-- descendant -->
+    </string-array>
 </resources>

@@ -6,5 +6,6 @@ import com.manueldidonna.architexcalc.database.History
 data class HistoryState(
     val data: List<History> = listOf(),
     val askToClearHistory: Boolean = true,
-    val selectedItemIds: Set<Long> = hashSetOf()
+    val selectedItemIds: Set<Long> = hashSetOf(),
+    val isDescendantHistoryOrder: Boolean = false
 ) : ArxState
