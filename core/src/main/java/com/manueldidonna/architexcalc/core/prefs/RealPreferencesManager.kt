@@ -10,15 +10,13 @@ class RealPreferencesManager(context: Context, val name: String = NAME) : Prefer
 
     override fun <T> get(pref: Preferences<T>): T = pref.get(prefs)
 
-    override fun <T> set(pref: Preferences<T>, value: T) {
-        pref.set(prefs, value)
-    }
+    override fun <T> set(pref: Preferences<T>, value: T) = pref.set(prefs, value)
 
     override fun <T> observe(pref: Preferences<T>): Observable<T> {
         return pref.observe(prefs).mergeWith(Observable.just(pref.get(prefs)))
     }
 
     companion object {
-        private const val NAME = "arxcalc_prefs"
+        private const val NAME = "architexcalc_prefs"
     }
 }
