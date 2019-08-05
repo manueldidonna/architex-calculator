@@ -46,10 +46,10 @@ class ThemeManager(private val prefsManager: PreferencesManager) {
     fun isDefaultEnabled(): Boolean = prefsManager.get(SELECTED_THEME) == DEFAULT_MODE
 
     companion object {
-        private val SELECTED_THEME = Preferences.StringPreference("selected_theme")
-
         const val DARK_MODE = "theme:dark_mode"
-        const val LIGHT_MODE = "theme:light_theme"
+        const val LIGHT_MODE = "theme:light_mode"
         const val DEFAULT_MODE = "theme:default"
+
+        private val SELECTED_THEME = Preferences.StringPreference("selected_theme", LIGHT_MODE)
     }
 }
