@@ -1,7 +1,5 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.internal.MathElement
-
 /**
  * [name] is the name of the constant. Es: 'pi', 'e', ...
  * [value] is the value of che constant

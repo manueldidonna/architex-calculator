@@ -2,12 +2,12 @@ package com.manueldidonna.architex.mathevaluator.evaluator
 
 import com.manueldidonna.architex.mathevaluator.*
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
-import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_DIVIDE_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_MINUS_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_MULTIPLY_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.DIVIDE_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL_CHAR
-import com.manueldidonna.architex.mathevaluator.internal.MULTIPLY_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.ALTERNATIVE_DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.ALTERNATIVE_MINUS_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.ALTERNATIVE_MULTIPLY_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.MINUS_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.MULTIPLY_SYMBOL_CHAR
 import net.objecthunter.exp4j.ExpressionBuilder
 
 class Exp4JEvaluator(private val mathFormat: MathFormat) : MathEvaluator {

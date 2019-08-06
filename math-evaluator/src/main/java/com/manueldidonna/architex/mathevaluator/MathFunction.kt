@@ -1,8 +1,5 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.internal.HasOpenBracket
-import com.manueldidonna.architex.mathevaluator.internal.MathElement
-
 sealed class MathFunction : MathElement, HasOpenBracket {
     abstract val name: String
 }

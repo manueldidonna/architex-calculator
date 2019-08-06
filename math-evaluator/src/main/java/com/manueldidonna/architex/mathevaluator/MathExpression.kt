@@ -3,8 +3,7 @@ package com.manueldidonna.architex.mathevaluator
 import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
 import com.manueldidonna.architex.mathevaluator.evaluator.MathResult
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
-import com.manueldidonna.architex.mathevaluator.internal.*
-import com.manueldidonna.architex.mathevaluator.internal.utils.*
+import com.manueldidonna.architex.mathevaluator.utils.*
 import java.util.*
 
 fun MathExpression.eval(evaluator: MathEvaluator): MathResult = evaluator.eval(buildExpression(true))
@@ -78,11 +77,22 @@ class MathExpression(
         }
     }
 
-    fun buildExpression(sanitizeToEval: Boolean): String {
-        if (elements.size <= 0 || elements.last is HasOpenBracket)
+
+    private fun buildRawExpression(): String {
+        if (elements.size <= 0)
             return ""
         builder.clear()
+        elements.forEachIndexed { index, e ->
+            builder.append(if (e is MathConstant) e.name else e.value)
+        }
+        return builder.toString()
+    }
+
+    fun buildExpression(sanitizeToEval: Boolean): String {
         if (sanitizeToEval) {
+            if (elements.size <= 0)
+                return ""
+            builder.clear()
             elements.forEach { e ->
                 builder.append(if (e is DoubleNameFunction) e.alternativeValue else e.value)
             }
@@ -91,9 +101,7 @@ class MathExpression(
             for (i in 0 until openBrackets)
                 builder.append(CLOSE_BRACKET_SYMBOL_CHAR)
         } else {
-            elements.forEach { e ->
-                builder.append(if (e is MathConstant) e.name else e.value)
-            }
+            return buildRawExpression()
         }
         return builder.toString()
     }
@@ -146,17 +154,17 @@ class MathExpression(
                         && (operator == MathOperator.MINUS || isPlusMinus) -> lastElement.append(MINUS_SYMBOL)
                 elements.isEmpty() || lastElement is HasOpenBracket -> {
                     if (isPlusMinus || operator == MathOperator.MINUS)
-                        elements.add(MinusOperator())
+                        elements.add(MinusOperator)
                 }
-                isPlusMinus && lastElement is PlusOperator -> elements.replaceLast(MinusOperator())
-                isPlusMinus && lastElement is MinusOperator -> elements.replaceLast(PlusOperator())
+                isPlusMinus && lastElement is PlusOperator -> elements.replaceLast(MinusOperator)
+                isPlusMinus && lastElement is MinusOperator -> elements.replaceLast(PlusOperator)
                 lastElement is Operator -> elements.apply {
                     val removedOperator = removeLast()
                     if (last !is HasOpenBracket || operator == MathOperator.PLUS || operator == MathOperator.MINUS) {
-                        add(operator.value())
+                        add(operator.value)
                     } else add(removedOperator)
                 }
-                else -> elements.add(operator.value())
+                else -> elements.add(operator.value)
             }
         }
     }
@@ -187,7 +195,7 @@ class MathExpression(
             return this
         if (openBrackets > 0 || type == MathBracket.OPEN) {
             if (type == MathBracket.OPEN) openBrackets++ else openBrackets--
-            elements.add(type.value())
+            elements.add(type.value)
         }
     }
 

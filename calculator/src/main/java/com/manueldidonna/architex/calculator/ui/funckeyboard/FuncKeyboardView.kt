@@ -7,7 +7,7 @@ import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architex.mathevaluator.*
-import com.manueldidonna.architex.mathevaluator.internal.EXP_SYMBOL
+import com.manueldidonna.architex.mathevaluator.EXP_SYMBOL
 import com.manueldidonna.architexcalc.core.extensions.find
 
 internal sealed class FuncKeyboardEvent {

@@ -1,4 +1,4 @@
-package com.manueldidonna.architex.mathevaluator.internal
+package com.manueldidonna.architex.mathevaluator
 
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import java.math.BigInteger

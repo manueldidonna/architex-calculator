@@ -1,4 +1,4 @@
-package com.manueldidonna.architex.mathevaluator.internal
+package com.manueldidonna.architex.mathevaluator
 
 internal interface MathElement {
     val value: String
