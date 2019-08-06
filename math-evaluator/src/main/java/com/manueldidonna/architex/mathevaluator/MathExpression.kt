@@ -98,6 +98,7 @@ class MathExpression(
         return builder.toString()
     }
 
+    fun number(number: Int): MathExpression = number(number.toString())
     fun number(number: String): MathExpression = apply {
         checkDebug(debug, { !number.any { !it.isDigit() } }) { "String must contains only digits" }
         (elements.safeLast() as? NumberElement)
