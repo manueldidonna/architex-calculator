@@ -7,7 +7,7 @@ import java.util.*
 
 class StandardMathFormat(
     locale: Locale = Locale.ITALIAN,
-    configuration: Configuration = Configuration()
+    configuration: FormatConfiguration = FormatConfiguration()
 ) : MathFormat {
     private val decimalFormat = NumberFormat.getInstance(locale) as DecimalFormat
 

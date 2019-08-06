@@ -1,6 +1,6 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.format.Configuration
+import com.manueldidonna.architex.mathevaluator.format.FormatConfiguration
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL
@@ -17,7 +17,7 @@ class ScientificNotationTest : FeatureSpec() {
     private lateinit var mathFormat: MathFormat
 
     override fun beforeSpec(spec: Spec) {
-        val configuration = Configuration(maximumFractionDigits = 4)
+        val configuration = FormatConfiguration(maximumFractionDigits = 4)
         mathFormat = spyk(
             StandardMathFormat(
                 Locale.ITALIAN,

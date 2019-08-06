@@ -1,6 +1,6 @@
 package com.manueldidonna.architex.mathevaluator.format
 
-data class Configuration (
+data class FormatConfiguration (
     val maximumFractionDigits: Int  = 4,
     val maximumIntegerDigits: Int = 40,
     val minimumFractionDigits: Int = 0,
