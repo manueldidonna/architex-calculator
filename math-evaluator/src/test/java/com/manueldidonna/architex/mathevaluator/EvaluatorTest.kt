@@ -1,5 +1,7 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.evaluator.Exp4JEvaluator
+import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult

@@ -6,7 +6,7 @@ import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architex.calculator.ui.CalculatorController
 import com.manueldidonna.architex.calculator.ui.CalculatorState
 import com.manueldidonna.architex.calculator.ui.CalculatorStateManager
-import com.manueldidonna.architex.mathevaluator.Exp4JEvaluator
+import com.manueldidonna.architex.mathevaluator.evaluator.Exp4JEvaluator
 import com.manueldidonna.architex.mathevaluator.MathOperator
 import com.manueldidonna.architexcalc.core.base.BaseStatefulController
 
