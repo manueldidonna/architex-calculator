@@ -3,70 +3,89 @@ package com.manueldidonna.architex.mathevaluator.internal
 import com.manueldidonna.architex.mathevaluator.MathFormat
 import java.math.BigInteger
 
-internal data class Number(private val mathFormat: MathFormat) : MathElement {
-    private val activeBuilder = StringBuilder()
-    private val frozenBuilder = StringBuilder()
-    var isDecimal = false
-        private set
-    var isScientific = false
-        private set
+internal interface NumberElement : MathElement {
+    fun append(newNumber: String)
+}
 
-    fun append(newNumber: String) {
-        if (isDecimal || isScientific) {
-            frozenBuilder.append(newNumber)
-        } else {
-            // there isn't a check for string with multiple zeros. ex: "000" will be accepted
-            if (newNumber != "0" || activeBuilder.toString() != "0") {
-                if (newNumber != "0" && activeBuilder.toString() == "0")
-                    activeBuilder.deleteCharAt(activeBuilder.lastIndex)
-                activeBuilder.append(newNumber)
-            }
-        }
-    }
-
-    fun append(newNumber: Char) {
-        if (isDecimal || isScientific) {
-            frozenBuilder.append(newNumber)
-        } else {
-            if (newNumber != '0' || activeBuilder.toString() != "0") {
-                if (newNumber != '0' && activeBuilder.toString() == "0")
-                    activeBuilder.deleteCharAt(activeBuilder.lastIndex)
-                activeBuilder.append(newNumber)
-            }
-        }
-    }
-
-    fun appendDecimalSeparator() {
-        if (!isDecimal && !isScientific) {
-            frozenBuilder.append(mathFormat.decimalSeparator)
-            isDecimal = true
-        }
-    }
-
-    fun appendScientificNotation() {
-        if (!isScientific) {
-            frozenBuilder.append('E')
-            isScientific = true
-        }
-    }
-
+internal data class DecimalNumber(private val mathFormat: MathFormat) : NumberElement {
+    private val numberBuilder = StringBuilder()
     override val value: String
-        get() = when {
-            frozenBuilder.isNotEmpty() && activeBuilder.isNotEmpty() -> {
-                mathFormat.format(BigInteger(activeBuilder.toString())) + frozenBuilder.toString()
-            }
-            frozenBuilder.isNotEmpty() -> frozenBuilder.toString()
-            activeBuilder.isNotEmpty() -> mathFormat.format(BigInteger(activeBuilder.toString()))
-            else -> ""
-        }
+        get() = mathFormat.decimalSeparator.toString() + numberBuilder.toString()
+
+    private var canBeDeleted = 2
+
+    override fun append(newNumber: String) {
+        canBeDeleted = 2
+        numberBuilder.append(newNumber)
+    }
 
     override fun delete(): Boolean {
-        if (frozenBuilder.isNotEmpty())
-            frozenBuilder.deleteCharAt(frozenBuilder.lastIndex)
-        else if (activeBuilder.isNotEmpty())
-            activeBuilder.deleteCharAt(activeBuilder.lastIndex)
-        isDecimal = frozenBuilder.isNotEmpty() && isDecimal
-        isScientific = frozenBuilder.contains('E')
-        return activeBuilder.length + frozenBuilder.length == 0
+        if (numberBuilder.isNotEmpty()) {
+            numberBuilder.deleteCharAt(numberBuilder.lastIndex)
+        }
+        if (numberBuilder.isEmpty()) {
+            canBeDeleted--
+        }
+        return canBeDeleted == 0
+    }
+}
+
+internal class ScientificNotation : NumberElement {
+    private var number: String = ""
+    override val value: String get() = if (number.isEmpty()) "E0" else "E$number"
+
+    val isMinusOperatorAccepted: Boolean get() = number.isEmpty()
+
+    private var canBeDeleted = 2
+
+    override fun append(newNumber: String) {
+        canBeDeleted = 2
+        number += newNumber
+    }
+
+    override fun delete(): Boolean {
+        if (number.isNotEmpty()) {
+            number = number.dropLast(1)
+        }
+        if(number.isEmpty())
+            canBeDeleted--
+        return canBeDeleted == 0
+    }
+}
+
+internal data class IntegerNumber(private val mathFormat: MathFormat) : NumberElement {
+    private val numberBuilder = StringBuilder()
+
+    private var isCacheValid = false
+
+    private var cachedValue: String = ""
+
+    override val value: String
+        get() {
+            if (isCacheValid)
+                return cachedValue
+            val length = numberBuilder.length
+            cachedValue = when {
+                length <= 8 -> mathFormat.format(numberBuilder.toString().toInt())
+                length <= 14 -> mathFormat.format(numberBuilder.toString().toLong())
+                else -> mathFormat.format(BigInteger(numberBuilder.toString()))
+            }
+            isCacheValid = true
+            return cachedValue
+        }
+
+    override fun append(newNumber: String) {
+        isCacheValid = false
+        if (numberBuilder.toString() == "0")
+            numberBuilder.deleteCharAt(numberBuilder.lastIndex)
+        numberBuilder.append(newNumber)
+    }
+
+    override fun delete(): Boolean {
+        if (numberBuilder.isNotEmpty()) {
+            numberBuilder.deleteCharAt(numberBuilder.lastIndex)
+            isCacheValid = false
+        }
+        return numberBuilder.isEmpty()
     }
 }

@@ -1,7 +1,6 @@
 package com.manueldidonna.architex.mathevaluator
 
 import com.manueldidonna.architex.mathevaluator.internal.*
-import com.manueldidonna.architex.mathevaluator.internal.Number
 import com.manueldidonna.architex.mathevaluator.internal.utils.*
 import java.util.*
 
@@ -98,31 +97,38 @@ class MathExpression(
 
     fun appendNumber(number: String) {
         checkDebug(debug, { !number.any { !it.isDigit() } }) { "String must contains only digits" }
-        (elements.safeLast() as? Number)
+        (elements.safeLast() as? NumberElement)
             ?.append(number)
-            ?: elements.add(Number(mathFormat).apply { append(number) })
+            ?: elements.add(IntegerNumber(mathFormat).apply { append(number) })
     }
 
     fun appendDecimalSeparator() {
-        (elements.safeLast() as? Number)
-            ?.appendDecimalSeparator()
-            ?: elements.add(Number(mathFormat).apply { appendDecimalSeparator() })
+        val last = elements.safeLast()
+        if (last !is DecimalNumber && last !is ScientificNotation) {
+            elements.add(DecimalNumber(mathFormat))
+        }
     }
 
     fun appendScientificNotation() {
-        (elements.safeLast() as? Number)?.appendScientificNotation()
+        val last = elements.safeLast()
+        if (last !is ScientificNotation && (last is IntegerNumber || last is DecimalNumber)) {
+            elements.add(ScientificNotation())
+        }
     }
 
     fun appendScientificNumber(number: String) {
-        checkDebug(debug, { number.count { it == 'E' } == 1 }) { "String must contains a scientific notation" }
-        val lastNumber = (elements.safeLast() as? Number) ?: Number(mathFormat).also { elements.add(it) }
-        if (lastNumber.isScientific) return
+        checkDebug(debug, { number.count { it == 'E' } == 1 }) { "$number must contains a scientific notation 'E'" }
+        if (elements.safeLast() is ScientificNotation) return
         number.forEach { char ->
             when {
-                char.isDigit() -> lastNumber.append(char)
-                char.isMinusSymbol() && lastNumber.isScientific -> lastNumber.append(MINUS_SYMBOL_CHAR)
-                char == mathFormat.decimalSeparator -> lastNumber.appendDecimalSeparator()
-                char == 'E' -> lastNumber.appendScientificNotation()
+                char.isDigit() -> appendNumber(char.toString())
+                char.isMinusSymbol() -> {
+                    val lastElement = elements.safeLast()
+                    if (lastElement is ScientificNotation && lastElement.isMinusOperatorAccepted)
+                        lastElement.append(MINUS_SYMBOL)
+                }
+                char == mathFormat.decimalSeparator -> appendDecimalSeparator()
+                char == 'E' -> appendScientificNotation()
             }
         }
     }
@@ -132,6 +138,8 @@ class MathExpression(
             val isPlusMinus = operator == MathOperator.PLUS_MINUS
             val lastElement = elements.safeLast()
             when {
+                lastElement is ScientificNotation && lastElement.isMinusOperatorAccepted
+                        && (operator == MathOperator.MINUS || isPlusMinus) -> lastElement.append(MINUS_SYMBOL)
                 elements.isEmpty() || lastElement is HasOpenBracket -> {
                     if (isPlusMinus || operator == MathOperator.MINUS)
                         elements.add(MinusOperator())
@@ -167,7 +175,7 @@ class MathExpression(
     }
 
     /**
-     * Cannot append a close bracket if [openBrackets] is 0
+     * Cannot append a close bracket without open brackets
      * Cannot have empty brackets
      */
     fun appendBracket(type: MathBracket) {
