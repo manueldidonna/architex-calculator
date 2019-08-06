@@ -24,26 +24,26 @@ class NumberTest : FeatureSpec() {
         feature("Numbers") {
             scenario("7 digits") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("3456797")
+                    number("3456797")
                 } shouldBe mathFormat.format(3456797)
             }
             scenario("6 digits after a decimal separator") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("7")
-                    appendDecimalSeparator()
-                    appendNumber("123456")
+                    number("7")
+                    decimalSeparator()
+                    number("123456")
                 } shouldBe "7${mathFormat.decimalSeparator}123456"
             }
             scenario("6 digits before & after a decimal separator") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("123456")
-                    appendDecimalSeparator()
-                    appendNumber("123456")
+                    number("123456")
+                    decimalSeparator()
+                    number("123456")
                 } shouldBe "${mathFormat.format(123456)}${mathFormat.decimalSeparator}123456"
             }
             scenario("delete digits") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("1234567")
+                    number("1234567")
                     deleteLastElement()
                 } shouldBe mathFormat.format(123456)
                 mathExpression.buildExpression(false) {
@@ -53,24 +53,24 @@ class NumberTest : FeatureSpec() {
             }
             scenario("delete an operator & append a number") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("123")
-                    appendOperator(MathOperator.PLUS)
+                    number("123")
+                    operator(MathOperator.PLUS)
                 } shouldBe "123+"
                 mathExpression.buildExpression(false) {
                     deleteLastElement()
-                    appendNumber("4")
+                    number("4")
                 } shouldBe mathFormat.format(1234)
             }
-            scenario("append letters with appendNumber()") {
-                shouldThrow<IllegalArgumentException> { mathExpression.appendNumber("3E") }
+            scenario("append letters with number()") {
+                shouldThrow<IllegalArgumentException> { mathExpression.number("3E") }
             }
             scenario("multiple zeros") {
                 mathExpression.buildExpression(true) {
-                    appendNumber("0")
-                    appendNumber("0")
-                    appendNumber("0")
-                    appendNumber("0")
-                    appendNumber("7")
+                    number("0")
+                    number("0")
+                    number("0")
+                    number("0")
+                    number("7")
                 } shouldBe "7"
 
                 mathExpression.buildExpression(true) {
@@ -79,8 +79,8 @@ class NumberTest : FeatureSpec() {
             }
             scenario("number with only decimals") {
                 mathExpression.buildExpression(true) {
-                    appendDecimalSeparator()
-                    appendNumber("345")
+                    decimalSeparator()
+                    number("345")
                 } shouldBe "${mathFormat.decimalSeparator}345"
             }
         }

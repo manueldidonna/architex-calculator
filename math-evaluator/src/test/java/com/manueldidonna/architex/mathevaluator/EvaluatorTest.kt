@@ -32,25 +32,25 @@ class EvaluatorTest : FeatureSpec() {
         feature("Evaluator") {
             scenario("eval a scientific number") {
                 val expr = mathExpression.buildExpression(true) {
-                    appendNumber("3")
-                    appendOperator(MathOperator.PLUS)
-                    appendNumber("345")
-                    appendDecimalSeparator()
-                    appendNumber("2345")
-                    appendScientificNotation()
-                    appendNumber("3")
+                    number("3")
+                    operator(MathOperator.PLUS)
+                    number("345")
+                    decimalSeparator()
+                    number("2345")
+                    scientificNotation()
+                    number("3")
                 }
                 mathEvaluator.eval(expr) shouldBe MathResult.Success(345237.5)
             }
             scenario("format result to scientific notation") {
                 val expr = mathExpression.buildExpression(true) {
-                    appendNumber("123456484")
-                    appendOperator(MathOperator.MULTIPLY)
-                    appendNumber("344")
-                    appendDecimalSeparator()
-                    appendNumber("2345")
-                    appendScientificNotation()
-                    appendNumber("3")
+                    number("123456484")
+                    operator(MathOperator.MULTIPLY)
+                    number("344")
+                    decimalSeparator()
+                    number("2345")
+                    scientificNotation()
+                    number("3")
                 }
                 val result = mathEvaluator.eval(expr)
                 result::class.java shouldBe MathResult.Success::class.java

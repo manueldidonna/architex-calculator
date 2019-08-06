@@ -15,13 +15,13 @@ class CalculatorStateManager(
     private val insertHistoryItem: InsertHistoryItemInteractor
 ) : BaseStateManager<CalculatorState>(initialState) {
 
-    fun appendNumber(value: String) = setExpression { appendNumber(value) }
-    fun appendDecimalSeparator() = setExpression { appendDecimalSeparator() }
-    fun appendScientificNotation() = setExpression { appendScientificNotation() }
-    fun appendOperator(op: MathOperator) = setExpression { appendOperator(op) }
-    fun appendBracket(bracket: MathBracket) = setExpression { appendBracket(bracket) }
-    fun appendConstant(const: MathConstant) = setExpression { appendConstant(const) }
-    fun appendFunction(func: MathFunction) = setExpression { appendFunction(func) }
+    fun appendNumber(value: String) = setExpression { number(value) }
+    fun appendDecimalSeparator() = setExpression { decimalSeparator() }
+    fun appendScientificNotation() = setExpression { scientificNotation() }
+    fun appendOperator(op: MathOperator) = setExpression { operator(op) }
+    fun appendBracket(bracket: MathBracket) = setExpression { bracket(bracket) }
+    fun appendConstant(const: MathConstant) = setExpression { constant(const) }
+    fun appendFunction(func: MathFunction) = setExpression { function(func) }
     fun clearExpression() = setExpression { clear() }
     fun deleteLastElement() = setExpression { deleteLastElement() }
     fun appendExpression(newExpression: String, overwriteCurrentExpression: Boolean) {

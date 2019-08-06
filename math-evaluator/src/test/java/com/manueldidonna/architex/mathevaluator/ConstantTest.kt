@@ -27,13 +27,13 @@ class ConstantTest : FeatureSpec() {
         feature("Math Constants") {
             scenario("pi constant") {
                 mathExpression.buildExpression(false) {
-                    appendConstant(Exp4JEvaluator.PI_CONST)
+                    constant(Exp4JEvaluator.PI_CONST)
                 } shouldBe Exp4JEvaluator.PI_CONST.name
                 mathExpression.eval(mathEvaluator) shouldBe MathResult.Success(Math.PI)
             }
             scenario("euler constant") {
                 mathExpression.buildExpression(false) {
-                    appendConstant(Exp4JEvaluator.EULER_CONST)
+                    constant(Exp4JEvaluator.EULER_CONST)
                 } shouldBe Exp4JEvaluator.EULER_CONST.name
                 mathExpression.eval(mathEvaluator) shouldBe MathResult.Success(Math.E)
             }
@@ -41,7 +41,7 @@ class ConstantTest : FeatureSpec() {
                 val customValue = "${Exp4JEvaluator.LN_FUNC.alternativeValue}35$CLOSE_BRACKET_SYMBOL"
                 val customConst = MathConstant("test", customValue)
                 mathExpression.buildExpression(false){
-                    appendConstant(customConst)
+                    constant(customConst)
                 } shouldBe "test"
                 mathExpression.eval(mathEvaluator) shouldBe mathEvaluator.eval(customValue)
             }

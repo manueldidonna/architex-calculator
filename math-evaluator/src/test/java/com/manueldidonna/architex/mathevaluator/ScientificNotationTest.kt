@@ -26,48 +26,42 @@ class ScientificNotationTest : FeatureSpec() {
     init {
         feature("Scientific Notation") {
             scenario("minus symbol after 'E'") {
-                mathExpression.buildExpression(false) {
-                    appendScientificNumber("2345,85E-4")
-                    appendDecimalSeparator()
-                    appendNumber("345")
-                } shouldBe "2.345,85E${MINUS_SYMBOL}4345"
+                mathExpression
+                    .scientificNumber("2345,85E-4")
+                    .decimalSeparator()
+                    .number("345")
+                    .buildExpression(false) shouldBe "2.345,85E${MINUS_SYMBOL}4345"
             }
-            scenario("can't combine two scientific number"){
-                mathExpression.buildExpression(false) {
-                    appendScientificNumber("4E6")
-                    appendScientificNumber("3E5")
-                } shouldBe "4E6"
+            scenario("can't combine two scientific number") {
+                mathExpression
+                    .scientificNumber("4E6")
+                    .scientificNumber("3E5")
+                    .buildExpression(false) shouldBe "4E6"
             }
-            scenario("minus operator with scientific notation"){
-                mathExpression.buildExpression(false){
-                    appendNumber("345")
-                    appendScientificNotation()
-                    appendOperator(MathOperator.MINUS)
-                    appendNumber("12345")
-                } shouldBe "345E${MINUS_SYMBOL}12345"
-                mathExpression.clear()
-                mathExpression.buildExpression(false){
-                    appendNumber("345")
-                    appendScientificNotation()
-                    appendNumber("12345")
-                    appendOperator(MathOperator.MINUS)
-                    appendNumber("12")
-                } shouldBe "345E12345${MINUS_SYMBOL}12"
+            scenario("minus operator with scientific notation") {
+                mathExpression
+                    .number("345")
+                    .scientificNotation()
+                    .operator(MathOperator.MINUS)
+                    .number("12345")
+                    .buildExpression(false) shouldBe "345E${MINUS_SYMBOL}12345"
+                mathExpression
+                    .clear()
+                    .number("345")
+                    .scientificNotation()
+                    .number("12345")
+                    .operator(MathOperator.MINUS)
+                    .number("12")
+                    .buildExpression(false) shouldBe "345E12345${MINUS_SYMBOL}12"
             }
-            scenario("delete elements from scientific number"){
-                mathExpression.buildExpression(false){
-                    appendNumber("45")
-                    appendScientificNotation()
-                } shouldBe "45E0"
-                mathExpression.buildExpression(false){
-                    appendNumber("2")
-                } shouldBe "45E2"
-                mathExpression.buildExpression(false){
-                    deleteLastElement()
-                } shouldBe "45E0"
-                mathExpression.buildExpression(false){
-                    appendNumber("86")
-                } shouldBe "45E86"
+            scenario("delete elements from scientific number") {
+                mathExpression
+                    .number("45")
+                    .scientificNotation()
+                    .buildExpression(false) shouldBe "45E0"
+                mathExpression.number("2").buildExpression(false) shouldBe "45E2"
+                mathExpression.deleteLastElement().buildExpression(false) shouldBe "45E0"
+                mathExpression.number("86").buildExpression(false) shouldBe "45E86"
             }
         }
     }

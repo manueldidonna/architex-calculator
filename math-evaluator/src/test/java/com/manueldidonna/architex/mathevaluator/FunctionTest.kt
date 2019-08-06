@@ -22,8 +22,8 @@ class FunctionTest : FeatureSpec() {
         feature("Math Functions") {
             scenario("brackets after function name") {
                 mathExpression.buildExpression(true) {
-                    appendFunction("log")
-                    appendNumber("3")
+                    function("log")
+                    number("3")
                 } shouldBe "log(3)"
                 mathExpression.buildExpression(true) {
                     addExpression("log3", overwriteCurrentExpression = true)
@@ -31,14 +31,14 @@ class FunctionTest : FeatureSpec() {
             }
             scenario("delete a function") {
                 mathExpression.buildExpression(true) {
-                    appendFunction("log")
-                    appendNumber("3")
+                    function("log")
+                    number("3")
                     deleteLastElement()
                     deleteLastElement()
                 } shouldBe ""
             }
             scenario("function name must contains only letter") {
-                shouldThrow<IllegalArgumentException> { mathExpression.appendFunction("log3") }
+                shouldThrow<IllegalArgumentException> { mathExpression.function("log3") }
             }
         }
     }
