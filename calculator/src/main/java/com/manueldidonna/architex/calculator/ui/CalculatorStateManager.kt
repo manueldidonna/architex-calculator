@@ -3,6 +3,7 @@ package com.manueldidonna.architex.calculator.ui
 import com.manueldidonna.architex.calculator.domain.InsertHistoryItemInteractor
 import com.manueldidonna.architex.mathevaluator.*
 import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
+import com.manueldidonna.architex.mathevaluator.evaluator.MathResult
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import com.manueldidonna.architexcalc.core.base.BaseStateManager
 import com.manueldidonna.architexcalc.core.launchInteractor

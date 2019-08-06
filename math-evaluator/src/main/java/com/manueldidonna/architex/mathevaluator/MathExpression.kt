@@ -1,6 +1,7 @@
 package com.manueldidonna.architex.mathevaluator
 
 import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
+import com.manueldidonna.architex.mathevaluator.evaluator.MathResult
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import com.manueldidonna.architex.mathevaluator.internal.*
 import com.manueldidonna.architex.mathevaluator.internal.utils.*

@@ -1,4 +1,4 @@
-package com.manueldidonna.architex.mathevaluator
+package com.manueldidonna.architex.mathevaluator.evaluator
 
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
 
