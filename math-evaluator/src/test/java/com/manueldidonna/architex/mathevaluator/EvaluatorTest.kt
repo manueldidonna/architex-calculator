@@ -2,6 +2,9 @@ package com.manueldidonna.architex.mathevaluator
 
 import com.manueldidonna.architex.mathevaluator.evaluator.Exp4JEvaluator
 import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
+import com.manueldidonna.architex.mathevaluator.format.Configuration
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -22,7 +25,11 @@ class EvaluatorTest : FeatureSpec() {
         mathEvaluator = spyk(Exp4JEvaluator(mathFormat))
         resultMathFormat = StandardMathFormat(
             Locale.ITALIAN,
-            Configuration(maximumFractionDigits = 4, maximumIntegerDigits = 1, useScientificNotation = true)
+            Configuration(
+                maximumFractionDigits = 4,
+                maximumIntegerDigits = 1,
+                useScientificNotation = true
+            )
         )
     }
 

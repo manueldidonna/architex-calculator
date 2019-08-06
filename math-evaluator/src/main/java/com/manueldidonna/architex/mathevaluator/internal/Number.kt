@@ -1,6 +1,6 @@
 package com.manueldidonna.architex.mathevaluator.internal
 
-import com.manueldidonna.architex.mathevaluator.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import java.math.BigInteger
 
 internal interface NumberElement : MathElement {

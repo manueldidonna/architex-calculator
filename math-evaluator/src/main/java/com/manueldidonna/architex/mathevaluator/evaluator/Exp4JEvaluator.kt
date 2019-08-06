@@ -1,6 +1,7 @@
 package com.manueldidonna.architex.mathevaluator.evaluator
 
 import com.manueldidonna.architex.mathevaluator.*
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_DIVIDE_SYMBOL_CHAR
 import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_MINUS_SYMBOL_CHAR
 import com.manueldidonna.architex.mathevaluator.internal.ALTERNATIVE_MULTIPLY_SYMBOL_CHAR

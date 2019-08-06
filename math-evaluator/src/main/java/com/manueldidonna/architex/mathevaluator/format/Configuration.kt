@@ -1,4 +1,4 @@
-package com.manueldidonna.architex.mathevaluator
+package com.manueldidonna.architex.mathevaluator.format
 
 data class Configuration (
     val maximumFractionDigits: Int  = 4,

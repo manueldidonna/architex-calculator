@@ -1,5 +1,8 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.format.Configuration
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import io.kotlintest.*
 import io.kotlintest.specs.FeatureSpec
 import io.mockk.spyk
@@ -12,7 +15,12 @@ class NumberTest : FeatureSpec() {
 
     override fun beforeSpec(spec: Spec) {
         val configuration = Configuration(maximumFractionDigits = 4)
-        mathFormat = spyk(StandardMathFormat(Locale.ITALIAN, configuration))
+        mathFormat = spyk(
+            StandardMathFormat(
+                Locale.ITALIAN,
+                configuration
+            )
+        )
         mathExpression = spyk(MathExpression(mathFormat, debug = true))
     }
 

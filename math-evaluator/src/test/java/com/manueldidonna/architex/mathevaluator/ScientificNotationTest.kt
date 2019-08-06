@@ -1,5 +1,8 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.format.Configuration
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
@@ -15,7 +18,12 @@ class ScientificNotationTest : FeatureSpec() {
 
     override fun beforeSpec(spec: Spec) {
         val configuration = Configuration(maximumFractionDigits = 4)
-        mathFormat = spyk(StandardMathFormat(Locale.ITALIAN, configuration))
+        mathFormat = spyk(
+            StandardMathFormat(
+                Locale.ITALIAN,
+                configuration
+            )
+        )
         mathExpression = spyk(MathExpression(mathFormat, debug = true))
     }
 
