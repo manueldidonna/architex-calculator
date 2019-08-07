@@ -1,6 +1,8 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL
+import com.manueldidonna.architex.mathevaluator.format.FormatConfiguration
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import io.kotlintest.*
 import io.kotlintest.specs.FeatureSpec
 import io.mockk.spyk
@@ -12,8 +14,13 @@ class NumberTest : FeatureSpec() {
     private lateinit var mathFormat: MathFormat
 
     override fun beforeSpec(spec: Spec) {
-        val configuration = Configuration(maximumFractionDigits = 4)
-        mathFormat = spyk(StandardMathFormat(Locale.ITALIAN, configuration))
+        val configuration = FormatConfiguration(maximumFractionDigits = 4)
+        mathFormat = spyk(
+            StandardMathFormat(
+                Locale.ITALIAN,
+                configuration
+            )
+        )
         mathExpression = spyk(MathExpression(mathFormat, debug = true))
     }
 
@@ -25,26 +32,26 @@ class NumberTest : FeatureSpec() {
         feature("Numbers") {
             scenario("7 digits") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("3456797")
+                    number("3456797")
                 } shouldBe mathFormat.format(3456797)
             }
             scenario("6 digits after a decimal separator") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("7")
-                    appendDecimalSeparator()
-                    appendNumber("123456")
+                    number("7")
+                    decimalSeparator()
+                    number("123456")
                 } shouldBe "7${mathFormat.decimalSeparator}123456"
             }
             scenario("6 digits before & after a decimal separator") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("123456")
-                    appendDecimalSeparator()
-                    appendNumber("123456")
+                    number("123456")
+                    decimalSeparator()
+                    number("123456")
                 } shouldBe "${mathFormat.format(123456)}${mathFormat.decimalSeparator}123456"
             }
             scenario("delete digits") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("1234567")
+                    number("1234567")
                     deleteLastElement()
                 } shouldBe mathFormat.format(123456)
                 mathExpression.buildExpression(false) {
@@ -54,53 +61,34 @@ class NumberTest : FeatureSpec() {
             }
             scenario("delete an operator & append a number") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("123")
-                    appendOperator(MathOperator.PLUS)
+                    number("123")
+                    operator(MathOperator.PLUS)
                 } shouldBe "123+"
                 mathExpression.buildExpression(false) {
                     deleteLastElement()
-                    appendNumber("4")
+                    number("4")
                 } shouldBe mathFormat.format(1234)
             }
-            scenario("append letters with appendNumber()") {
-                shouldThrow<IllegalArgumentException> { mathExpression.appendNumber("3E") }
+            scenario("append letters with number()") {
+                shouldThrow<IllegalArgumentException> { mathExpression.number("3E") }
             }
-          scenario("scientific notation") {
-                mathExpression.buildExpression(false) {
-                    clear()
-                    appendScientificNumber("2345,85E-4")
-                    appendDecimalSeparator()
-                    appendNumber("345")
-                } shouldBe "2.345,85E${MINUS_SYMBOL}4345"
-                // Can't combine two scientific number
-                mathExpression.buildExpression(false) {
-                    appendScientificNumber("3E5")
-                } shouldBe "2.345,85E${MINUS_SYMBOL}4345"
-
-                mathExpression.buildExpression(false) {
-                    clear()
-                    appendScientificNumber("12345E1234")
-                    appendOperator(MathOperator.PLUS)
-                    deleteLastElement()
-                } shouldBe "12.345E1234"
-            }
-            scenario("multiple zeros"){
+            scenario("multiple zeros") {
                 mathExpression.buildExpression(true) {
-                    appendNumber("0")
-                    appendNumber("0")
-                    appendNumber("0")
-                    appendNumber("0")
-                    appendNumber("7")
+                    number("0")
+                    number("0")
+                    number("0")
+                    number("0")
+                    number("7")
                 } shouldBe "7"
 
-                mathExpression.buildExpression(true){
+                mathExpression.buildExpression(true) {
                     deleteLastElement()
                 } shouldBe ""
             }
-            scenario("number with only decimals"){
-                mathExpression.buildExpression(true){
-                    appendDecimalSeparator()
-                    appendNumber("345")
+            scenario("number with only decimals") {
+                mathExpression.buildExpression(true) {
+                    decimalSeparator()
+                    number("345")
                 } shouldBe "${mathFormat.decimalSeparator}345"
             }
         }

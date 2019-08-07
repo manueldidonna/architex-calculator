@@ -1,5 +1,7 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -25,16 +27,16 @@ class BracketTest : FeatureSpec() {
         feature("Math Brackets") {
             scenario("close brackets") {
                 mathExpression.buildExpression(false) {
-                    appendBracket(MathBracket.OPEN)
-                    appendNumber("345")
+                    bracket(MathBracket.OPEN)
+                    number("345")
                 } shouldBe "${OPEN_BRACKET_SYMBOL_CHAR}345"
                 mathExpression.buildExpression(true) shouldBe "${OPEN_BRACKET_SYMBOL_CHAR}345$CLOSE_BRACKET_SYMBOL_CHAR"
             }
             scenario("close a bracket without opening it") {
                 mathExpression.buildExpression(false) {
-                    appendNumber("345")
-                    appendBracket(MathBracket.CLOSE)
-                    appendNumber("6")
+                    number("345")
+                    bracket(MathBracket.CLOSE)
+                    number("6")
                 } shouldBe "3${mathFormat.groupingSeparator}456"
             }
         }

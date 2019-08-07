@@ -1,9 +1,14 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.internal.MathElement
-
 /**
- * [name] is the name of the constant. Es: 'pi', 'e', ...
- * [value] is the value of che constant
+ * [value] is the name of the constant. Es: 'pi', 'e', ...
+ * [sanitizedValue] is the value of che constant
  */
-data class MathConstant(val name: String, override val value: String) : MathElement
+class MathConstant(name: String, constValue: String) : MathElement {
+    override val value: String = name
+    override val sanitizedValue: String = constValue
+}
+
+fun MathExpression.constant(constant: MathConstant): MathExpression = apply {
+    insertElement(constant)
+}

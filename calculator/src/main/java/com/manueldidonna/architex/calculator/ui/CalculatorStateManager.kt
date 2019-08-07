@@ -2,6 +2,9 @@ package com.manueldidonna.architex.calculator.ui
 
 import com.manueldidonna.architex.calculator.domain.InsertHistoryItemInteractor
 import com.manueldidonna.architex.mathevaluator.*
+import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
+import com.manueldidonna.architex.mathevaluator.evaluator.MathResult
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import com.manueldidonna.architexcalc.core.base.BaseStateManager
 import com.manueldidonna.architexcalc.core.launchInteractor
 import timber.log.Timber
@@ -15,17 +18,17 @@ class CalculatorStateManager(
     private val insertHistoryItem: InsertHistoryItemInteractor
 ) : BaseStateManager<CalculatorState>(initialState) {
 
-    fun appendNumber(value: String) = setExpression { appendNumber(value) }
-    fun appendDecimalSeparator() = setExpression { appendDecimalSeparator() }
-    fun appendScientificNotation() = setExpression { appendScientificNotation() }
-    fun appendOperator(op: MathOperator) = setExpression { appendOperator(op) }
-    fun appendBracket(bracket: MathBracket) = setExpression { appendBracket(bracket) }
-    fun appendConstant(const: MathConstant) = setExpression { appendConstant(const) }
-    fun appendFunction(func: MathFunction) = setExpression { appendFunction(func) }
+    fun appendNumber(value: String) = setExpression { number(value) }
+    fun appendDecimalSeparator() = setExpression { decimalSeparator() }
+    fun appendScientificNotation() = setExpression { scientificNotation() }
+    fun appendOperator(op: MathOperator) = setExpression { operator(op) }
+    fun appendBracket(bracket: MathBracket) = setExpression { bracket(bracket) }
+    fun appendConstant(const: MathConstant) = setExpression { constant(const) }
+    fun appendFunction(func: MathFunction) = setExpression { function(func) }
     fun clearExpression() = setExpression { clear() }
     fun deleteLastElement() = setExpression { deleteLastElement() }
     fun appendExpression(newExpression: String, overwriteCurrentExpression: Boolean) {
-        setExpression { addExpression(newExpression, overwriteCurrentExpression) }
+        setExpression { expression(newExpression, overwriteCurrentExpression) }
     }
 
     private inline fun setExpression(crossinline expr: MathExpression.() -> Unit) = setState {
@@ -62,7 +65,7 @@ class CalculatorStateManager(
                 result = result
             )
         )
-        mathExpression.addExpression(this.result, overwriteCurrentExpression = true)
+        mathExpression.expression(this.result, overwriteCurrentExpression = true)
         return@setState copy(expression = this.result, result = "", errorOnResult = false)
     }
 }

@@ -1,5 +1,10 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.evaluator.Exp4JEvaluator
+import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
+import com.manueldidonna.architex.mathevaluator.evaluator.MathResult
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -27,21 +32,21 @@ class ConstantTest : FeatureSpec() {
         feature("Math Constants") {
             scenario("pi constant") {
                 mathExpression.buildExpression(false) {
-                    appendConstant(Exp4JEvaluator.PI_CONST)
-                } shouldBe Exp4JEvaluator.PI_CONST.name
+                    constant(Exp4JEvaluator.PI_CONST)
+                } shouldBe Exp4JEvaluator.PI_CONST.value
                 mathExpression.eval(mathEvaluator) shouldBe MathResult.Success(Math.PI)
             }
             scenario("euler constant") {
                 mathExpression.buildExpression(false) {
-                    appendConstant(Exp4JEvaluator.EULER_CONST)
-                } shouldBe Exp4JEvaluator.EULER_CONST.name
+                    constant(Exp4JEvaluator.EULER_CONST)
+                } shouldBe Exp4JEvaluator.EULER_CONST.value
                 mathExpression.eval(mathEvaluator) shouldBe MathResult.Success(Math.E)
             }
             scenario("custom constant") {
-                val customValue = "${Exp4JEvaluator.LN_FUNC.alternativeValue}35$CLOSE_BRACKET_SYMBOL"
+                val customValue = "${Exp4JEvaluator.LN_FUNC.sanitizedValue}35$CLOSE_BRACKET_SYMBOL"
                 val customConst = MathConstant("test", customValue)
                 mathExpression.buildExpression(false){
-                    appendConstant(customConst)
+                    constant(customConst)
                 } shouldBe "test"
                 mathExpression.eval(mathEvaluator) shouldBe mathEvaluator.eval(customValue)
             }

@@ -1,5 +1,7 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import io.kotlintest.*
 import io.kotlintest.specs.FeatureSpec
 import io.mockk.spyk
@@ -22,23 +24,23 @@ class FunctionTest : FeatureSpec() {
         feature("Math Functions") {
             scenario("brackets after function name") {
                 mathExpression.buildExpression(true) {
-                    appendFunction("log")
-                    appendNumber("3")
+                    function("log")
+                    number("3")
                 } shouldBe "log(3)"
                 mathExpression.buildExpression(true) {
-                    addExpression("log3", overwriteCurrentExpression = true)
+                    expression("log3", overwriteCurrentExpression = true)
                 } shouldBe "log(3)"
             }
             scenario("delete a function") {
                 mathExpression.buildExpression(true) {
-                    appendFunction("log")
-                    appendNumber("3")
+                    function("log")
+                    number("3")
                     deleteLastElement()
                     deleteLastElement()
                 } shouldBe ""
             }
             scenario("function name must contains only letter") {
-                shouldThrow<IllegalArgumentException> { mathExpression.appendFunction("log3") }
+                shouldThrow<IllegalArgumentException> { mathExpression.function("log3") }
             }
         }
     }

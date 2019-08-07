@@ -1,4 +1,6 @@
-package com.manueldidonna.architex.mathevaluator
+package com.manueldidonna.architex.mathevaluator.evaluator
+
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
 
 sealed class MathResult {
     data class Success(val value: Double) : MathResult() {

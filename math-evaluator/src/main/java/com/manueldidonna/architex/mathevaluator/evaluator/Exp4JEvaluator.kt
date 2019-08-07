@@ -1,11 +1,14 @@
-package com.manueldidonna.architex.mathevaluator
+package com.manueldidonna.architex.mathevaluator.evaluator
 
-import com.manueldidonna.architex.mathevaluator.internal.*
+import com.manueldidonna.architex.mathevaluator.*
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.ALTERNATIVE_DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.ALTERNATIVE_MINUS_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.ALTERNATIVE_MULTIPLY_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.DIVIDE_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.MINUS_SYMBOL_CHAR
+import com.manueldidonna.architex.mathevaluator.MULTIPLY_SYMBOL_CHAR
 import net.objecthunter.exp4j.ExpressionBuilder
-
-interface MathEvaluator {
-    fun eval(expr: String): MathResult
-}
 
 class Exp4JEvaluator(private val mathFormat: MathFormat) : MathEvaluator {
     override fun eval(expr: String): MathResult = try {

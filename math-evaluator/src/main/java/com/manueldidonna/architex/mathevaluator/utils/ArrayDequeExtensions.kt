@@ -1,4 +1,4 @@
-package com.manueldidonna.architex.mathevaluator.internal.utils
+package com.manueldidonna.architex.mathevaluator.utils
 
 import java.util.*
 

@@ -1,6 +1,7 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.internal.MINUS_SYMBOL
+import com.manueldidonna.architex.mathevaluator.format.MathFormat
+import com.manueldidonna.architex.mathevaluator.format.StandardMathFormat
 import io.kotlintest.Spec
 import io.kotlintest.TestCase
 import io.kotlintest.TestResult
@@ -23,7 +24,7 @@ class ExpressionTest : FeatureSpec() {
     }
 
     private fun MathExpression.scan(expr: String) = buildExpression(true) {
-        addExpression(expr, overwriteCurrentExpression = true)
+        expression(expr, overwriteCurrentExpression = true)
     }
 
     init {

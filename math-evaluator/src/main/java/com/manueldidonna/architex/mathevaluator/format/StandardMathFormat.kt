@@ -1,22 +1,13 @@
-package com.manueldidonna.architex.mathevaluator
+package com.manueldidonna.architex.mathevaluator.format
 
 import java.math.BigInteger
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
-interface MathFormat {
-    val groupingSeparator: Char
-    val decimalSeparator: Char
-    fun format(number: Int): String
-    fun format(number: Double): String
-    fun format(number: Long): String
-    fun format(number: BigInteger): String
-}
-
 class StandardMathFormat(
     locale: Locale = Locale.ITALIAN,
-    configuration: Configuration = Configuration()
+    configuration: FormatConfiguration = FormatConfiguration()
 ) : MathFormat {
     private val decimalFormat = NumberFormat.getInstance(locale) as DecimalFormat
 
