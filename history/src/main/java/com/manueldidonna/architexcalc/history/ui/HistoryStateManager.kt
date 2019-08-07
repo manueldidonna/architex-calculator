@@ -58,6 +58,6 @@ class HistoryStateManager(
     fun deselectAllItems() = setState { copy(selectedItemIds = hashSetOf()) }
 
     companion object {
-        private val DESCENDANT_HISTORY_ORDER = Preferences.BooleanPreference("desc_history_order")
+        private val DESCENDANT_HISTORY_ORDER = Preferences.BooleanPreference("desc_history_order", true)
     }
 }
