@@ -91,6 +91,19 @@ class NumberTest : FeatureSpec() {
                     number("345")
                 } shouldBe "${mathFormat.decimalSeparator}345"
             }
+            scenario("delete a decimal number"){
+                mathExpression
+                    .number(2)
+                    .decimalSeparator()
+                    .deleteLastElement()
+                    .buildExpression(false) shouldBe "2"
+                mathExpression
+                    .number(3)
+                    .decimalSeparator()
+                    .number(45)
+                    .deleteLastElement()
+                    .buildExpression(false) shouldBe "23${mathExpression.mathFormat.decimalSeparator}4"
+            }
         }
     }
 }
