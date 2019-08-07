@@ -2,7 +2,7 @@ package com.manueldidonna.architex.mathevaluator
 
 import com.manueldidonna.architex.mathevaluator.utils.isDivideSymbol
 import com.manueldidonna.architex.mathevaluator.utils.isMinusSymbol
-import com.manueldidonna.architex.mathevaluator.utils.isMultiplySimbol
+import com.manueldidonna.architex.mathevaluator.utils.isMultiplySymbol
 
 /**
  * if [overwriteCurrentExpression] is true [newExpression] will overwrite
@@ -61,7 +61,7 @@ private fun MathExpression.scanExpression(newExpr: String) {
             char == PLUS_SYMBOL_CHAR -> fixFuncWithOp(MathOperator.PLUS)
             char.isMinusSymbol() -> fixFuncWithOp(MathOperator.MINUS)
             char.isDivideSymbol() -> fixFuncWithOp(MathOperator.DIVIDE)
-            char.isMultiplySimbol() -> fixFuncWithOp(MathOperator.MULTIPLY)
+            char.isMultiplySymbol() -> fixFuncWithOp(MathOperator.MULTIPLY)
         }
     }
 }
