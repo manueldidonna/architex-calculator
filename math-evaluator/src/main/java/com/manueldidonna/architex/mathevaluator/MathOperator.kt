@@ -1,5 +1,7 @@
 package com.manueldidonna.architex.mathevaluator
 
+import com.manueldidonna.architex.mathevaluator.numbers.ScientificNotation
+
 internal const val PLUS_SYMBOL = "+"
 internal const val PLUS_SYMBOL_CHAR = '+'
 internal const val MINUS_SYMBOL = "−"
@@ -43,4 +45,29 @@ enum class MathOperator(internal val value: Operator) {
     MULTIPLY(MultiplyOperator),
     DIVIDE(DivideOperator),
     EXP(ExpOperator)
+}
+
+fun MathExpression.operator(op: MathOperator): MathExpression = apply {
+    val size = getElementsSize()
+    val lastElement = getLastElement()
+    if (size <= 0 || !(size == 1 && lastElement is MinusOperator)) {
+        val isPlusMinus = op == MathOperator.PLUS_MINUS
+        when {
+            lastElement is ScientificNotation && lastElement.isMinusOperatorAccepted
+                    && (op == MathOperator.MINUS || isPlusMinus) -> lastElement.append(MINUS_SYMBOL)
+            size == 0 || lastElement is HasOpenBracket -> {
+                if (isPlusMinus || op == MathOperator.MINUS)
+                    insertElement(MinusOperator)
+            }
+            isPlusMinus && lastElement is PlusOperator -> replaceLastElement(MinusOperator)
+            isPlusMinus && lastElement is MinusOperator -> replaceLastElement(PlusOperator)
+            lastElement is Operator -> {
+                val removedOperator = removeLastElement()
+                if (getLastElement() !is HasOpenBracket || op == MathOperator.PLUS || op == MathOperator.MINUS) {
+                    insertElement(op.value)
+                } else insertElement(removedOperator)
+            }
+            else -> insertElement(op.value)
+        }
+    }
 }

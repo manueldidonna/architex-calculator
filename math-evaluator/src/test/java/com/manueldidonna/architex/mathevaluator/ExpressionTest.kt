@@ -24,7 +24,7 @@ class ExpressionTest : FeatureSpec() {
     }
 
     private fun MathExpression.scan(expr: String) = buildExpression(true) {
-        addExpression(expr, overwriteCurrentExpression = true)
+        expression(expr, overwriteCurrentExpression = true)
     }
 
     init {

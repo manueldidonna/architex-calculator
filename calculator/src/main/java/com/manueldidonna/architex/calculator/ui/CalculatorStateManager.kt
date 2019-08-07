@@ -28,7 +28,7 @@ class CalculatorStateManager(
     fun clearExpression() = setExpression { clear() }
     fun deleteLastElement() = setExpression { deleteLastElement() }
     fun appendExpression(newExpression: String, overwriteCurrentExpression: Boolean) {
-        setExpression { addExpression(newExpression, overwriteCurrentExpression) }
+        setExpression { expression(newExpression, overwriteCurrentExpression) }
     }
 
     private inline fun setExpression(crossinline expr: MathExpression.() -> Unit) = setState {
@@ -65,7 +65,7 @@ class CalculatorStateManager(
                 result = result
             )
         )
-        mathExpression.addExpression(this.result, overwriteCurrentExpression = true)
+        mathExpression.expression(this.result, overwriteCurrentExpression = true)
         return@setState copy(expression = this.result, result = "", errorOnResult = false)
     }
 }
