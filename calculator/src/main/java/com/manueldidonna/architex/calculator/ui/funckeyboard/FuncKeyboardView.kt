@@ -44,7 +44,7 @@ internal class FuncKeyboardView(
                 headerTitle("Constants")
             }
             constants.forEach { const ->
-                addMathElement(const.name) { FuncKeyboardEvent.Constant(const) }
+                addMathElement(const.value) { FuncKeyboardEvent.Constant(const) }
             }
         }
     }
