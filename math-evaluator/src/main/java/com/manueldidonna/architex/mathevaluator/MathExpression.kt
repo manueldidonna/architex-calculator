@@ -1,17 +1,9 @@
 package com.manueldidonna.architex.mathevaluator
 
-import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
-import com.manueldidonna.architex.mathevaluator.evaluator.MathResult
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import com.manueldidonna.architex.mathevaluator.utils.replaceLast
 import com.manueldidonna.architex.mathevaluator.utils.safeLast
 import java.util.*
-
-fun MathExpression.eval(evaluator: MathEvaluator): MathResult = evaluator.eval(buildExpression(true))
-
-inline fun MathExpression.buildExpression(sanitize: Boolean, body: MathExpression.() -> Unit): String {
-    return apply(body).buildExpression(sanitize)
-}
 
 typealias SanitizeExpressionCallback = (MathExpression, StringBuilder) -> Unit
 
