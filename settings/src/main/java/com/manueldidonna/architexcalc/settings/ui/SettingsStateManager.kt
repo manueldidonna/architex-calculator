@@ -4,6 +4,7 @@ import com.manueldidonna.architexcalc.core.base.BaseStateManager
 import com.manueldidonna.architexcalc.core.launchInteractor
 import com.manueldidonna.architexcalc.core.prefs.CorePreferences.ASK_TO_CLEAR_HISTORY
 import com.manueldidonna.architexcalc.core.prefs.CorePreferences.DOUBLE_TAP_TO_EXIT_APP
+import com.manueldidonna.architexcalc.core.prefs.CorePreferences.TAP_BACK_TO_DELETE
 import com.manueldidonna.architexcalc.core.prefs.Preferences
 import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
 import com.manueldidonna.architexcalc.settings.domain.AutoClearHistoryInteractor
@@ -21,6 +22,7 @@ class SettingsStateManager(
             subscribe(ASK_TO_CLEAR_HISTORY) { newValue -> copy(askToClearHistory = newValue) }
             subscribe(AUTO_CLEAR_HISTORY_DAYS) { newValue -> copy(autoClearHistoryDays = newValue) }
             subscribe(DOUBLE_TAP_TO_EXIT_APP) { newValue -> copy(doubleTapToExit = newValue) }
+            subscribe(TAP_BACK_TO_DELETE) { newValue -> copy(tapBackToDelete = newValue) }
         }
     }
 
@@ -31,6 +33,10 @@ class SettingsStateManager(
 
     fun setAskConfirmation(value: Boolean) {
         prefsManager.set(ASK_TO_CLEAR_HISTORY, value)
+    }
+
+    fun setTapBackToDelete(value: Boolean){
+        prefsManager.set(TAP_BACK_TO_DELETE, value)
     }
 
     fun setDoubleTapToExit(value: Boolean) {

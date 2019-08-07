@@ -31,6 +31,7 @@ val calculatorKoinModule = module(override = true) {
     scoped { (state: CalculatorState) ->
         CalculatorStateManager(
             initialState = state,
+            prefsManager = get(),
             mathFormat = get(),
             scientificMathFormat = StandardMathFormat(
                 locale = get(),

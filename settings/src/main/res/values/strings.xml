@@ -3,6 +3,7 @@
     <string name="licenses_toolbar_title">Licenses</string>
     <!-- Settings Controller -->
     <string name="settings_double_tap_exit">Double tap to exit</string>
+    <string name="settings_tap_back_delete">Erase elements tapping back</string>
     <string name="settings_ask_before_deleting_history">Ask before clearing history</string>
     <string name="settings_auto_clear_history">Auto clear history</string>
     <string-array name="settings_auto_clear_history_values">

@@ -18,6 +18,17 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/settings_tap_back_delete"
+            style="@style/Widget.AppCompat.CompoundButton.Switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="16dp"
+            tools:checked="false"
+            android:text="@string/settings_tap_back_delete"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/settings_ask_clearing_history"
         style="@style/Widget.AppCompat.CompoundButton.Switch"
         android:layout_width="match_parent"

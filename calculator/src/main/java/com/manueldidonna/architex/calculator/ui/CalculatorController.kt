@@ -6,6 +6,7 @@ import com.bluelinelabs.conductor.support.RouterPagerAdapter
 import com.manueldidonna.arch.conductorLazy
 import com.manueldidonna.arch.controller.castActivity
 import com.manueldidonna.arch.controller.requireActivity
+import com.manueldidonna.arch.statemanager.withState
 import com.manueldidonna.architex.calculator.CalculatorNavigation
 import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architex.calculator.ui.copypaste.CopyPasteDialog
@@ -82,5 +83,13 @@ class CalculatorController : BaseStatefulController<CalculatorStateManager, Calc
 
     override fun onPasteExpressionCallback(expression: String, overwriteCurrentExpression: Boolean) {
         stateManager.appendExpression(expression, overwriteCurrentExpression)
+    }
+
+    override fun handleBack(): Boolean = withState {
+        if (it.tapBackToDelete && it.expression.isNotEmpty()) {
+            stateManager.deleteLastElement()
+            return true
+        }
+        return false
     }
 }

@@ -5,7 +5,8 @@ import com.manueldidonna.arch.state.ArxState
 data class SettingsState(
     val askToClearHistory: Boolean = true,
     val autoClearHistoryDays: Int = 0,
-    val doubleTapToExit: Boolean = false
+    val doubleTapToExit: Boolean = false,
+    val tapBackToDelete: Boolean = false
 ) : ArxState {
     companion object {
         fun getDaysFromIndex(index: Int) = when (index) {

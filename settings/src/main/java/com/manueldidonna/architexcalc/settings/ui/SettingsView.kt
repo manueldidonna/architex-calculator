@@ -9,6 +9,7 @@ import com.manueldidonna.architexcalc.settings.R
 
 internal sealed class SettingsEvent {
     data class AskToClearHistory(val value: Boolean) : SettingsEvent()
+    data class TapBackToDelete(val value: Boolean) : SettingsEvent()
     data class DoubleTapToExit(val value: Boolean) : SettingsEvent()
     object AutoClearHistory : SettingsEvent()
     object OpenGithubPage : SettingsEvent()
@@ -25,6 +26,7 @@ internal class SettingsView(view: View) : ArxInteractiveView<SettingsEvent> by A
     private val showLicensesButton = view.find<View>(R.id.settings_licenses)
     private val openGithubPageButton = view.find<View>(R.id.settings_github)
     private val doubleTapToExitSwitch = view.find<SwitchMaterial>(R.id.settings_double_tap_exit)
+    private val tapBackToDelete = view.find<SwitchMaterial>(R.id.settings_tap_back_delete)
     private val askToClearHistorySwitch = view.find<SwitchMaterial>(R.id.settings_ask_clearing_history)
     private val autoClearHistoryButton = view.find<View>(R.id.settings_auto_clear_history)
     private val autoClearHistoryValueView = view.find<AppCompatTextView>(R.id.settings_auto_clear_value)
@@ -34,20 +36,30 @@ internal class SettingsView(view: View) : ArxInteractiveView<SettingsEvent> by A
         emitOnClick(appThemeButton, SettingsEvent.ShowAppThemeEditor)
         emitOnClick(showLicensesButton, SettingsEvent.ShowLicenses)
         emitOnClick(openGithubPageButton, SettingsEvent.OpenGithubPage)
-        doubleTapToExitSwitch.setOnCheckedChangeListener { _, isChecked ->
-            emitEvent(SettingsEvent.DoubleTapToExit(isChecked))
+        emitAndBindSwitch(doubleTapToExitSwitch, SettingsState::doubleTapToExit) { isChecked ->
+            SettingsEvent.DoubleTapToExit(isChecked)
         }
-        askToClearHistorySwitch.setOnCheckedChangeListener { _, isChecked ->
-            emitEvent(SettingsEvent.AskToClearHistory(isChecked))
+        emitAndBindSwitch(tapBackToDelete, SettingsState::tapBackToDelete) { isChecked ->
+            SettingsEvent.TapBackToDelete(isChecked)
         }
-        bind(SettingsState::askToClearHistory) { askConfirm ->
-            askToClearHistorySwitch.isChecked = askConfirm
+        emitAndBindSwitch(askToClearHistorySwitch, SettingsState::askToClearHistory) { isChecked ->
+            SettingsEvent.AskToClearHistory(isChecked)
         }
         bind(SettingsState::autoClearHistoryDays) { days ->
             autoClearHistoryValueView.text = autoClearHistoryValues[SettingsState.getIndexFromDays(days)]
         }
-        bind(SettingsState::doubleTapToExit) { doubleTap ->
-            doubleTapToExitSwitch.isChecked = doubleTap
+    }
+
+    private inline fun emitAndBindSwitch(
+        view: SwitchMaterial,
+        noinline propToBind: (SettingsState) -> Boolean,
+        crossinline eventToEmit: (Boolean) -> SettingsEvent
+    ) {
+        view.setOnCheckedChangeListener { _, isChecked ->
+            emitEvent(eventToEmit(isChecked))
+        }
+        bind(propToBind) { newValue ->
+            view.isChecked = newValue
         }
     }
 }

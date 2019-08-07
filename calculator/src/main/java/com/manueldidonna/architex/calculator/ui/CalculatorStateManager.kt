@@ -7,16 +7,27 @@ import com.manueldidonna.architex.mathevaluator.evaluator.MathResult
 import com.manueldidonna.architex.mathevaluator.format.MathFormat
 import com.manueldidonna.architexcalc.core.base.BaseStateManager
 import com.manueldidonna.architexcalc.core.launchInteractor
+import com.manueldidonna.architexcalc.core.prefs.CorePreferences
+import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
 import timber.log.Timber
 
 class CalculatorStateManager(
     initialState: CalculatorState,
+    prefsManager: PreferencesManager,
     private val mathFormat: MathFormat,
     private val scientificMathFormat: MathFormat,
     private val mathEvaluator: MathEvaluator,
     private val mathExpression: MathExpression,
     private val insertHistoryItem: InsertHistoryItemInteractor
 ) : BaseStateManager<CalculatorState>(initialState) {
+
+    init {
+        prefsManager
+            .observe(CorePreferences.TAP_BACK_TO_DELETE)
+            .autoSubscribe { newValue ->
+                setState { copy(tapBackToDelete = newValue) }
+            }
+    }
 
     fun appendNumber(value: String) = setExpression { number(value) }
     fun appendDecimalSeparator() = setExpression { decimalSeparator() }

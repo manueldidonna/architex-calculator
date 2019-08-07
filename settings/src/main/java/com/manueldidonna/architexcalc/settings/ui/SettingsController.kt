@@ -31,6 +31,7 @@ class SettingsController : BaseStatefulController<SettingsStateManager, Settings
             .subscribeToStateChanges()
             .onEvents { event ->
                 when (event) {
+                    is SettingsEvent.TapBackToDelete -> stateManager.setTapBackToDelete(event.value)
                     is SettingsEvent.DoubleTapToExit -> stateManager.setDoubleTapToExit(event.value)
                     is SettingsEvent.AskToClearHistory -> stateManager.setAskConfirmation(event.value)
                     is SettingsEvent.AutoClearHistory -> showAutoClearHistoryDialog()
