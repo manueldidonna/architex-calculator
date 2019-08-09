@@ -14,9 +14,7 @@ internal class LicensesController : BaseStatelessController() {
         super.onViewCreated(view)
         addView(ToolbarView(view, getString(R.string.licenses_toolbar_title)))
             .onEvents { router.popController(this) }
-        addView(LicensesListView(view, licenses)).onEvents { event ->
-            startActivity(Intent(Intent.ACTION_VIEW).setData(event.url.toUri()))
-        }
+        addView(LicensesListView(view, licenses))
     }
 
     companion object {
@@ -26,12 +24,12 @@ internal class LicensesController : BaseStatelessController() {
             LicenseItem("AOSP AndroidX", "$APACHE_V2, January 2004"),
             LicenseItem("Material Components for Android", "$APACHE_V2, January 2004"),
             LicenseItem("Kotlin", "$APACHE_V2 (c) JetBrains"),
-            LicenseItem("Kotlin coroutines", "$APACHE_V2 (c) JetBrains"),
+            LicenseItem("Kotlin Coroutines", "$APACHE_V2 (c) JetBrains"),
             LicenseItem("Conductor", "$APACHE_V2 (c) BlueLine Labs, Inc."),
+            LicenseItem("SQLDelight", "$APACHE_V2 (c) 2016 Square, Inc."),
             LicenseItem("Epoxy", "$APACHE_V2 (c) 2016 Airbnb"),
-            LicenseItem("ThreeTenABP", "$APACHE_V2 (c) 2015 Jake Wharton"),
-            LicenseItem("Butter Knife", "$APACHE_V2 (c) 2013 Jake Wharton"),
             LicenseItem("Timber", "$APACHE_V2 (c) 2013 Jake Wharton"),
+            LicenseItem("ButterKnife", "$APACHE_V2 (c) 2013 Jake Wharton"),
             LicenseItem("RxKotlin", "$APACHE_V2 (c) 2012 Netflix"),
             LicenseItem("RxAndroid", "$APACHE_V2 (c) 2015 The RxAndroid authors"),
             LicenseItem("Koin", "$APACHE_V2 (c) 2017 Arnaud Giuliani, Laurent Baresse"),

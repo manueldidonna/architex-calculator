@@ -44,7 +44,6 @@ private object Versions {
     // JakeWharton
     const val butterKnife = "10.1.0"
     const val timber = "4.7.1"
-    const val threetenabp = "1.2.0"
     // AirBnb
     const val epoxy = "3.6.0"
     // Rx
@@ -80,7 +79,6 @@ object AndroidX {
 }
 
 object JakeWharton {
-    const val threetenabp = "com.jakewharton.threetenabp:threetenabp:${Versions.threetenabp}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     const val butterKnife = "com.jakewharton:butterknife:${Versions.butterKnife}"
     const val butterKnifeCompiler = "com.jakewharton:butterknife-compiler:${Versions.butterKnife}"

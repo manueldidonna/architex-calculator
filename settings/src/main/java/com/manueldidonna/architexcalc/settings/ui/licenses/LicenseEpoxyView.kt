@@ -37,10 +37,4 @@ internal class LicenseEpoxyView @JvmOverloads constructor(
     fun setType(text: CharSequence) {
         typeTextView.text = text
     }
-
-    @CallbackProp
-    fun setListener(listener: OnClickListener?) {
-        setOnClickListener(listener)
-    }
-
 }
