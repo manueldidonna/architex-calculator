@@ -3,7 +3,7 @@ package com.manueldidonna.architexcalc
 import android.app.Application
 import androidx.work.Configuration
 import com.manueldidonna.architex.calculator.calculatorKoinModule
-import com.manueldidonna.architexcalc.common.ui.ThemeManager
+import com.manueldidonna.architexcalc.common.ui.theme.ThemeManager
 import com.manueldidonna.architexcalc.common.ui.commonUIKoinModule
 import com.manueldidonna.architexcalc.core.coreKoinModule
 import com.manueldidonna.architexcalc.database.databaseKoinModule
