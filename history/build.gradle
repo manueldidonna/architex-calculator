@@ -14,6 +14,7 @@ android {
 }
 
 dependencies {
+    implementation project(Modules.commonUI)
     implementation project(Modules.core)
     implementation project(Modules.database)
     implementation project(Modules.conductorArch)

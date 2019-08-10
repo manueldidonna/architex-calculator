@@ -1,6 +1,6 @@
 apply from: './versionsPlugin.gradle'
 
-buildscript { 
+buildscript {
     ext.kotlin_version = '1.3.41'
 
     repositories {
@@ -14,7 +14,7 @@ buildscript {
         classpath GradlePlugins.versionsPlugin
         classpath GradlePlugins.butterKnifePlugin
         classpath GradlePlugins.sqldelightPlugin
-     }
+    }
 }
 
 allprojects {
