@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.bluelinelabs.conductor.Router
-import com.manueldidonna.architexcalc.core.ThemeManager
+import com.manueldidonna.architexcalc.common.ui.ThemeManager
 import com.manueldidonna.architexcalc.core.base.BaseDialogController
 import com.manueldidonna.architexcalc.settings.R
 import org.koin.core.inject

@@ -1,4 +1,4 @@
-package com.manueldidonna.architexcalc.core
+package com.manueldidonna.architexcalc.common.ui
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.BuildCompat
@@ -6,7 +6,6 @@ import com.manueldidonna.architexcalc.core.prefs.Preferences
 import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import timber.log.Timber
 
 class ThemeManager(private val prefsManager: PreferencesManager) {
@@ -14,10 +13,12 @@ class ThemeManager(private val prefsManager: PreferencesManager) {
     private val disposables = CompositeDisposable()
 
     fun init() {
-        observe().subscribe { savedMode ->
-            AppCompatDelegate.setDefaultNightMode(savedMode.compatThemeMode())
-            Timber.d("Theme mode updated: $savedMode")
-        }.addTo(disposables)
+        disposables.add(
+            observe().subscribe { savedMode ->
+                AppCompatDelegate.setDefaultNightMode(savedMode.compatThemeMode())
+                Timber.d("Theme mode updated: $savedMode")
+            }
+        )
     }
 
     private fun String.compatThemeMode(): Int = when (this) {

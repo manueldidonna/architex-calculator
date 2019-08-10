@@ -8,6 +8,8 @@ android {
 }
 
 dependencies {
+    implementation project(Modules.core)
+
     implementation AndroidX.appCompat
     implementation AndroidX.coreKtx
     implementation AndroidX.constraintLayout
@@ -16,5 +18,9 @@ dependencies {
     implementation Android.conductor
     implementation Android.materialDialogsCore
 
+    implementation Rx.android
+
     implementation JakeWharton.timber
+
+    implementation Koin.android
 }

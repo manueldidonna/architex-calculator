@@ -7,5 +7,4 @@ import org.koin.dsl.module
 
 val coreKoinModule = module(createdAtStart = true, override = true) {
     single<PreferencesManager> { RealPreferencesManager(androidContext()) }
-    single { ThemeManager(prefsManager = get()) }
 }
