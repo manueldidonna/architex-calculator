@@ -68,10 +68,7 @@ class HistoryEpoxyView @JvmOverloads constructor(
     @AfterPropsSet
     fun setupCheckBox() {
         // animate checkbox visibility changes
-        TransitionManager.beginDelayedTransition(
-            this,
-            selectionModeTransition
-        )
+        TransitionManager.beginDelayedTransition(this, selectionModeTransition)
 
         checkBox.visibility = if (showCheckBox == true) View.VISIBLE else View.GONE
         if (showCheckBox == true) {

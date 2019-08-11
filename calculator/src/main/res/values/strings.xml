@@ -2,6 +2,7 @@
     <string name="settings_button_label">Settings</string>
     <string name="history_button_label">History</string>
 
+    <string name="paste_expression_from_clipboard">Paste expression from clipboard</string>
     <string name="clipboard_empty_expression">Empty expression</string>
     <string name="clipboard_result_copied">Result value copied</string>
     <string name="clipboard_expression_copied">Expression value Copied</string>

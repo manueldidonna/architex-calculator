@@ -29,6 +29,10 @@ class CalculatorStateManager(
             }
     }
 
+    fun isClipboardEmpty(value: Boolean) {
+        setState { copy(isClipboardEmpty = value) }
+    }
+
     fun appendNumber(value: String) = setExpression { number(value) }
     fun appendDecimalSeparator() = setExpression { decimalSeparator() }
     fun appendScientificNotation() = setExpression { scientificNotation() }

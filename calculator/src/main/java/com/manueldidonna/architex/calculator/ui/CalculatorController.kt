@@ -1,5 +1,7 @@
 package com.manueldidonna.architex.calculator.ui
 
+import android.content.ClipDescription
+import android.content.ClipboardManager
 import android.view.View
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.support.RouterPagerAdapter
@@ -42,10 +44,19 @@ class CalculatorController : BaseStatefulController<CalculatorStateManager, Calc
         }
     }
 
+    private val clipboardListener = ClipboardManager.OnPrimaryClipChangedListener {
+        stateManager.isClipboardEmpty(!requireActivity().clipboardManager().hasPrimaryClipWithPlainText())
+    }
+
     override val layoutRes: Int = R.layout.controller_calculator
 
     override fun onViewCreated(view: View) {
         super.onViewCreated(view)
+        // add clipboard listener
+        val clipboardManager = requireActivity().clipboardManager()
+        stateManager.isClipboardEmpty(!clipboardManager.hasPrimaryClipWithPlainText())
+        clipboardManager.addPrimaryClipChangedListener(clipboardListener)
+        // add views
         addView(CalculatorView(view, pagerAdapter))
             .subscribeToStateChanges()
             .onEvents { ev ->
@@ -59,17 +70,43 @@ class CalculatorController : BaseStatefulController<CalculatorStateManager, Calc
                     )
                 }
             }
+        addView(ClipboardButtonView(view))
+            .subscribeToStateChanges(
+                CalculatorState::isClipboardEmpty,
+                CalculatorState::expression
+            ) { isClipEmpty, expr -> !isClipEmpty && expr.isEmpty() }
+            .onEvents { ev ->
+                when (ev) {
+                    ClipboardButtonEvent.ShowExpressionFromClip -> requireActivity().shortToast(getTextFromClipboard())
+                    ClipboardButtonEvent.PasteExpressionFromClip -> onPasteExpressionCallback(
+                        expression = getTextFromClipboard(),
+                        overwriteCurrentExpression = true
+                    )
+                }
+            }
+    }
+
+    private fun ClipboardManager.hasPrimaryClipWithPlainText(): Boolean {
+        return hasPrimaryClip() && primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN) == true
+    }
+
+    private fun getTextFromClipboard(): String {
+        val clip = requireActivity()
+            .clipboardManager()
+            .primaryClip
+            ?.getItemAt(0)
+            ?: return ""
+        return clip.text.toString()
     }
 
     private fun showCopyPasteDialog(expression: String) = with(requireActivity()) {
-        val savedClip = clipboardManager().primaryClip?.getItemAt(0)
-        if (savedClip == null || savedClip.text.isEmpty()) {
+        val savedText = getTextFromClipboard()
+        if (savedText.isEmpty()) {
             if (expression.isEmpty())
                 shortToast(R.string.clipboard_empty_expression)
             else
                 onSaveToClipboardCallback(expression, R.string.clipboard_expression_copied)
         } else {
-            val savedText = savedClip.text.toString()
             CopyPasteDialog.show(router, this@CalculatorController, savedText, expression)
         }
     }
@@ -83,6 +120,13 @@ class CalculatorController : BaseStatefulController<CalculatorStateManager, Calc
 
     override fun onPasteExpressionCallback(expression: String, overwriteCurrentExpression: Boolean) {
         stateManager.appendExpression(expression, overwriteCurrentExpression)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity()
+            .clipboardManager()
+            .removePrimaryClipChangedListener(clipboardListener)
     }
 
     override fun handleBack(): Boolean = withState {

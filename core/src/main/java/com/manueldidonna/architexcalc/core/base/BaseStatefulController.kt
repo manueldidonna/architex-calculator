@@ -66,6 +66,7 @@ abstract class BaseStatefulController<SM : ReactiveArxStateManager<S>, S : ArxSt
     }
 
     private data class ArxTuple1<A>(val a: A)
+    private data class ArxTuple2<A, B>(val a: A, val b: B)
 
     protected fun <A, S2, V : ArxRenderView<S2>> V.subscribeToStateChanges(
         prop1: KProperty1<S, A>,
@@ -77,6 +78,20 @@ abstract class BaseStatefulController<SM : ReactiveArxStateManager<S>, S : ArxSt
             .distinctUntilChanged()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { (a) -> this.render(subscriber(a)) }
+            .disposeOnDestroyView()
+    }
+
+    protected fun <A, B, S2, V : ArxRenderView<S2>> V.subscribeToStateChanges(
+        prop1: KProperty1<S, A>,
+        prop2: KProperty1<S, B>,
+        subscriber: (A, B) -> S2
+    ) = apply {
+        stateManager
+            .observable()
+            .map { ArxTuple2(prop1.get(it), prop2.get(it)) }
+            .distinctUntilChanged()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { (a, b) -> this.render(subscriber(a, b)) }
             .disposeOnDestroyView()
     }
 }
