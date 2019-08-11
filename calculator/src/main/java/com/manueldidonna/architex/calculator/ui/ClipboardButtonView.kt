@@ -13,12 +13,12 @@ import com.manueldidonna.arch.view.*
 import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architexcalc.core.extensions.find
 
-sealed class ClipboardButtonEvent {
+internal sealed class ClipboardButtonEvent {
     object PasteExpressionFromClip : ClipboardButtonEvent()
     object ShowExpressionFromClip : ClipboardButtonEvent()
 }
 
-class ClipboardButtonView(private val view: View) : ArxRenderView<Boolean>,
+internal class ClipboardButtonView(private val view: View) : ArxRenderView<Boolean>,
     ArxInteractiveView<ClipboardButtonEvent> by ArxSubjectView() {
     private val pasteButton = view.find<Button>(R.id.paste_from_clipboard_button) {
         transitionName = BUTTON_TRANSITION_NAME
