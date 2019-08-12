@@ -13,4 +13,6 @@
     <!-- Text -->
     <color name="text_color_high_emphasis">#DEFFFFFF</color>
     <color name="text_color_medium_emphasis">#99FFFFFF</color>
+    <!-- Button -->
+    <color name="text_button_ripple_color">@color/color_secondary_variant</color>
 </resources>

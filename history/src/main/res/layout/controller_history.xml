@@ -1,107 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:attr/colorBackground"
-        android:clickable="true"
-        android:focusable="true">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/colorBackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-    >
-<LinearLayout  android:layout_width="match_parent"
-               android:layout_height="48dp"
-               android:orientation="horizontal">
-        <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_default_height"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/toolbar_navigation_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                style="@style/Widget.ArchitexCalc.Toolbar.Icon"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
-                app:srcCompat="?attr/homeAsUpIndicator"
-                app:tint="?attr/colorPrimary"
-        />
+                app:srcCompat="?attr/homeAsUpIndicator" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:gravity="center"
                 android:layout_weight="1"
-                android:textAppearance="@style/Toolbar.Title.Appearance"
-                tools:text="Toolbar title"/>
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.ArchitexCalc.Toolbar.Title"
+                tools:text="Toolbar title" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/history_order_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                style="@style/Widget.ArchitexCalc.Toolbar.Icon"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
-                app:srcCompat="@drawable/ic_sort_24"
-                app:tint="?attr/colorPrimary"/>
-</LinearLayout>
+                app:srcCompat="@drawable/ic_sort_24" />
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
-            layout="@layout/layout_empty_history"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-    />
+        layout="@layout/layout_empty_history"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
     <com.airbnb.epoxy.EpoxyRecyclerView
-            android:id="@+id/history_recycler"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:descendantFocusability="beforeDescendants"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout"/>
+        android:id="@+id/history_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:descendantFocusability="beforeDescendants"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/clear_history_extended_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/history_clear_button_label"
-            android:textColor="?attr/colorOnSecondary"
-            app:icon="@drawable/ic_delete_sweep_24"
-            app:iconTint="?attr/colorOnSecondary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        android:id="@+id/clear_history_extended_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/history_clear_button_label"
+        android:textColor="?attr/colorOnSecondary"
+        app:icon="@drawable/ic_delete_sweep_24"
+        app:iconTint="?attr/colorOnSecondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

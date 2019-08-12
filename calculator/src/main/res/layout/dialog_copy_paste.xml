@@ -13,7 +13,7 @@
         android:layout_marginEnd="16dp"
         android:clickable="false"
         android:text="@string/copy_paste_dialog_title"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textAppearance="@style/TextAppearance.ArchitexCalc.Dialog.Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

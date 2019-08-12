@@ -3,26 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="@dimen/toolbar_default_height"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/toolbar_navigation_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        style="@style/Widget.ArchitexCalc.Toolbar.Icon"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="8dp"
-        app:srcCompat="?attr/homeAsUpIndicator"
-        app:tint="?attr/colorPrimary" />
+        app:srcCompat="?attr/homeAsUpIndicator" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/toolbar_title"
@@ -32,6 +23,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="72dp"
         android:gravity="center"
-        android:textAppearance="@style/Toolbar.Title.Appearance"
+        android:textAppearance="@style/TextAppearance.ArchitexCalc.Toolbar.Title"
         tools:text="Toolbar title" />
 </LinearLayout>
