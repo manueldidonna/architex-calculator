@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.bluelinelabs.conductor.Router
+import com.manueldidonna.arch.controller.requireActivity
+import com.manueldidonna.architexcalc.common.ui.materialDialog
 import com.manueldidonna.architexcalc.common.ui.theme.ThemeManager
 import com.manueldidonna.architexcalc.common.ui.theme.ThemeMode
 import com.manueldidonna.architexcalc.core.base.BaseDialogController
@@ -23,7 +25,7 @@ internal class ThemeSelectorDialog : BaseDialogController() {
 
     private var themeUpdated = false
 
-    override fun onCreateDialog(savedViewState: Bundle?) = materialDialog {
+    override fun onCreateDialog(savedViewState: Bundle?) = materialDialog(requireActivity()) {
         listItemsSingleChoice(
             R.array.settings_theme_mode_values,
             initialSelection = initialIndex,

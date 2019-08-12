@@ -17,6 +17,7 @@ dependencies {
     implementation Android.materialComponents
     implementation Android.conductor
     implementation Android.materialDialogsCore
+    implementation Android.materialDialogsBottom
 
     implementation Rx.android
 

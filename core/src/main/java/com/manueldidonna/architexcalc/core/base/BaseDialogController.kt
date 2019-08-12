@@ -23,21 +23,6 @@ abstract class BaseDialogController : DialogArxController, KoinComponent {
 
     protected val controllerScope: Scope by lazy { getKoin().createScope(controllerId) }
 
-    protected inline fun materialDialog(dialogConstructor: MaterialDialog.() -> Unit): MaterialDialog {
-        return MaterialDialog(requireActivity(), BottomSheet(LayoutMode.WRAP_CONTENT)).apply {
-            window?.navigationBarColor = requireActivity().resolveColor(R.attr.colorSurface)
-            dialogConstructor()
-        }
-    }
-
-    protected inline fun materialDialog(
-        @LayoutRes customViewRes: Int,
-        dialogConstructor: MaterialDialog.(View) -> Unit
-    ) = materialDialog {
-        customView(customViewRes)
-        dialogConstructor(getCustomView())
-    }
-
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()

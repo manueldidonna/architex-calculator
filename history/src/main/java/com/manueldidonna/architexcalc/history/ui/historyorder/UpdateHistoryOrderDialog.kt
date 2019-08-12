@@ -6,7 +6,9 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.manueldidonna.arch.controller.castTargetController
+import com.manueldidonna.arch.controller.requireActivity
 import com.manueldidonna.arch.controller.setTarget
+import com.manueldidonna.architexcalc.common.ui.materialDialog
 import com.manueldidonna.architexcalc.core.base.BaseDialogController
 import com.manueldidonna.architexcalc.history.R
 
@@ -14,7 +16,7 @@ internal class UpdateHistoryOrderDialog(args: Bundle) : BaseDialogController(arg
 
     private var initialIndex: Int = getArgs().getInt(INITIAL_INDEX_KEY, 0)
 
-    override fun onCreateDialog(savedViewState: Bundle?) = materialDialog {
+    override fun onCreateDialog(savedViewState: Bundle?) = materialDialog(requireActivity()) {
         listItemsSingleChoice(
             res = R.array.dialog_update_history_order_values,
             initialSelection = initialIndex
