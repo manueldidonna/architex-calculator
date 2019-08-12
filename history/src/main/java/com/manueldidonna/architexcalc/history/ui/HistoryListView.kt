@@ -12,7 +12,7 @@ import com.manueldidonna.arch.view.ArxStateBinderView
 import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.architexcalc.core.extensions.find
 import com.manueldidonna.architexcalc.core.extensions.setRecyclerView
-import com.manueldidonna.architexcalc.core.ui.FixedDividerItemDecoration
+import com.manueldidonna.architexcalc.common.ui.recycler.FixedDividerItemDecoration
 import com.manueldidonna.architexcalc.history.R
 
 internal sealed class HistoryListEvent {
@@ -26,7 +26,12 @@ internal class HistoryListView(view: View) : ArxBinderView<HistoryState> by ArxS
     private val clearHistoryFab = view.find<ExtendedFloatingActionButton>(R.id.clear_history_extended_fab)
     private val emptyHistoryView = view.find<LinearLayout>(R.id.empty_history_view)
     private val recyclerView = view.find<EpoxyRecyclerView>(R.id.history_recycler) {
-        addItemDecoration(FixedDividerItemDecoration(context, LinearLayout.VERTICAL))
+        addItemDecoration(
+            FixedDividerItemDecoration(
+                context,
+                LinearLayout.VERTICAL
+            )
+        )
     }
 
     private val epoxyController = HistoryEpoxyController { id, isSelected ->

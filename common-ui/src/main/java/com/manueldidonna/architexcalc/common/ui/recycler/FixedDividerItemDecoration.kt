@@ -1,10 +1,9 @@
-package com.manueldidonna.architexcalc.core.ui
+package com.manueldidonna.architexcalc.common.ui.recycler
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
