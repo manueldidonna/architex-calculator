@@ -10,8 +10,8 @@ import com.manueldidonna.arch.view.ArxBinderView
 import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxStateBinderView
 import com.manueldidonna.arch.view.ArxSubjectView
-import com.manueldidonna.architexcalc.core.extensions.find
-import com.manueldidonna.architexcalc.core.extensions.setRecyclerView
+import com.manueldidonna.architexcalc.common.ui.extensions.find
+import com.manueldidonna.architexcalc.common.ui.extensions.setRecyclerView
 import com.manueldidonna.architexcalc.common.ui.recycler.FixedDividerItemDecoration
 import com.manueldidonna.architexcalc.history.R
 

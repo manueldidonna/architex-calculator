@@ -8,7 +8,7 @@ import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
 import com.manueldidonna.architex.calculator.R
-import com.manueldidonna.architexcalc.core.extensions.setSelectableBackground
+import com.manueldidonna.architexcalc.common.ui.extensions.setSelectableBackground
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT, fullSpan = true)
 class SelectableHeaderEpoxyView @JvmOverloads constructor(

@@ -1,4 +1,4 @@
-package com.manueldidonna.architexcalc.core.ui
+package com.manueldidonna.architexcalc.common.ui.conductor
 
 import android.animation.Animator
 import android.animation.AnimatorSet

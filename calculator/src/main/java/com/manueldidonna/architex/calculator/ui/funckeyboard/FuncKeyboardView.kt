@@ -8,7 +8,7 @@ import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architex.mathevaluator.*
 import com.manueldidonna.architex.mathevaluator.EXP_SYMBOL
-import com.manueldidonna.architexcalc.core.extensions.find
+import com.manueldidonna.architexcalc.common.ui.extensions.find
 
 internal sealed class FuncKeyboardEvent {
     data class Function(val func: MathFunction) : FuncKeyboardEvent()

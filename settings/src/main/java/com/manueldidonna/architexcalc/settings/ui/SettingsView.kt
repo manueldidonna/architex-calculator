@@ -4,7 +4,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.manueldidonna.arch.view.*
-import com.manueldidonna.architexcalc.core.extensions.find
+import com.manueldidonna.architexcalc.common.ui.extensions.find
 import com.manueldidonna.architexcalc.settings.R
 
 internal sealed class SettingsEvent {

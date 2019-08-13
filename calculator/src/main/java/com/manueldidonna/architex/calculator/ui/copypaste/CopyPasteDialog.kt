@@ -16,7 +16,7 @@ import com.manueldidonna.arch.controller.setTarget
 import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architexcalc.common.ui.materialDialog
 import com.manueldidonna.architexcalc.core.base.BaseDialogController
-import com.manueldidonna.architexcalc.core.extensions.find
+import com.manueldidonna.architexcalc.common.ui.extensions.find
 
 internal class CopyPasteDialog(args: Bundle) : BaseDialogController(args) {
 

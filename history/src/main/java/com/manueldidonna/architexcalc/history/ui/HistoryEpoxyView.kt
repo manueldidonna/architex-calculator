@@ -14,8 +14,8 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.airbnb.epoxy.*
-import com.manueldidonna.architexcalc.core.extensions.setSelectableBackground
-import com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
+import com.manueldidonna.architexcalc.common.ui.extensions.setSelectableBackground
+import com.manueldidonna.architexcalc.common.ui.widgets.HorizontalScrollTextView
 import com.manueldidonna.architexcalc.history.R
 
 @Suppress("MemberVisibilityCanBePrivate")

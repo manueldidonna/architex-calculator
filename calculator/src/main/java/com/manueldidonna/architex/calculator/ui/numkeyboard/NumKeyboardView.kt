@@ -7,7 +7,7 @@ import com.manueldidonna.arch.view.emitOnClick
 import com.manueldidonna.arch.view.emitOnLongClick
 import com.manueldidonna.architex.calculator.R
 import com.manueldidonna.architex.mathevaluator.MathOperator
-import com.manueldidonna.architexcalc.core.extensions.find
+import com.manueldidonna.architexcalc.common.ui.extensions.find
 
 internal sealed class NumKeyboardEvent {
     object Cancel : NumKeyboardEvent()

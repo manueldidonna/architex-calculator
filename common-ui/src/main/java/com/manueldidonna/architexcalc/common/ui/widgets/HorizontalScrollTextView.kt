@@ -1,4 +1,4 @@
-package com.manueldidonna.architexcalc.core.ui
+package com.manueldidonna.architexcalc.common.ui.widgets
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,9 +11,9 @@ import androidx.core.content.res.getResourceIdOrThrow
 import androidx.core.view.doOnLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.TextViewCompat
-import com.manueldidonna.architexcalc.core.R
+import com.manueldidonna.architexcalc.common.ui.R
 import com.manueldidonna.architexcalc.core.extensions.doWithStyledAttributes
-import com.manueldidonna.architexcalc.core.extensions.layoutParams
+import com.manueldidonna.architexcalc.common.ui.extensions.layoutParams
 
 class HorizontalScrollTextView @JvmOverloads constructor(
     context: Context,
@@ -28,7 +28,7 @@ class HorizontalScrollTextView @JvmOverloads constructor(
         get() = canScrollHorizontally(-1) || canScrollHorizontally(1)
 
     init {
-        inflate(context, R.layout.view_horizontal_scroll_text_view, this)
+        inflate(context, R.layout.layout_horizontal_scroll_text_view, this)
         overScrollMode = OVER_SCROLL_NEVER
         isHorizontalScrollBarEnabled = false
         textView = findViewById(R.id.scrollable_text_view)

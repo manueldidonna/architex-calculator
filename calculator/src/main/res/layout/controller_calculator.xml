@@ -79,7 +79,7 @@
         app:layout_constraintStart_toEndOf="@+id/pager_indicator"
         app:layout_constraintTop_toTopOf="@+id/horiz_line_upper" />
 
-    <com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
+    <com.manueldidonna.architexcalc.common.ui.widgets.HorizontalScrollTextView
         android:id="@+id/scrollable_expression"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
         app:textSize="48sp"
         tools:text="156+156" />
 
-    <com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
+    <com.manueldidonna.architexcalc.common.ui.widgets.HorizontalScrollTextView
         android:id="@+id/scrollable_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

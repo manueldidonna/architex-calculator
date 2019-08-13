@@ -1,14 +1,12 @@
-package com.manueldidonna.architexcalc.core.extensions
+package com.manueldidonna.architexcalc.common.ui.extensions
 
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.epoxy.EpoxyController
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.manueldidonna.architexcalc.core.R
+import com.manueldidonna.architexcalc.common.ui.R
 
 inline fun <reified T : View> View.findBy(@IdRes viewId: Int) = lazy { findViewById<T>(viewId) }
 
@@ -43,13 +41,4 @@ fun ExtendedFloatingActionButton.setRecyclerView(recycler: RecyclerView) {
             super.onScrolled(recyclerView, dx, dy)
         }
     })
-}
-
-inline fun <T> EpoxyRecyclerView.iterateAndBuildModels(
-    data: List<T>,
-    crossinline buildModels: EpoxyController.(index: Int, element: T) -> Unit
-) = withModels {
-    data.forEachIndexed { index, element ->
-        buildModels(index, element)
-    }
 }

@@ -4,10 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
-import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
-import com.manueldidonna.architexcalc.core.extensions.setSelectableBackground
+import com.manueldidonna.architexcalc.common.ui.extensions.setSelectableBackground
 import com.manueldidonna.architexcalc.settings.R
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)

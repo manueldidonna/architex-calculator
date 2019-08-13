@@ -6,7 +6,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.arch.view.emitOnClick
-import com.manueldidonna.architexcalc.core.extensions.find
+import com.manueldidonna.architexcalc.common.ui.extensions.find
 import com.manueldidonna.architexcalc.settings.R
 
 internal object ToolbarGoBackEvent
