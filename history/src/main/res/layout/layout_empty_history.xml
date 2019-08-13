@@ -8,14 +8,11 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
+        style="@style/Widget.ArchitexCalc.ImageIcon.Clickable"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginBottom="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@drawable/ic_history_24"
-        app:tint="?attr/colorControlNormal" />
+        app:srcCompat="@drawable/ic_history_24" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"

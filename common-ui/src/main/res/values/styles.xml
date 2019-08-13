@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Widget.ArchitexCalc.ImageIcon" parent="">
+        <item name="tint">?attr/colorControlNormal</item>
+    </style>
+
+    <style name="Widget.ArchitexCalc.ImageIcon.Clickable">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:selectable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
     <style name="Widget.ArchitexCalc.Button" parent="Widget.MaterialComponents.Button.TextButton" />
 
     <style name="Widget.ArchitexCalc.Button.Secondary" parent="Widget.MaterialComponents.Button.TextButton">
