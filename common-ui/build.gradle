@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+apply from: '../common_build_config.gradle'
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation project(Modules.core)
+
+    implementation AndroidX.appCompat
+    implementation AndroidX.coreKtx
+    implementation AndroidX.constraintLayout
+
+    implementation Android.materialComponents
+    implementation Android.conductor
+    implementation Android.materialDialogsCore
+    implementation Android.materialDialogsBottom
+
+    implementation Rx.android
+
+    implementation JakeWharton.timber
+
+    implementation Koin.android
+}

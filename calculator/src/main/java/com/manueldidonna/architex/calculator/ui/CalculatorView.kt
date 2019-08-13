@@ -6,8 +6,8 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.manueldidonna.arch.view.*
 import com.manueldidonna.architex.calculator.R
-import com.manueldidonna.architexcalc.core.extensions.find
-import com.manueldidonna.architexcalc.core.ui.HorizontalScrollTextView
+import com.manueldidonna.architexcalc.common.ui.extensions.find
+import com.manueldidonna.architexcalc.common.ui.widgets.HorizontalScrollTextView
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 internal sealed class CalculatorEvent {

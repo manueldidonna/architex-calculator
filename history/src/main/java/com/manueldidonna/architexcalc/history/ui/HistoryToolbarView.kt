@@ -7,7 +7,7 @@ import com.manueldidonna.arch.view.ArxInteractiveView
 import com.manueldidonna.arch.view.ArxRenderView
 import com.manueldidonna.arch.view.ArxSubjectView
 import com.manueldidonna.arch.view.emitOnClick
-import com.manueldidonna.architexcalc.core.extensions.find
+import com.manueldidonna.architexcalc.common.ui.extensions.find
 import com.manueldidonna.architexcalc.history.R
 
 internal sealed class HistoryToolbarEvent {

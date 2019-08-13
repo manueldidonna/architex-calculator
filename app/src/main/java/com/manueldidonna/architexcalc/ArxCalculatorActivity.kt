@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
+import com.bluelinelabs.conductor.RouterTransaction
 import com.manueldidonna.arch.conductorHandleBack
 import com.manueldidonna.architex.calculator.CalculatorNavigation
 import com.manueldidonna.architex.calculator.ui.CalculatorController
-import com.manueldidonna.architexcalc.core.extensions.pushWithStandardTransaction
-import com.manueldidonna.architexcalc.core.extensions.setRootController
+import com.manueldidonna.architexcalc.common.ui.conductor.pushWithStandardTransaction
 import com.manueldidonna.architexcalc.core.extensions.shortToast
 import com.manueldidonna.architexcalc.core.prefs.CorePreferences
 import com.manueldidonna.architexcalc.core.prefs.PreferencesManager
@@ -29,7 +29,7 @@ class ArxCalculatorActivity : AppCompatActivity(), CalculatorNavigation {
 
         router = Conductor.attachRouter(this, main_container, savedInstanceState)
         if (!router.hasRootController()) {
-            router.setRootController(CalculatorController(), CALCULATOR_TAG)
+            router.setRoot(RouterTransaction.with(CalculatorController()).tag(CALCULATOR_TAG))
         }
     }
 

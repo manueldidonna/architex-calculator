@@ -3,7 +3,8 @@ package com.manueldidonna.architexcalc
 import android.app.Application
 import androidx.work.Configuration
 import com.manueldidonna.architex.calculator.calculatorKoinModule
-import com.manueldidonna.architexcalc.core.ThemeManager
+import com.manueldidonna.architexcalc.common.ui.theme.ThemeManager
+import com.manueldidonna.architexcalc.common.ui.commonUIKoinModule
 import com.manueldidonna.architexcalc.core.coreKoinModule
 import com.manueldidonna.architexcalc.database.databaseKoinModule
 import com.manueldidonna.architexcalc.history.historyKoinModule
@@ -26,7 +27,14 @@ class ArxCalculatorApp : Application(), Configuration.Provider {
             logger(TimberKoinLogger())
             androidContext(this@ArxCalculatorApp)
             modules(
-                listOf(coreKoinModule, databaseKoinModule, calculatorKoinModule, settingsKoinModule, historyKoinModule)
+                listOf(
+                    coreKoinModule,
+                    commonUIKoinModule,
+                    databaseKoinModule,
+                    calculatorKoinModule,
+                    settingsKoinModule,
+                    historyKoinModule
+                )
             )
         }
 

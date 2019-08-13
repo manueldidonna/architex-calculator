@@ -18,7 +18,8 @@ object Modules {
     const val history = ":history"
     const val settings = ":settings"
     const val core = ":core"
-    const val database =":database"
+    const val database = ":database"
+    const val commonUI = ":common-ui"
 }
 
 object GradlePlugins {
@@ -52,7 +53,7 @@ private object Versions {
     // Koin
     const val koin = "2.0.0-rc-2"
     // Square
-    const val sqldelight ="1.1.4"
+    const val sqldelight = "1.1.4"
 }
 
 object Jetbrains {

@@ -7,7 +7,7 @@ import com.manueldidonna.arch.conductorLazy
 import com.manueldidonna.arch.controller.getString
 import com.manueldidonna.arch.statemanager.withState
 import com.manueldidonna.architexcalc.core.base.BaseStatefulController
-import com.manueldidonna.architexcalc.core.extensions.pushWithStandardTransaction
+import com.manueldidonna.architexcalc.common.ui.conductor.pushWithStandardTransaction
 import com.manueldidonna.architexcalc.settings.R
 import com.manueldidonna.architexcalc.settings.ui.autoclearhistory.AutoClearHistoryDialog
 import com.manueldidonna.architexcalc.settings.ui.licenses.LicensesController

@@ -4,6 +4,7 @@ import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.view.View
 import com.bluelinelabs.conductor.Router
+import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.support.RouterPagerAdapter
 import com.manueldidonna.arch.conductorLazy
 import com.manueldidonna.arch.controller.castActivity
@@ -17,7 +18,6 @@ import com.manueldidonna.architex.calculator.ui.numkeyboard.NumKeyboardControlle
 import com.manueldidonna.architexcalc.core.base.BaseStatefulController
 import com.manueldidonna.architexcalc.core.extensions.clipboardManager
 import com.manueldidonna.architexcalc.core.extensions.saveTextToClipBoard
-import com.manueldidonna.architexcalc.core.extensions.setRootController
 import com.manueldidonna.architexcalc.core.extensions.shortToast
 import org.koin.core.parameter.parametersOf
 
@@ -39,7 +39,7 @@ class CalculatorController : BaseStatefulController<CalculatorStateManager, Calc
                     1 -> FuncKeyboardController()
                     else -> throw IllegalStateException("Pager index out of bounds")
                 }
-                router.setRootController(controller)
+                router.setRoot(RouterTransaction.with(controller))
             }
         }
     }

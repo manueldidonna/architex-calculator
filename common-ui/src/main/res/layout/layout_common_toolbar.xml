@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_default_height"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/toolbar_navigation_icon"
+        style="@style/Widget.ArchitexCalc.Toolbar.Icon"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:srcCompat="?attr/homeAsUpIndicator" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="72dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.ArchitexCalc.Toolbar.Title"
+        tools:text="Toolbar title" />
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- UI Colors -->
+    <color name="color_primary">#ed6a8b</color>
+    <color name="color_primary_variant">#ff9cbb</color>
+    <color name="color_on_primary">@android:color/black</color>
+    <color name="color_secondary">#51e9c6</color>
+    <color name="color_secondary_variant">#8cfff9</color>
+    <color name="color_on_secondary">@android:color/black</color>
+    <color name="color_background">#121212</color>
+    <color name="color_on_background">@color/text_color_high_emphasis</color>
+    <color name="color_surface">#1d1d1d</color>
+    <!-- Text -->
+    <color name="text_color_high_emphasis">#DEFFFFFF</color>
+    <color name="text_color_medium_emphasis">#99FFFFFF</color>
+    <!-- Button -->
+    <color name="text_button_ripple_color">@color/color_secondary_variant</color>
+</resources>

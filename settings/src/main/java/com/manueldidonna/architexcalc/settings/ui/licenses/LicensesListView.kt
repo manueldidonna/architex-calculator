@@ -4,9 +4,8 @@ import android.view.View
 import android.widget.LinearLayout
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.manueldidonna.arch.view.ArxView
-import com.manueldidonna.architexcalc.core.extensions.find
-import com.manueldidonna.architexcalc.core.extensions.iterateAndBuildModels
-import com.manueldidonna.architexcalc.core.ui.FixedDividerItemDecoration
+import com.manueldidonna.architexcalc.common.ui.extensions.find
+import com.manueldidonna.architexcalc.common.ui.recycler.FixedDividerItemDecoration
 import com.manueldidonna.architexcalc.settings.R
 
 internal class LicensesListView(
@@ -16,13 +15,16 @@ internal class LicensesListView(
     init {
         view.find<EpoxyRecyclerView>(R.id.licenses_recycler).apply {
             addItemDecoration(FixedDividerItemDecoration(context, LinearLayout.VERTICAL))
-            iterateAndBuildModels(licenses) { index, item ->
-                licenseEpoxyView {
-                    id("license$index")
-                    name(item.name)
-                    type(item.type)
+            withModels {
+                licenses.forEachIndexed { index, item ->
+                    licenseEpoxyView {
+                        id("license$index")
+                        name(item.name)
+                        type(item.type)
+                    }
                 }
             }
+
         }
     }
 }

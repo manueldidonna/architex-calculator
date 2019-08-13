@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Platform.Theme.ArchitexCalc" parent="Theme.MaterialComponents.DayNight.NoActionBar"/>
+
+    <style name="Base.Theme.ArchitexCalc" parent="Platform.Theme.ArchitexCalc">
+        <!-- Sys UI -->
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+        <!-- Text -->
+        <item name="textColorHighEmphasis">@color/text_color_high_emphasis</item>
+        <item name="textColorMediumEmphasis">@color/text_color_medium_emphasis</item>
+        <!-- Material Dialogs -->
+        <item name="md_background_color">?attr/colorSurface</item>
+        <item name="md_corner_radius">16dp</item>
+    </style>
+
+    <style name="Theme.ArchitexCalc" parent="Base.Theme.ArchitexCalc">
+        <!-- UI Colors -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorOnBackground">@color/color_on_background</item>
+        <item name="colorSurface">@color/color_surface</item>
+    </style>
+</resources>

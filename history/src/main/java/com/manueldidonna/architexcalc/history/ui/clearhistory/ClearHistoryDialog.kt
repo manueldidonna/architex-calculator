@@ -6,13 +6,15 @@ import com.afollestad.materialdialogs.checkbox.isCheckPromptChecked
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.manueldidonna.arch.controller.castTargetController
+import com.manueldidonna.arch.controller.requireActivity
 import com.manueldidonna.arch.controller.setTarget
+import com.manueldidonna.architexcalc.common.ui.materialDialog
 import com.manueldidonna.architexcalc.core.base.BaseDialogController
 import com.manueldidonna.architexcalc.history.R
 
 class ClearHistoryDialog : BaseDialogController() {
 
-    override fun onCreateDialog(savedViewState: Bundle?) = materialDialog {
+    override fun onCreateDialog(savedViewState: Bundle?) = materialDialog(requireActivity()) {
         title(R.string.dialog_clear_history_title)
         checkBoxPrompt(R.string.dialog_clear_history_prompt) {}
         negativeButton(R.string.dialog_clear_history_action_negative)
