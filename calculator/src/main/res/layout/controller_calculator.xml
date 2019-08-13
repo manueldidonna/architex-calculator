@@ -115,13 +115,14 @@
 
     <Button
         android:id="@+id/paste_from_clipboard_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        style="@style/Widget.ArchitexCalc.Button.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="@string/paste_expression_from_clipboard"
         android:textColor="?attr/colorSecondary"
         android:visibility="gone"
+        tools:visibility="visible"
         app:icon="@drawable/ic_paste_clipboard_24"
         app:iconTint="?attr/colorSecondary"
         app:layout_constraintBottom_toBottomOf="@+id/scrollable_expression"
