@@ -22,6 +22,7 @@ abstract class DialogArxController : AbstractArxController {
     @StyleRes
     open fun getTheme(): Int = 0
 
+    @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedViewState: Bundle?): View {
         dialog = onCreateDialog(savedViewState).apply {
             setOnDismissListener {
