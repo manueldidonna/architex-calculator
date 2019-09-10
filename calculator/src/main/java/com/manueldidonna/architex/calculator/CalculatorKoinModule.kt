@@ -1,10 +1,15 @@
 package com.manueldidonna.architex.calculator
 
 import androidx.core.os.ConfigurationCompat
+import com.manueldidonna.architex.calculator.domain.DeleteConstantItemInteractor
+import com.manueldidonna.architex.calculator.domain.GetConstantItemsInteractor
+import com.manueldidonna.architex.calculator.domain.InsertConstantItemInteractor
 import com.manueldidonna.architex.calculator.domain.InsertHistoryItemInteractor
 import com.manueldidonna.architex.calculator.ui.CalculatorState
 import com.manueldidonna.architex.calculator.ui.CalculatorStateManager
-import com.manueldidonna.architex.mathevaluator.*
+import com.manueldidonna.architex.calculator.ui.funckeyboard.FuncKeyboardState
+import com.manueldidonna.architex.calculator.ui.funckeyboard.FuncKeyboardStateManager
+import com.manueldidonna.architex.mathevaluator.MathExpression
 import com.manueldidonna.architex.mathevaluator.evaluator.Exp4JEvaluator
 import com.manueldidonna.architex.mathevaluator.evaluator.MathEvaluator
 import com.manueldidonna.architex.mathevaluator.format.FormatConfiguration
@@ -27,6 +32,9 @@ val calculatorKoinModule = module(override = true) {
             mathFormat = get()
         )
     }
+    factory { InsertConstantItemInteractor(get()) }
+    factory { DeleteConstantItemInteractor(get()) }
+    factory { GetConstantItemsInteractor(get()) }
     factory { InsertHistoryItemInteractor(get()) }
     scoped { (state: CalculatorState) ->
         CalculatorStateManager(
@@ -43,6 +51,13 @@ val calculatorKoinModule = module(override = true) {
             mathEvaluator = get(),
             mathExpression = get(),
             insertHistoryItem = get()
+        )
+    }
+    scoped {
+        FuncKeyboardStateManager(
+            initialState = FuncKeyboardState(),
+            getConstants = get(),
+            deleteAllConstants = get()
         )
     }
 }

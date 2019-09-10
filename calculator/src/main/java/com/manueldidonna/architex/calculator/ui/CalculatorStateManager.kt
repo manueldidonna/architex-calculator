@@ -38,7 +38,7 @@ class CalculatorStateManager(
     fun appendScientificNotation() = setExpression { scientificNotation() }
     fun appendOperator(op: MathOperator) = setExpression { operator(op) }
     fun appendBracket(bracket: MathBracket) = setExpression { bracket(bracket) }
-    fun appendConstant(const: MathConstant) = setExpression { constant(const) }
+    fun appendConstant(name: String, value: String) = setExpression { constant(name, value) }
     fun appendFunction(func: MathFunction) = setExpression { function(func) }
     fun clearExpression() = setExpression { clear() }
     fun deleteLastElement() = setExpression { deleteLastElement() }

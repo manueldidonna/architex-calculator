@@ -11,7 +11,7 @@ import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.manueldidonna.arch.view.*
 import com.manueldidonna.architex.calculator.R
-import com.manueldidonna.architexcalc.core.extensions.find
+import com.manueldidonna.architexcalc.common.ui.extensions.find
 
 internal sealed class ClipboardButtonEvent {
     object PasteExpressionFromClip : ClipboardButtonEvent()

@@ -1,0 +1,29 @@
+CREATE TABLE constant (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  value TEXT NOT NULL
+);
+
+INSERT INTO constant(name, value)
+VALUES('π', 'pi');
+
+INSERT INTO constant(name, value)
+VALUES('e', 'e');
+
+insert:
+INSERT INTO constant (name, value)
+VALUES (?, ?);
+
+selectAll:
+SELECT *
+FROM constant;
+
+deleteAll:
+DELETE
+FROM constant
+WHERE (name != 'π' AND name != 'e');
+
+deleteByName:
+DELETE
+FROM constant
+WHERE name = :entity_name;

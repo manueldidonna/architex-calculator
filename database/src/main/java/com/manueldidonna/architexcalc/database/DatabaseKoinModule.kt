@@ -13,5 +13,7 @@ private fun newDatabaseInstance(context: Context): MyDatabase {
 }
 
 val databaseKoinModule = module(override = true) {
-    single { HistoryRepository(newDatabaseInstance(androidApplication()).historyQueries) }
+    single { newDatabaseInstance(androidApplication()) }
+    single { HistoryRepository(get<MyDatabase>().historyQueries) }
+    single { ConstantRepository(get<MyDatabase>().constantQueries) }
 }

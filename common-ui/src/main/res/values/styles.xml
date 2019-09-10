@@ -5,7 +5,11 @@
         <item name="tint">?attr/colorControlNormal</item>
     </style>
 
-    <style name="Widget.ArchitexCalc.ImageIcon.Clickable">
+    <style name="Widget.ArchitexCalc.ImageIcon.Secondary" parent="">
+        <item name="tint">?attr/colorSecondary</item>
+    </style>
+
+    <style name="Widget.ArchitexCalc.ImageIcon.Secondary.Clickable">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:selectable">true</item>
         <item name="android:focusable">true</item>
@@ -35,5 +39,15 @@
     <style name="TextAppearance.ArchitexCalc.Toolbar.Title" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
+
+    <style name="ShapeAppearance.ArchitexCalc.TextInputLayout" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">12dp</item>
+        <item name="cornerSizeBottomLeft">12dp</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeTopLeft">12dp</item>
+    </style>
+
+    <style name="Widget.ArchitexCalc.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
 </resources>

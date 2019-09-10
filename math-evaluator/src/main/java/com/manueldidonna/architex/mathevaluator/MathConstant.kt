@@ -12,3 +12,7 @@ class MathConstant(name: String, constValue: String) : MathElement {
 fun MathExpression.constant(constant: MathConstant): MathExpression = apply {
     insertElement(constant)
 }
+
+fun MathExpression.constant(name: String, value: String): MathExpression = apply {
+    insertElement(MathConstant(name, value))
+}

@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        style="@style/Widget.ArchitexCalc.ImageIcon.Clickable"
+        style="@style/Widget.ArchitexCalc.ImageIcon"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginBottom="8dp"

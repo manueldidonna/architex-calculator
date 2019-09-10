@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="TextAppearance.ArchitexCalc.Header" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">?attr/textColorHighEmphasis</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
     <!-- Keyboard Buttons -->
     <style name="Keyboard.Button" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">0dp</item>

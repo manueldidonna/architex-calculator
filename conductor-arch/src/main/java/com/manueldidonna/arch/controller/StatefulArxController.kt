@@ -25,6 +25,7 @@ abstract class StatefulArxController<SM : ArxStateManager<S>, S : ArxState> : Re
     protected constructor() : super()
     protected constructor(args: Bundle?) : super(args)
 
+    // TODO: default = false
     open val saveStateOnProcessDeath: Boolean = true
 
     @PublishedApi

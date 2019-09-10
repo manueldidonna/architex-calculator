@@ -37,6 +37,7 @@ private object Versions {
     const val conductor = "3.0.0-rc1"
     const val materialDialogs = "3.1.0"
     const val rxkPrefs = "1.2.5"
+    const val vvalidator = "0.5.1"
     // AndroidX
     const val coreKtx = "1.0.1"
     const val appCompat = "1.1.0-alpha05"
@@ -70,6 +71,7 @@ object Android {
     const val materialDialogsCore = "com.afollestad.material-dialogs:core:${Versions.materialDialogs}"
     const val materialDialogsBottom = "com.afollestad.material-dialogs:bottomsheets:${Versions.materialDialogs}"
     const val rxkPrefs = "com.afollestad:rxkprefs:${Versions.rxkPrefs}"
+    const val vvalidator = "com.afollestad:vvalidator:${Versions.vvalidator}"
 }
 
 object AndroidX {

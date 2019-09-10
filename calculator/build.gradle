@@ -32,6 +32,7 @@ dependencies {
     implementation Android.conductorSupport
     implementation Android.materialDialogsCore
     implementation Android.viewPagerDots
+    implementation Android.vvalidator
 
     implementation Rx.kotlin
     implementation Rx.android

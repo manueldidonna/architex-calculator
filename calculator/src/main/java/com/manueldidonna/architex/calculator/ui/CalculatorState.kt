@@ -10,5 +10,5 @@ data class CalculatorState(
     val result: String = "",
     val errorOnResult: Boolean = false,
     val tapBackToDelete: Boolean = false,
-    @Transient val isClipboardEmpty: Boolean = true
+    val isClipboardEmpty: Boolean = true
 ) : ArxState, Parcelable

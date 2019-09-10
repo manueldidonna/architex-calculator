@@ -13,9 +13,9 @@
         android:fontFamily="sans-serif"
         android:gravity="center|center_horizontal|center_vertical"
         android:textAllCaps="false"
-        android:textColor="?attr/colorOnBackground"
+        android:textColor="?attr/textColorMediumEmphasis"
         android:textStyle="normal"
         android:textSize="24sp"
         app:fontFamily="sans-serif"
-        tools:text="log" />
+        tools:text="func" />
 </merge>
