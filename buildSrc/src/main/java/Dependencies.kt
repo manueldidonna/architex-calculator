@@ -30,8 +30,8 @@ object GradlePlugins {
 
 private object Versions {
     // Jetbrains
-    const val kotlin = "1.3.41"
-    const val coroutines = "1.2.0"
+    const val kotlin = "1.3.50"
+    const val coroutines = "1.3.1"
     // Android
     const val materialComponents = "1.1.0-alpha06"
     const val conductor = "3.0.0-rc1"
