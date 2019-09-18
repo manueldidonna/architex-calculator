@@ -53,10 +53,10 @@ internal class CreateConstantDialog : BaseDialogController() {
 
         controllerViewCoroutineScope.validateInputs(
             firstInputFlow = nameText.validateName().onEach { isValid ->
-                if (!isValid) nameText.error = "Invalid name"
+                if (!isValid && nameText.text!!.isNotEmpty()) nameText.error = "Invalid name"
             },
             secondInputFlow = valueText.validateValue().onEach { isValid ->
-                if (!isValid) valueText.error = "Invalid value"
+                if (!isValid && valueText.text!!.isNotEmpty()) valueText.error = "Invalid value"
             },
             doOnValidation = { isValid ->
                 setActionButtonEnabled(WhichButton.POSITIVE, isValid)
